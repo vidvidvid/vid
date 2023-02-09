@@ -9,7 +9,11 @@ class MyDocument extends Document {
     return (
       <Html lang={AppConfig.locale}>
         <Head />
-        <body>
+        <body
+          style={{
+            margin: 0,
+          }}
+        >
           <Main />
           <NextScript />
         </body>
