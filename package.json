@@ -26,14 +26,14 @@
     "next-seo": "^5.15.0",
     "next-sitemap": "^3.1.45",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "@next/bundle-analyzer": "^13.1.2"
   },
   "devDependencies": {
     "@chakra-ui/react": "^2.4.9",
     "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^17.4.2",
     "@commitlint/cz-commitlint": "^17.4.2",
-    "@next/bundle-analyzer": "^13.1.2",
     "@percy/cli": "^1.17.0",
     "@semantic-release/changelog": "^6.0.2",
     "@semantic-release/git": "^10.0.1",
