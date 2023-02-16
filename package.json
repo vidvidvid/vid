@@ -6,7 +6,7 @@
     "build": "next build && next export",
     "prestart": "next build",
     "heroku-postbuild": "next build",
-    "start": "next start -p $PORT",
+    "start": "next start",
     "build-stats": "cross-env ANALYZE=true npm run build",
     "export": "next export",
     "build-prod": "run-s clean build export",
