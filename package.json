@@ -3,9 +3,7 @@
   "version": "3.7.0",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
-    "prestart": "next build",
-    "heroku-postbuild": "next build",
+    "build": "next build",
     "start": "next start",
     "build-stats": "cross-env ANALYZE=true npm run build",
     "export": "next export",
@@ -32,7 +30,6 @@
     "@next/bundle-analyzer": "^13.1.2"
   },
   "devDependencies": {
-    "@chakra-ui/react": "^2.4.9",
     "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^17.4.2",
     "@commitlint/cz-commitlint": "^17.4.2",
