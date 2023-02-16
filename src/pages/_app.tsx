@@ -4,10 +4,10 @@ import '../static/hover.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import type { AppProps } from 'next/app';
 
-// import { theme } from '@/utils/theme';
+import { theme } from '@/utils/theme';
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
-  <ChakraProvider resetCSS>
+  <ChakraProvider resetCSS theme={theme}>
     <Component {...pageProps} />
   </ChakraProvider>
 );
