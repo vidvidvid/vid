@@ -1,3 +1,5 @@
+'use client';
+
 import '../static/fonts.css';
 import '../static/hover.css';
 
