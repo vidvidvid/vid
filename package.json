@@ -12,22 +12,22 @@
     "lint": "next lint",
     "format": "next lint --fix && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore",
     "check-types": "tsc",
-    "test": "jest",
     "commit": "cz",
     "prepare": "husky install",
     "postbuild": "next-sitemap"
   },
   "dependencies": {
+    "@chakra-ui/next-js": "^2.0.1",
     "@chakra-ui/react": "^2.4.9",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@next/bundle-analyzer": "^13.1.2",
     "framer-motion": "^9.0.2",
     "next": "^13.1.2",
     "next-seo": "^5.15.0",
     "next-sitemap": "^3.1.45",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@next/bundle-analyzer": "^13.1.2"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@chakra-ui/react": "^2.4.9",
