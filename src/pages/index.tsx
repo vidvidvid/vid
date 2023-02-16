@@ -1,4 +1,4 @@
-import { Image, VStack } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 import Link from 'next/link';
 
 import { Meta } from '@/layouts/Meta';
@@ -14,11 +14,16 @@ const Index = () => {
         />
       }
     >
-      <VStack>
-        <Image src="/logo.png" alt="Coming soon" w={200} />
-        <Link href="/code">Code</Link>
-        <Link href="/music">Music</Link>
-        <Link href="/visual">Visual media</Link>
+      <VStack fontSize={30}>
+        <Link href="/code" className="hover-effect-1">
+          Code
+        </Link>
+        <Link href="/music" className="hover-effect-2">
+          Music
+        </Link>
+        <Link href="/visual" className="hover-effect-3">
+          Visual media
+        </Link>
       </VStack>
     </Main>
   );
