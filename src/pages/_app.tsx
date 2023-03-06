@@ -1,20 +1,29 @@
-'use client';
-
-import '../static/fonts.css';
 import '../static/hover.css';
 
-import { CacheProvider } from '@chakra-ui/next-js';
-import { ChakraProvider } from '@chakra-ui/react';
+// import 'hover.css';
+import { ChakraProvider, useColorMode } from '@chakra-ui/react';
 import type { AppProps } from 'next/app';
+import { useEffect } from 'react';
 
 import { theme } from '@/utils/theme';
 
+const ForceDarkMode: React.FC<{ children: JSX.Element }> = ({ children }) => {
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  useEffect(() => {
+    if (colorMode === 'dark') return;
+    toggleColorMode();
+  }, [colorMode, toggleColorMode]);
+
+  return children;
+};
+
 const MyApp = ({ Component, pageProps }: AppProps) => (
-  <CacheProvider>
-    <ChakraProvider resetCSS theme={theme}>
+  <ChakraProvider resetCSS theme={theme}>
+    <ForceDarkMode>
       <Component {...pageProps} />
-    </ChakraProvider>
-  </CacheProvider>
+    </ForceDarkMode>
+  </ChakraProvider>
 );
 
 export default MyApp;
