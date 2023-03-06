@@ -25,6 +25,8 @@ const Main = (props: IMainProps) => {
           justifyContent="center"
           gap={3}
           alignItems="center"
+          bgColor="blackAlpha.800"
+          zIndex={1}
         >
           <Link href="/">Home</Link>
           <Link href="/code">Code</Link>
