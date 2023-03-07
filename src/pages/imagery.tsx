@@ -14,17 +14,13 @@ const images = [
       'One of my first trials with the semi-randomised technique of doing some splatter painting and then adding some more structure on top of it.',
   },
   {
-    image: '/assets/images/media/3.jpg',
-    description: 'Same as the one before',
-  },
-  {
     image: '/assets/images/media/4.jpg',
-    description: 'Same',
+    description: 'Random splatters + attempt to give them some structure.',
   },
   {
     image: '/assets/images/media/5.jpg',
     description:
-      'I started drawing this guy, because I felt like the world needed more of him. Funny enough, I never finished him. Even funnier is the fact that this guy actually appeared at a party, he came crawling by our table, naked, bald and apparently searching for something.',
+      'I started drawing this guy, because I felt like the world needed more of him. Funny enough, I never finished him. Even funnier is the fact that this guy actually one day appeared at a party, he came crawling by our table, naked, bald and apparently searching for something. D can confirm this story.',
   },
   {
     image: '/assets/images/media/6.jpg',
@@ -44,7 +40,7 @@ const images = [
   },
   {
     image: '/assets/images/media/10.jpg',
-    description: 'That is how I felt.',
+    description: 'That is how I saw myself. 🫠',
   },
   {
     image: '/assets/images/media/11.jpg',
@@ -92,7 +88,7 @@ const images = [
   },
   {
     image: '/assets/images/media/21.jpeg',
-    description: 'The бабушка rdeča. Gifted to unknown.',
+    description: 'The бабушка rdeča. Gifted to A.',
   },
   {
     image: '/assets/images/media/22.jpeg',
@@ -102,16 +98,11 @@ const images = [
     image: '/assets/images/media/23.jpeg',
     description: 'M Sesh with A, filled it up with meaning.',
   },
-  // {
-  //   youtubeId: 'https://www.youtube.com/watch?v=UdimcciEJh8',
-  //   description:
-  //     'When I was listening to this song in high school I realised these lyrics need to be visualised. So I did.',
-  // },
-  // {
-  //   youtubeId: 'https://www.youtube.com/watch?v=Czq4VWOO4bM',
-  //   description:
-  //     'My first frame-by-frame animation. Guy farts himself to death.',
-  // },
+  {
+    image: '/assets/images/media/idiot.png',
+    description:
+      'Idiot, 2015. One of my best drawings. I lost the original, but made an NFT out of it. A friend tattooed it on his leg. My GF made a 3D model out of it. Contact me if you wanna buy the NFT for a lot of money.',
+  },
 ].reverse();
 
 const Visual = () => (

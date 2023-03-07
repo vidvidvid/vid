@@ -60,12 +60,13 @@ const Gallery = ({ imagery }: GalleryProps) => {
       >
         <YouTube videoId="UdimcciEJh8" />
         <Flex gap={3}>
-          <Code p={2}>
-            When I was listening to this song in high school I realised these
-            lyrics need to be visualised, so I did.
+          <Code p={2} color="black" h="min-content">
+            &#8592; When I was listening to this song in high school I realised
+            these lyrics need to be visualised, so I did.
           </Code>
-          <Code p={2}>
+          <Code p={2} color="black" h="min-content">
             My first frame-by-frame animation. Guy farts himself to death.
+            &#8594;
           </Code>
         </Flex>
         <YouTube videoId="Czq4VWOO4bM" />

@@ -31,7 +31,8 @@ const Main = (props: IMainProps) => {
           <Link href="/">Home</Link>
           <Link href="/code">Code</Link>
           <Link href="/music">Music</Link>
-          <Link href="/imagery">Visual media</Link>
+          <Link href="/imagery">Imagery</Link>
+          <Link href="/words">Words</Link>
         </Flex>
       )}
 
