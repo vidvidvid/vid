@@ -1,0 +1,95 @@
+.frame {
+  position: relative;
+  display: inline-block;
+  padding: 4px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(
+    45deg,
+    #ffccff,
+    #ff9999,
+    #ffffcc,
+    #ccffff,
+    #99ff99
+  );
+  animation: frame-animation 0.1s ease-in-out infinite;
+}
+
+@keyframes frame-animation {
+  0% {
+    background: linear-gradient(
+      45deg,
+      #ffccff,
+      #ff9999,
+      #ffffcc,
+      #ccffff,
+      #99ff99
+    );
+  }
+  25% {
+    background: linear-gradient(
+      45deg,
+      #ff9999,
+      #ffffcc,
+      #ccffff,
+      #99ff99,
+      #ffccff
+    );
+  }
+  50% {
+    background: linear-gradient(
+      45deg,
+      #ffffcc,
+      #ccffff,
+      #99ff99,
+      #ffccff,
+      #ff9999
+    );
+  }
+  75% {
+    background: linear-gradient(
+      45deg,
+      #ccffff,
+      #99ff99,
+      #ffccff,
+      #ff9999,
+      #ffffcc
+    );
+  }
+  100% {
+    background: linear-gradient(
+      45deg,
+      #99ff99,
+      #ffccff,
+      #ff9999,
+      #ffffcc,
+      #ccffff
+    );
+  }
+}
+
+.frame:before,
+.frame:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+}
+
+/* .frame:before {
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 5px solid #ffccff;
+  border-radius: 15px;
+} */
+
+.frame:after {
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  /* border: 10px solid #ff9999; */
+  border-radius: 20px;
+}

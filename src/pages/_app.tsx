@@ -1,4 +1,6 @@
+import '../static/frame.css';
 import '../static/hover.css';
+import '@fontsource/sono';
 
 // import 'hover.css';
 import { ChakraProvider, useColorMode } from '@chakra-ui/react';

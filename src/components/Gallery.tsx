@@ -1,17 +1,23 @@
 import {
-  Box,
   Flex,
+  Grid,
   Image,
   Modal,
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 
+import Card from './Card';
+
 type GalleryProps = {
-  images: string[];
+  images: {
+    image: string;
+    description: string;
+  }[];
 };
 
 const Gallery = ({ images }: GalleryProps) => {
@@ -24,31 +30,61 @@ const Gallery = ({ images }: GalleryProps) => {
   };
 
   return (
-    <Flex flexWrap="wrap" justifyContent="center" h="100vh" mt={20}>
-      {images.map((image, index) => (
-        <Box
-          key={index}
-          w={{ base: '100%', sm: '50%', md: '33%', lg: '25%' }}
-          p={2}
-          onClick={() => handleImageClick(image)}
-          cursor="pointer"
-        >
-          <Image
-            alt="image"
-            src={image}
-            w="100%"
-            h="auto"
-            objectFit="cover"
-            borderRadius="md"
-            transition="0.3s"
-            _hover={{ transform: 'scale(1.05)' }}
+    <Flex flexWrap="wrap" justifyContent="center" h="100vh" mt={32}>
+      {/* chakra Grid with 4 columns in a row */}
+      <Grid
+        templateColumns={{
+          base: 'repeat(1, 1fr)',
+          sm: 'repeat(2, 1fr)',
+          md: 'repeat(3, 1fr)',
+          lg: 'repeat(4, 1fr)',
+        }}
+        gap={2}
+        // set min height of each of grid elements to 300px
+        // so that the grid doesn't collapse when there are less than 4 images
+        minH="300px"
+        w="100vw"
+        position="relative"
+      >
+        {images.map(({ image, description }, index) => (
+          <Card
+            key={index}
+            bgImage={image}
+            front={
+              <Image
+                alignSelf="center"
+                alt="image"
+                onClick={() => handleImageClick(image)}
+                src={image}
+                w="100%"
+                h="auto"
+                objectFit="cover"
+                borderRadius="md"
+                cursor="pointer"
+                style={{
+                  backfaceVisibility: 'hidden',
+                  transformStyle: 'preserve-3d',
+                }}
+              />
+            }
+            back={
+              <Text
+                style={{
+                  backfaceVisibility: 'hidden',
+                  transformStyle: 'preserve-3d',
+                }}
+                color="black"
+              >
+                {description}
+              </Text>
+            }
           />
-        </Box>
-      ))}
+        ))}
+      </Grid>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW="70%">
-          <ModalCloseButton />
+          <ModalCloseButton background="gray.400" />
           {selectedImage && (
             <Image
               alt="image"

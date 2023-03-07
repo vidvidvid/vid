@@ -36,9 +36,7 @@ export const theme = extendTheme({
     '10xl': '120em',
   },
   fonts: {
-    heading: `'Museo Moderno', sans-serif`,
-    headingLight: `'Museo Moderno Light', sans-serif`,
-    // body: `'Baumans Regular', sans-serif`,
+    body: `'Sono', sans-serif`,
   },
   colors: {
     green: {
