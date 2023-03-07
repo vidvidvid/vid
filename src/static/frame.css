@@ -7,11 +7,11 @@
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
   background: linear-gradient(
     45deg,
-    #ffccff,
-    #ff9999,
-    #ffffcc,
-    #ccffff,
-    #99ff99
+    var(--color-1),
+    var(--color-2),
+    var(--color-3),
+    var(--color-4),
+    var(--color-5)
   );
   animation: frame-animation 0.1s ease-in-out infinite;
 }
@@ -20,76 +20,137 @@
   0% {
     background: linear-gradient(
       45deg,
-      #ffccff,
-      #ff9999,
-      #ffffcc,
-      #ccffff,
-      #99ff99
+      var(--color-1),
+      var(--color-2),
+      var(--color-3),
+      var(--color-4),
+      var(--color-5)
     );
   }
   25% {
     background: linear-gradient(
       45deg,
-      #ff9999,
-      #ffffcc,
-      #ccffff,
-      #99ff99,
-      #ffccff
+      var(--color-2),
+      var(--color-3),
+      var(--color-4),
+      var(--color-5),
+      var(--color-1)
     );
   }
   50% {
     background: linear-gradient(
       45deg,
-      #ffffcc,
-      #ccffff,
-      #99ff99,
-      #ffccff,
-      #ff9999
+      var(--color-3),
+      var(--color-4),
+      var(--color-5),
+      var(--color-1),
+      var(--color-2)
     );
   }
   75% {
     background: linear-gradient(
       45deg,
-      #ccffff,
-      #99ff99,
-      #ffccff,
-      #ff9999,
-      #ffffcc
+      var(--color-4),
+      var(--color-5),
+      var(--color-1),
+      var(--color-2),
+      var(--color-3)
     );
   }
   100% {
     background: linear-gradient(
       45deg,
-      #99ff99,
-      #ffccff,
-      #ff9999,
-      #ffffcc,
-      #ccffff
+      var(--color-5),
+      var(--color-1),
+      var(--color-2),
+      var(--color-3),
+      var(--color-4)
     );
   }
 }
 
-.frame:before,
-.frame:after {
+.frame-video {
+  position: relative;
+  display: inline-block;
+  padding: 4px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(
+    45deg,
+    #99ccff,
+    #66b2ff,
+    #ccffff,
+    #33cccc,
+    #0099cc
+  );
+  animation: frame-video-animation 0.1s ease-in-out infinite;
+}
+
+@keyframes frame-video-animation {
+  0% {
+    background: linear-gradient(
+      45deg,
+      #99ccff,
+      #66b2ff,
+      #cb0a71,
+      #33cccc,
+      #0099cc
+    );
+  }
+  25% {
+    background: linear-gradient(
+      45deg,
+      #66b2ff,
+      #ccffff,
+      #33cccc,
+      #0099cc,
+      #99ccff
+    );
+  }
+  50% {
+    background: linear-gradient(
+      45deg,
+      #ccffff,
+      #33cccc,
+      #0099cc,
+      #99ccff,
+      #66b2ff
+    );
+  }
+  75% {
+    background: linear-gradient(
+      45deg,
+      #33cccc,
+      #0099cc,
+      #99ccff,
+      #66b2ff,
+      #ccffff
+    );
+  }
+  100% {
+    background: linear-gradient(
+      45deg,
+      #0099cc,
+      #99ccff,
+      #66b2ff,
+      #ccffff,
+      #33cccc
+    );
+  }
+}
+
+.frame-video:before,
+.frame-video:after {
   content: "";
   position: absolute;
   z-index: -1;
 }
 
-/* .frame:before {
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  border: 5px solid #ffccff;
-  border-radius: 15px;
-} */
-
-.frame:after {
+.frame-video:after {
   top: -10px;
   left: -10px;
   right: -10px;
   bottom: -10px;
-  /* border: 10px solid #ff9999; */
   border-radius: 20px;
 }

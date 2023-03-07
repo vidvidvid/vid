@@ -1,4 +1,5 @@
 import {
+  Code,
   Flex,
   Grid,
   Image,
@@ -6,32 +7,69 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
-  Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import YouTube from 'react-youtube';
 
 import Card from './Card';
 
 type GalleryProps = {
-  images: {
-    image: string;
+  imagery: {
+    image?: string;
+    youtubeId?: string;
     description: string;
   }[];
 };
 
-const Gallery = ({ images }: GalleryProps) => {
+const Gallery = ({ imagery }: GalleryProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
   const handleImageClick = (image: string) => {
     setSelectedImage(image);
     onOpen();
   };
 
+  useEffect(() => {
+    const colors = [
+      `hsl(${Math.random() * 360}, 100%, 70%)`,
+      `hsl(${Math.random() * 360}, 100%, 70%)`,
+      `hsl(${Math.random() * 360}, 100%, 70%)`,
+      `hsl(${Math.random() * 360}, 100%, 70%)`,
+      `hsl(${Math.random() * 360}, 100%, 70%)`,
+    ];
+
+    const el = document.querySelector('#videos') as HTMLElement;
+    el.style.setProperty('--color-1', colors[0] || 'red');
+    el.style.setProperty('--color-2', colors[1] || 'blue');
+    el.style.setProperty('--color-3', colors[2] || 'green');
+    el.style.setProperty('--color-4', colors[3] || 'yellow');
+    el.style.setProperty('--color-5', colors[4] || 'purple');
+  }, []);
+
   return (
     <Flex flexWrap="wrap" justifyContent="center" h="100vh" mt={32}>
       {/* chakra Grid with 4 columns in a row */}
+      <Flex
+        justifyContent="space-between"
+        w="full"
+        mb={2}
+        className="frame"
+        id="videos"
+        gap={3}
+      >
+        <YouTube videoId="UdimcciEJh8" />
+        <Flex gap={3}>
+          <Code p={2}>
+            When I was listening to this song in high school I realised these
+            lyrics need to be visualised, so I did.
+          </Code>
+          <Code p={2}>
+            My first frame-by-frame animation. Guy farts himself to death.
+          </Code>
+        </Flex>
+        <YouTube videoId="Czq4VWOO4bM" />
+      </Flex>
       <Grid
         templateColumns={{
           base: 'repeat(1, 1fr)',
@@ -40,44 +78,30 @@ const Gallery = ({ images }: GalleryProps) => {
           lg: 'repeat(4, 1fr)',
         }}
         gap={2}
-        // set min height of each of grid elements to 300px
-        // so that the grid doesn't collapse when there are less than 4 images
         minH="300px"
         w="100vw"
         position="relative"
       >
-        {images.map(({ image, description }, index) => (
+        {imagery.map(({ image, description }, index) => (
           <Card
             key={index}
-            bgImage={image}
-            front={
+            element={
               <Image
                 alignSelf="center"
                 alt="image"
-                onClick={() => handleImageClick(image)}
+                onClick={() => {
+                  if (image) handleImageClick(image);
+                }}
                 src={image}
                 w="100%"
                 h="auto"
                 objectFit="cover"
                 borderRadius="md"
                 cursor="pointer"
-                style={{
-                  backfaceVisibility: 'hidden',
-                  transformStyle: 'preserve-3d',
-                }}
               />
             }
-            back={
-              <Text
-                style={{
-                  backfaceVisibility: 'hidden',
-                  transformStyle: 'preserve-3d',
-                }}
-                color="black"
-              >
-                {description}
-              </Text>
-            }
+            index={index}
+            description={description}
           />
         ))}
       </Grid>

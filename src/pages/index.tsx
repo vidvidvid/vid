@@ -29,8 +29,8 @@ const Index = () => {
         <Link href="/music" className="hover-effect-2" p={4}>
           Music
         </Link>
-        <Link href="/visual" className="hover-effect-3" p={4}>
-          Visual media
+        <Link href="/imagery" className="hover-effect-3" p={4}>
+          Imagery
         </Link>
         <Link href="/words" className="hover-effect-4" p={4}>
           Words

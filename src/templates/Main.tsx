@@ -31,11 +31,17 @@ const Main = (props: IMainProps) => {
           <Link href="/">Home</Link>
           <Link href="/code">Code</Link>
           <Link href="/music">Music</Link>
-          <Link href="/visual">Visual media</Link>
+          <Link href="/imagery">Visual media</Link>
         </Flex>
       )}
 
-      <Flex w="full" h="full" justifyContent="center" alignItems="center">
+      <Flex
+        w="full"
+        h="full"
+        justifyContent="center"
+        alignItems="center"
+        direction="column"
+      >
         {props.children}
       </Flex>
     </Box>

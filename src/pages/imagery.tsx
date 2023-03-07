@@ -102,11 +102,21 @@ const images = [
     image: '/assets/images/media/23.jpeg',
     description: 'M Sesh with A, filled it up with meaning.',
   },
-];
+  // {
+  //   youtubeId: 'https://www.youtube.com/watch?v=UdimcciEJh8',
+  //   description:
+  //     'When I was listening to this song in high school I realised these lyrics need to be visualised. So I did.',
+  // },
+  // {
+  //   youtubeId: 'https://www.youtube.com/watch?v=Czq4VWOO4bM',
+  //   description:
+  //     'My first frame-by-frame animation. Guy farts himself to death.',
+  // },
+].reverse();
 
 const Visual = () => (
   <Main meta={<Meta title="Visual media" description="My smudging" />}>
-    <Gallery images={images.reverse()} />
+    <Gallery imagery={images} />
   </Main>
 );
 
