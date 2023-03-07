@@ -1,4 +1,4 @@
-import { Link, Text, VStack } from '@chakra-ui/react';
+import { Link, VStack } from '@chakra-ui/react';
 
 import { Footer } from '@/components/Footer';
 import { Meta } from '@/layouts/Meta';
@@ -18,31 +18,22 @@ const Index = () => {
         <Link
           href="/code"
           className="hover-effect-1"
-          position="relative"
           p={3}
           borderRadius={10}
-          role="group"
           style={{
             textDecoration: 'none',
           }}
         >
-          <Text>Code</Text>
+          Code
         </Link>
-        <Link
-          href="/music"
-          className="hover-effect-2"
-          position="relative"
-          p={4}
-        >
+        <Link href="/music" className="hover-effect-2" p={4}>
           Music
         </Link>
-        <Link
-          href="/visual"
-          className="hover-effect-3"
-          position="relative"
-          p={4}
-        >
+        <Link href="/visual" className="hover-effect-3" p={4}>
           Visual media
+        </Link>
+        <Link href="/words" className="hover-effect-4" p={4}>
+          Words
         </Link>
       </VStack>
       <Footer />
