@@ -39,7 +39,7 @@ const Index = () => {
         >
           Code
         </Link>
-        <Link href="/music" className="hover-effect-2" p={4}>
+        <Link href="/music" className="hover-effect-4" p={4}>
           Music
         </Link>
         <Popover placement="top">
@@ -77,7 +77,7 @@ const Index = () => {
             </PopoverBody>
           </PopoverContent>
         </Popover>
-        <Link href="/words" className="hover-effect-4" p={4}>
+        <Link href="/words" className="hover-effect-2" p={4}>
           Words
         </Link>
       </VStack>
