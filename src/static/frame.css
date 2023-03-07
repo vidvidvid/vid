@@ -238,3 +238,12 @@
     transform: translate(5px, 5px);
   }
 }
+
+
+.textLayer {
+  display: none;
+}
+
+.annotationLayer {
+  display: none;
+}
