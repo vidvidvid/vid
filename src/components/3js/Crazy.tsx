@@ -69,7 +69,7 @@ const Scene = () => {
   );
 };
 
-const CrazyComponent: React.FC = () => {
+const Crazy: React.FC = () => {
   return (
     <div
       style={{
@@ -107,4 +107,4 @@ const CrazyComponent: React.FC = () => {
   );
 };
 
-export default CrazyComponent;
+export default Crazy;

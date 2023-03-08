@@ -1,13 +1,13 @@
 import { Flex, Text } from '@chakra-ui/react';
 
+import Crazy from '@/components/3js/Crazy';
 import CountdownTimer from '@/components/CountdownTimer';
-import CrazyComponent from '@/components/CrazyComponent';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
 const Music = () => (
   <Main meta={<Meta title="Music" description="My music" />}>
-    <CrazyComponent />
+    <Crazy />
     <Flex
       direction="column"
       align="center"

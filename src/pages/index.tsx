@@ -1,5 +1,6 @@
 import { Link, VStack } from '@chakra-ui/react';
 
+import Soothing from '@/components/3js/Soothing';
 import EpilepsyTrigger from '@/components/EpilepsyTrigger';
 import { Footer } from '@/components/Footer';
 import { Meta } from '@/layouts/Meta';
@@ -15,7 +16,9 @@ const Index = () => {
         />
       }
     >
-      <VStack fontSize={30}>
+      <Soothing />
+
+      <VStack fontSize={30} zIndex={1}>
         <Link
           href="/code"
           className="hover-effect-1"
