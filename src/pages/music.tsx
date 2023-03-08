@@ -17,7 +17,7 @@ const Music = () => (
       borderRadius="md"
       p={5}
     >
-      <Text fontSize={69} color="pink.200">
+      <Text fontSize={69} color="pink.200" textAlign="center">
         MALA ROZA MUCA - MAGMA PUDING
       </Text>
       <Text fontSize={30} color="pink.200">

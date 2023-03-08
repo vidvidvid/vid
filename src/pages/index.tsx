@@ -27,9 +27,10 @@ const Index = () => {
         >
           Code
         </Link>
-        <EpilepsyTrigger title="Music" location="music" hoverEffect={4} />
 
+        <EpilepsyTrigger title="Music" location="music" hoverEffect={4} />
         <EpilepsyTrigger title="Imagery" location="imagery" hoverEffect={3} />
+
         <Link href="/words" className="hover-effect-2" p={4}>
           Words
         </Link>
