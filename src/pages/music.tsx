@@ -12,12 +12,15 @@ const Music = () => (
       align="center"
       justify="center"
       position="absolute"
+      backdropFilter={'blur(5px)'}
+      borderRadius="md"
+      p={5}
     >
       <Text fontSize={69} color="pink.200">
         MALA ROZA MUCA - MAGMA PUDING
       </Text>
-      <Text fontSize={30} color="pink.400">
-        coming soon
+      <Text fontSize={30} color="pink.200">
+        20. 3. 2023
       </Text>
     </Flex>
   </Main>
