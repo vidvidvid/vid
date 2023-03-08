@@ -1,26 +1,26 @@
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex } from '@chakra-ui/react';
-import { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 
 interface ReaderProps {
   url: string;
+  currentPage: number;
+  handleNextPage: () => void;
+  handlePrevPage: () => void;
+  numPagez: number;
+  setNumPagez: (num: number) => void;
 }
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const Reader: React.FC<ReaderProps> = ({ url }) => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [numPagez, setNumPagez] = useState<number>(0);
-
-  const handlePrevPage = () => {
-    setCurrentPage((currPage) => Math.max(currPage - 1, 1));
-  };
-
-  const handleNextPage = () => {
-    setCurrentPage((currPage) => Math.min(currPage + 1, numPagez));
-  };
-
+const Reader: React.FC<ReaderProps> = ({
+  url,
+  currentPage,
+  handleNextPage,
+  handlePrevPage,
+  numPagez,
+  setNumPagez,
+}) => {
   const handleDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPagez(numPages);
   };

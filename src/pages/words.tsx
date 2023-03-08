@@ -41,32 +41,71 @@ const Words = () => {
       subtitle: '2016',
       pdf: 'zgodbicezaodrasle',
     },
+    {
+      title: 'Dolga, dolga je pot do zvezd',
+      subtitle: '2021, unfinished',
+      pdf: 'dolga',
+    },
+    {
+      title: 'Grde Papilone',
+      subtitle: '2022',
+      pdf: 'grdepapilone',
+    },
+    {
+      title: 'Nekoc Surina',
+      subtitle: '2018, unfinished',
+      pdf: 'NekocSurina',
+    },
+    {
+      title: 'Sem Iskal',
+      subtitle: '2012',
+      pdf: 'Sem iskal',
+    },
+    {
+      title: 'V bistvu sem budist',
+      subtitle: '2021',
+      pdf: 'vbistvu',
+    },
   ];
 
-  // const poetry = [
-  //   {
-  //     title: 'Starec',
-  //     pdf: 'Starec',
-  //     subtitle: '2020',
-  //   },
-  //   {
-  //     title: 'Sveta Knjiga',
-  //     subtitle: 'Lepe Marke, Kakadu & Moja soba',
-  //     pdf: 'svetaknjiga',
-  //   },
-  //   {
-  //     title: 'Jajce',
-  //     subtitle: '2015, unfinished',
-  //     pdf: 'jajce',
-  //   },
-  //   {
-  //     title: 'Zgodbice za odrasle',
-  //     subtitle: '2016',
-  //     pdf: 'zgodbicezaodrasle',
-  //   },
-  // ];
+  const poetry = [
+    {
+      title: 'Predvčerajšnjim',
+      pdf: 'predvcerajsnjim',
+      subtitle: ' - 2013',
+    },
+    {
+      title: 'Včeraj',
+      pdf: 'vceraj',
+      subtitle: '2013 - 2016',
+    },
+    {
+      title: 'Pojutrišnjem',
+      pdf: 'pojutrisnjem',
+      subtitle: '2016 - 2019',
+    },
+    {
+      title: 'Popojutrišnjem',
+      pdf: 'popojutrisnjem',
+      subtitle: '2019 - ',
+    },
+  ];
 
   const [bookIndex, setBookIndex] = useState<number>(0);
+  const [poetryIndex, setPoetryIndex] = useState<number>(0);
+
+  const [isViewingPoetry, setIsViewingPoetry] = useState<boolean>(false);
+
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const handlePrevPage = () => {
+    setCurrentPage((currPage) => Math.max(currPage - 1, 1));
+  };
+
+  const [numPagez, setNumPagez] = useState<number>(0);
+  const handleNextPage = () => {
+    setCurrentPage((currPage) => Math.min(currPage + 1, numPagez));
+  };
 
   return (
     <Main meta={<Meta title="Words" description="My words" />}>
@@ -99,41 +138,57 @@ const Words = () => {
             </Text>
             <Flex direction="column" gap={2}>
               {books.map(({ title, subtitle }, index) => (
-                <Text
+                <Flex
                   key={title}
                   onClick={() => {
                     setBookIndex(index);
+                    setIsViewingPoetry(false);
                     onClose();
+                    setCurrentPage(1);
                   }}
+                  alignItems="baseline"
                   cursor="pointer"
                   _hover={{
                     textDecoration: 'underline',
                   }}
+                  justifyContent="space-between"
+                  w="full"
                 >
-                  {title}
+                  <Text>{title}</Text>
                   {subtitle && (
-                    <Text as="span" fontSize="xs" ml={2} color="gray.400">
+                    <Text
+                      as="span"
+                      fontSize="xs"
+                      ml={2}
+                      color="gray.400"
+                      textAlign="right"
+                    >
                       ({subtitle})
                     </Text>
                   )}
-                </Text>
+                </Flex>
               ))}
             </Flex>
-            {/* <Text mb={3} mt={8} textAlign="right">
+            <Text mb={3} mt={8} textAlign="right">
               Poetry
             </Text>
             <Flex direction="column" gap={2}>
               {poetry.map(({ title, subtitle }, index) => (
-                <Text
+                <Flex
                   key={title}
                   onClick={() => {
-                    setBookIndex(index);
+                    setPoetryIndex(index);
+                    setIsViewingPoetry(true);
                     onClose();
+                    setCurrentPage(1);
                   }}
+                  alignItems="baseline"
                   cursor="pointer"
                   _hover={{
                     textDecoration: 'underline',
                   }}
+                  justifyContent="space-between"
+                  w="full"
                 >
                   {title}
                   {subtitle && (
@@ -141,13 +196,22 @@ const Words = () => {
                       ({subtitle})
                     </Text>
                   )}
-                </Text>
+                </Flex>
               ))}
-            </Flex> */}
+            </Flex>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-      <Reader url={`/assets/pdf/${books[bookIndex]?.pdf}.pdf`} />
+      <Reader
+        url={`/assets/pdf/${
+          isViewingPoetry ? poetry[poetryIndex]?.pdf : books[bookIndex]?.pdf
+        }.pdf`}
+        currentPage={currentPage}
+        handleNextPage={handleNextPage}
+        handlePrevPage={handlePrevPage}
+        setNumPagez={setNumPagez}
+        numPagez={numPagez}
+      />
     </Main>
   );
 };
