@@ -1,18 +1,6 @@
-import {
-  Box,
-  Button,
-  Link,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
+import { Link, VStack } from '@chakra-ui/react';
 
+import EpilepsyTrigger from '@/components/EpilepsyTrigger';
 import { Footer } from '@/components/Footer';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
@@ -39,44 +27,9 @@ const Index = () => {
         >
           Code
         </Link>
-        <Link href="/music" className="hover-effect-4" p={4}>
-          Music
-        </Link>
-        <Popover placement="top">
-          <PopoverTrigger>
-            <Box className="hover-effect-3" p={4} cursor="pointer">
-              Imagery
-            </Box>
-          </PopoverTrigger>
-          <PopoverContent w="600px">
-            <PopoverArrow />
+        <EpilepsyTrigger title="Music" location="music" hoverEffect={4} />
 
-            <PopoverHeader>
-              EPILEPSY WARNING <PopoverCloseButton />
-            </PopoverHeader>
-            <PopoverBody p={5}>
-              Flashing stuff incoming. If you have epilepsy, please{' '}
-              <Text display="contents" color="#ff11a6">
-                do not
-              </Text>{' '}
-              click
-              <Button
-                className="hover-effect-5"
-                p={4}
-                mt={-2}
-                color="#76eaff"
-                ml={1}
-                fontSize={30}
-                variant="ghost"
-                onClick={() => {
-                  window.location.href = '/imagery';
-                }}
-              >
-                here
-              </Button>
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
+        <EpilepsyTrigger title="Imagery" location="imagery" hoverEffect={3} />
         <Link href="/words" className="hover-effect-2" p={4}>
           Words
         </Link>

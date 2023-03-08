@@ -1,8 +1,8 @@
 // @ts-nocheck
 
 import { OrbitControls, Stats } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { Suspense, useRef } from 'react';
-import { Canvas, useFrame } from 'react-three-fiber';
 import type * as three from 'three';
 import * as THREE from 'three';
 
@@ -24,10 +24,10 @@ const Cube = () => {
   const cube = useRef<three.Mesh>();
 
   const geometries = [
-    new THREE.BoxBufferGeometry(1, 1, 1),
-    new THREE.TorusBufferGeometry(1, 0.3, 16, 100),
-    new THREE.SphereBufferGeometry(0.8, 32, 32),
-    new THREE.ConeBufferGeometry(0.8, 1.2, 16),
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.TorusGeometry(1, 0.3, 16, 100),
+    new THREE.SphereGeometry(0.8, 32, 32),
+    new THREE.ConeGeometry(0.8, 1.2, 16),
   ];
 
   const materials = [
@@ -37,7 +37,7 @@ const Cube = () => {
       color: getRandomColor(),
       wireframe: true,
     }),
-    new THREE.MeshNormalMaterial({ color: getRandomColor() }),
+    new THREE.MeshNormalMaterial(),
   ];
 
   let geometryIndex = 0;
@@ -99,7 +99,7 @@ const CrazyComponent: React.FC = () => {
           <Scene />
         </Suspense>
         <mesh>
-          <planeBufferGeometry args={[1000, 1000]} />
+          <planeGeometry args={[1000, 1000]} />
           <meshBasicMaterial color={'#ffffff'} />
         </mesh>
       </Canvas>
