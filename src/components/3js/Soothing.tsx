@@ -18,116 +18,104 @@ const getRandomPosition = () => {
     (Math.random() - 0.5) * 10,
   ];
 };
+
 const LightningBolt = ({ position1, position2 }) => {
-  const bolt = useRef<THREE.Mesh>();
-  const [offset] = useState(
-    new THREE.Vector3(
-      (Math.random() - 0.5) * 0.1,
-      (Math.random() - 0.5) * 0.1,
-      (Math.random() - 0.5) * 0.1
-    )
-  );
-  const [rotationOffset] = useState(
-    new THREE.Vector3(
-      (Math.random() - 0.5) * 0.5,
-      (Math.random() - 0.5) * 0.5,
-      (Math.random() - 0.5) * 0.5
-    )
-  );
+  const bolt = useRef<THREE.Line>();
+  const [color, setColor] = useState(getRandomColor());
+  const [lengthScale, setLengthScale] = useState(1);
+
+  const createLightningGeometry = () => {
+    const geometry = new THREE.BufferGeometry();
+    const vertices = [];
+    const segments = 16;
+    const jaggedness = 0.1;
+
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < segments; i++) {
+      const t = i / (segments - 1);
+      const x = t;
+      const y = (Math.random() * 2 - 1) * jaggedness;
+
+      vertices.push(x, y, 0);
+    }
+
+    geometry.setAttribute(
+      'position',
+      new THREE.Float32BufferAttribute(vertices, 3)
+    );
+
+    return geometry;
+  };
+
+  useEffect(() => {
+    const animation = setTimeout(() => {
+      setLengthScale(3);
+    }, Math.random() * 5000);
+    return () => clearTimeout(animation);
+  }, []);
 
   useFrame(() => {
-    bolt.current!.position.copy(position1).add(offset);
-    bolt.current!.rotation.setFromVector3(rotationOffset);
-    bolt.current!.scale.set(0, 30, position2.distanceTo(position1));
+    if (Math.random() < 0.05) {
+      setColor(getRandomColor());
+    }
+
+    const startPoint = position1.clone();
+    const endPoint = position2.clone();
+    const scale = endPoint.sub(startPoint).length();
+    const randomScaleFactor = Math.random() * 1.5; // Added random scale factor
+
+    bolt.current!.position.copy(startPoint);
+    bolt.current!.lookAt(endPoint);
+    bolt.current!.scale.set(0.5, scale * lengthScale * randomScaleFactor, 1); // Modify the y-axis scale
   });
 
   return (
-    <mesh ref={bolt}>
-      <cylinderGeometry args={[0.01, 0.01, 1, 16]} />
-      <meshBasicMaterial attach="material" color="#ffffff" />
-    </mesh>
+    <line ref={bolt}>
+      <primitive object={createLightningGeometry()} />
+      <lineBasicMaterial attach="material" color={color} linewidth={2} />
+    </line>
   );
 };
 
-const Particle = ({ color }) => {
+const Particle = ({ setRef, index }) => {
   const particle = useRef<three.Mesh>();
-  const material = useRef<THREE.MeshStandardMaterial>(
-    new THREE.MeshStandardMaterial({
-      color,
-      wireframe: true,
-    })
-  );
-  const [showLightning, setShowLightning] = useState(false);
-  const [particlePosition, setParticlePosition] = useState([0, 0, 0]);
-  const [otherParticlePosition, setOtherParticlePosition] = useState([0, 0, 0]);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setShowLightning(Math.random() < 0.2);
-    }, Math.random() * 2000);
-    return () => clearTimeout(timeoutId);
-  }, [showLightning]);
+    setRef(index, particle.current);
+  }, [setRef, index]);
 
   useFrame(() => {
     particle.current!.position.add(
       new THREE.Vector3(
-        (Math.random() - 0.5) * 0.1,
-        (Math.random() - 0.5) * 0.1,
-        (Math.random() - 0.5) * 0.1
+        (Math.random() - 0.5) * 0.2,
+        (Math.random() - 0.5) * 0.2,
+        (Math.random() - 0.5) * 0.2
       )
     );
 
     if (Math.random() < 0.01) {
       particle.current!.position.set(...getRandomPosition());
     }
-    setParticlePosition(particle.current!.position);
-  });
 
-  const otherParticle = useRef<three.Mesh>();
-  useFrame(() => {
-    otherParticle.current!.position.add(
-      new THREE.Vector3(
-        (Math.random() - 0.5) * 0.1,
-        (Math.random() - 0.5) * 0.1,
-        (Math.random() - 0.5) * 0.1
-      )
+    particle.current!.rotation.set(
+      particle.current!.rotation.x + (Math.random() - 0.5) * 0.1,
+      particle.current!.rotation.y + (Math.random() - 0.5) * 0.1,
+      particle.current!.rotation.z + (Math.random() - 0.5) * 0.1
     );
-
-    if (Math.random() < 0.01) {
-      otherParticle.current!.position.set(...getRandomPosition());
-    }
-    setOtherParticlePosition(otherParticle.current!.position);
   });
 
-  useEffect(() => {}, [particlePosition, otherParticlePosition]);
-  //
-
-  return (
-    <>
-      <mesh
-        ref={particle}
-        position={particlePosition}
-        material={material.current}
-      >
-        <sphereGeometry args={[0.1, 16, 16]} />
-        <meshStandardMaterial attach="material" color={color} />
-      </mesh>
-      <mesh ref={otherParticle} position={otherParticlePosition}>
-        <sphereGeometry args={[0.1, 16, 16]} />
-        <meshStandardMaterial attach="material" color={color} />
-      </mesh>
-      {showLightning && (
-        <LightningBolt
-          position1={particlePosition}
-          position2={otherParticlePosition}
-        />
-      )}
-    </>
-  );
+  return <mesh ref={particle} />;
 };
 
 const Scene = () => {
   const [color, setColor] = useState(getRandomColor());
+  const particleRefs = useRef<(THREE.Mesh | null)[]>(
+    Array(NUM_PARTICLES).fill(null)
+  );
+
+  const setRef = (index, ref) => {
+    particleRefs.current[index] = ref;
+  };
 
   useFrame(() => {
     if (Math.random() < 0.01) {
@@ -136,10 +124,23 @@ const Scene = () => {
   });
 
   const particles = Array.from({ length: NUM_PARTICLES }, (_, i) => (
-    <Particle key={i} color={color} />
+    <Particle key={i} color={color} setRef={setRef} index={i} />
   ));
 
-  return <>{particles}</>;
+  const lightningBolts = Array.from({ length: NUM_PARTICLES - 1 }, (_, i) => (
+    <LightningBolt
+      key={i}
+      position1={particleRefs.current[i]?.position || new THREE.Vector3()}
+      position2={particleRefs.current[i + 1]?.position || new THREE.Vector3()}
+    />
+  ));
+
+  return (
+    <>
+      {particles}
+      {lightningBolts}
+    </>
+  );
 };
 
 const Soothing: React.FC = () => {
@@ -160,7 +161,7 @@ const Soothing: React.FC = () => {
           position: [0, 5, 10],
         }}
         onCreated={({ gl }) => {
-          gl.setClearColor(getRandomColor());
+          gl.setClearColor('hsl(0, 100%, 3%)');
         }}
       >
         <Suspense fallback={null}>
