@@ -18,7 +18,7 @@ const Index = () => {
     >
       <Soothing />
 
-      <VStack fontSize={30} zIndex={1}>
+      <VStack fontSize={30} zIndex={1001}>
         <Link
           href="/code"
           className="hover-effect-1"

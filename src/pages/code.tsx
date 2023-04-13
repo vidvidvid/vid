@@ -66,7 +66,10 @@ const Code = () => (
         lg: 'repeat(3, 1fr)',
       }}
       gap={6}
-      mt={200}
+      // mt={200}
+      h="100vh"
+      py={20}
+      mb={10}
     >
       {projects.map((project, index) => (
         <CodeCard

@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Drawer,
   DrawerBody,
@@ -9,6 +10,7 @@ import {
   Flex,
   Image,
   Text,
+  useBreakpoint,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useState } from 'react';
@@ -107,6 +109,8 @@ const Words = () => {
     setCurrentPage((currPage) => Math.min(currPage + 1, numPagez));
   };
 
+  const breakpoint = useBreakpoint();
+
   return (
     <Main meta={<Meta title="Words" description="My words" />}>
       <Button
@@ -202,16 +206,23 @@ const Words = () => {
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-      <Reader
-        url={`/assets/pdf/${
-          isViewingPoetry ? poetry[poetryIndex]?.pdf : books[bookIndex]?.pdf
-        }.pdf`}
-        currentPage={currentPage}
-        handleNextPage={handleNextPage}
-        handlePrevPage={handlePrevPage}
-        setNumPagez={setNumPagez}
-        numPagez={numPagez}
-      />
+
+      {breakpoint === 'base' ? (
+        <Box p={10}>
+          <Text>Not available on mobile. Please view on desktop.</Text>
+        </Box>
+      ) : (
+        <Reader
+          url={`/assets/pdf/${
+            isViewingPoetry ? poetry[poetryIndex]?.pdf : books[bookIndex]?.pdf
+          }.pdf`}
+          currentPage={currentPage}
+          handleNextPage={handleNextPage}
+          handlePrevPage={handlePrevPage}
+          setNumPagez={setNumPagez}
+          numPagez={numPagez}
+        />
+      )}
     </Main>
   );
 };

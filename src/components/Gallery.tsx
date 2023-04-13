@@ -7,6 +7,7 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
+  useBreakpoint,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
@@ -47,18 +48,28 @@ const Gallery = ({ imagery }: GalleryProps) => {
     el.style.setProperty('--color-5', colors[4] || 'purple');
   }, []);
 
+  const breakpoint = useBreakpoint();
+
+  const opts =
+    breakpoint === 'base' ? { width: '100%', height: 'auto' } : undefined;
+
   return (
     <Flex flexWrap="wrap" justifyContent="center" h="100vh" mt={32}>
       {/* chakra Grid with 4 columns in a row */}
       <Flex
         justifyContent="space-between"
-        w="full"
+        // w="full"
         mb={2}
         className="frame"
         id="videos"
         gap={3}
+        direction={{
+          base: 'column',
+          sm: 'row',
+        }}
+        w="100vw"
       >
-        <YouTube videoId="UdimcciEJh8" />
+        <YouTube videoId="UdimcciEJh8" opts={opts} />
         <Flex gap={3}>
           <Code p={2} color="black" h="min-content">
             &#8592; When I was listening to this song in high school I realised
@@ -69,7 +80,7 @@ const Gallery = ({ imagery }: GalleryProps) => {
             &#8594;
           </Code>
         </Flex>
-        <YouTube videoId="Czq4VWOO4bM" />
+        <YouTube videoId="kPnHaL9bhGk" opts={opts} />
       </Flex>
       <Grid
         templateColumns={{
