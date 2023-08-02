@@ -17,6 +17,25 @@ const Music = () => (
       borderRadius="md"
       p={5}
     >
+      <Flex
+        w={{
+          base: '100%',
+          md: '50%',
+        }}
+      >
+        <iframe
+          style={{
+            borderRadius: '12px',
+          }}
+          src="https://open.spotify.com/embed/album/6YKuxDZZZY6IsSIblhvN0j?utm_source=generator"
+          width="100%"
+          height="152"
+          frameBorder="0"
+          allowFullScreen={false}
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        ></iframe>
+      </Flex>
       <Link href="https://soundcloud.com/malarozamuca/" isExternal>
         <Text fontSize={69} color="pink.200" textAlign="center">
           MALA ROZA MUCA - MAGMA PUDING
