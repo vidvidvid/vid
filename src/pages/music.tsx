@@ -23,7 +23,7 @@ const Music = () => (
         </Text>
       </Link>
       <Text fontSize={30} color="pink.200">
-        <CountdownTimer date={new Date('June 21, 2023 00:00:00')} />
+        <CountdownTimer date={new Date('August 10, 2023 00:00:00')} />
       </Text>
     </Flex>
   </Main>

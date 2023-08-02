@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { OrbitControls, Stats } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Suspense, useRef } from 'react';
 import type * as three from 'three';
@@ -89,7 +89,7 @@ const Crazy: React.FC = () => {
           gl.setClearColor('#252934');
         }}
       >
-        <Stats />
+        {/* <Stats /> */}
         <OrbitControls
           enableZoom={false}
           enablePan={false}
