@@ -7,6 +7,18 @@ import { Main } from '@/templates/Main';
 
 const projects = [
   {
+    name: 'JanitorAI',
+    description: 'Janitor AI is an anime-style character chat robot website.',
+    image: 'janitor.png',
+    websiteLink: 'https://janitorai.com/',
+  },
+  {
+    name: 'Hats Protocol',
+    description: 'DAO-native way to structure organizations.',
+    image: 'hat.svg',
+    websiteLink: 'https://www.hatsprotocol.xyz/',
+  },
+  {
     name: 'Quest Chains',
     description:
       'a protocol, an SDK, and a platform that allows users to create and complete quests.',
