@@ -22,6 +22,7 @@ const Music = () => (
           base: '100%',
           md: '50%',
         }}
+        mb={8}
       >
         <iframe
           style={{
@@ -37,11 +38,24 @@ const Music = () => (
         ></iframe>
       </Flex>
       <Link href="https://soundcloud.com/malarozamuca/" isExternal>
-        <Text fontSize={69} color="pink.200" textAlign="center">
-          MALA ROZA MUCA - MAGMA PUDING
+        <Text
+          fontSize={{
+            base: 30,
+            md: 69,
+          }}
+          color="pink.200"
+          textAlign="center"
+        >
+          🍮 MAGMA PUDING 🫠
         </Text>
       </Link>
-      <Text fontSize={30} color="pink.200">
+      <Text
+        fontSize={{
+          base: 'xl',
+          md: 30,
+        }}
+        color="pink.200"
+      >
         <CountdownTimer date={new Date('August 10, 2023 00:00:00')} />
       </Text>
     </Flex>
