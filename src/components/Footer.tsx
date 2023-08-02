@@ -50,7 +50,6 @@ export const Footer: React.FC = () => (
     pb={4}
     fontSize="sm"
     background="linear-gradient(transparent, rgba(255, 255, 255, 0.1))"
-    h={{ base: '16rem', md: '10rem' }}
   >
     <HStack gap={4} fontSize="xl">
       {iconLinks.map((l) => (
