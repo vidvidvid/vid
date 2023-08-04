@@ -30,7 +30,7 @@ const Music = () => (
         }}
       >
         <Link
-          href="https://soundcloud.com/malarozamuca?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+          href="https://soundcloud.com/malarozamuca/sets/magma-puding-1"
           isExternal
         >
           <Flex
@@ -99,7 +99,7 @@ const Music = () => (
         </Box>
       </Flex>
       <Link
-        href="https://soundcloud.com/malarozamuca/sets/magma-puding"
+        href="https://soundcloud.com/malarozamuca/sets/magma-puding-1"
         isExternal
       >
         <Text
