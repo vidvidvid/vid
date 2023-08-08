@@ -59,7 +59,7 @@ const CodeCard = ({
             mr={8}
           />
 
-          <Box>
+          <Box flex={1}>
             <Flex alignItems="center">
               <Link href={websiteLink} isExternal>
                 <Text

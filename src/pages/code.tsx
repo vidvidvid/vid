@@ -8,7 +8,7 @@ import { Main } from '@/templates/Main';
 const projects = [
   {
     name: 'JanitorAI',
-    description: 'Janitor AI is an anime-style character chat robot website.',
+    description: 'anime-style character chat robot website.',
     image: 'janitor.png',
     websiteLink: 'https://janitorai.com/',
   },
