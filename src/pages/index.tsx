@@ -32,7 +32,7 @@ const Index = () => {
         </Link>
 
         <Link
-          href="/code"
+          href="/music"
           className="hover-effect-4"
           p={3}
           borderRadius={10}

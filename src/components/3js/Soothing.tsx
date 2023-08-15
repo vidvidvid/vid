@@ -77,24 +77,31 @@ const LightningBolt = ({ position1, position2 }) => {
   );
 };
 
+const noise = (x, y, z) => {
+  return Math.sin(x * 10 + y * 10 + z * 10);
+};
+
 const Particle = ({ setRef, index }) => {
   const particle = useRef<three.Mesh>();
+  const [particleColor, setParticleColor] = useState(getRandomColor());
 
   useEffect(() => {
     setRef(index, particle.current);
   }, [setRef, index]);
 
   useFrame(() => {
+    const { position } = particle.current!;
     particle.current!.position.add(
       new THREE.Vector3(
-        (Math.random() - 0.5) * 0.2,
-        (Math.random() - 0.5) * 0.2,
-        (Math.random() - 0.5) * 0.2
+        noise(position.x, position.y, position.z),
+        noise(position.x, position.y + 1, position.z),
+        noise(position.x, position.y, position.z + 1)
       )
     );
 
     if (Math.random() < 0.01) {
       particle.current!.position.set(...getRandomPosition());
+      setParticleColor(getRandomColor()); // Change particle color occasionally
     }
 
     particle.current!.rotation.set(
@@ -104,11 +111,18 @@ const Particle = ({ setRef, index }) => {
     );
   });
 
-  return <mesh ref={particle} />;
+  return (
+    <mesh ref={particle}>
+      <sphereBufferGeometry
+        attach="geometry"
+        args={[Math.random() * 0.5, 32, 32]}
+      />
+      <meshStandardMaterial attach="material" color={particleColor} />
+    </mesh>
+  );
 };
 
 const Scene = () => {
-  const [color, setColor] = useState(getRandomColor());
   const particleRefs = useRef<(THREE.Mesh | null)[]>(
     Array(NUM_PARTICLES).fill(null)
   );
@@ -123,10 +137,6 @@ const Scene = () => {
     }
   });
 
-  const particles = Array.from({ length: NUM_PARTICLES }, (_, i) => (
-    <Particle key={i} color={color} setRef={setRef} index={i} />
-  ));
-
   const lightningBolts = Array.from({ length: NUM_PARTICLES - 1 }, (_, i) => (
     <LightningBolt
       key={i}
@@ -135,8 +145,14 @@ const Scene = () => {
     />
   ));
 
+  const particles = Array.from({ length: NUM_PARTICLES }, (_, i) => (
+    <Particle key={i} setRef={setRef} index={i} />
+  ));
+
   return (
     <>
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} />
       {particles}
       {lightningBolts}
     </>
