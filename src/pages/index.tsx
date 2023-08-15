@@ -31,6 +31,17 @@ const Index = () => {
           Code
         </Link>
 
+        <Link
+          href="/code"
+          className="hover-effect-4"
+          p={3}
+          borderRadius={10}
+          style={{
+            textDecoration: 'none',
+          }}
+        >
+          Music
+        </Link>
         <EpilepsyTrigger title="Imagery" location="imagery" hoverEffect={3} />
 
         <Link href="/words" className="hover-effect-2" p={4}>
