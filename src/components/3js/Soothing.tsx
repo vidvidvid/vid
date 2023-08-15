@@ -113,16 +113,15 @@ const Particle = ({ setRef, index }) => {
 
   return (
     <mesh ref={particle}>
-      <sphereBufferGeometry
-        attach="geometry"
-        args={[Math.random() * 0.5, 32, 32]}
-      />
+      <sphereGeometry attach="geometry" args={[Math.random() * 0.5, 32, 32]} />
       <meshStandardMaterial attach="material" color={particleColor} />
     </mesh>
   );
 };
 
 const Scene = () => {
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  const [color, setColor] = useState(getRandomColor());
   const particleRefs = useRef<(THREE.Mesh | null)[]>(
     Array(NUM_PARTICLES).fill(null)
   );
