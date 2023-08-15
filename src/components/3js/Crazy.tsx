@@ -1,9 +1,9 @@
+/* eslint-disable no-multi-assign */
 // @ts-nocheck
 
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, Stars } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Suspense, useRef } from 'react';
-import type * as three from 'three';
 import * as THREE from 'three';
 
 const NUM_CUBES = 200;
@@ -20,91 +20,87 @@ const getRandomPosition = () => {
   ];
 };
 
+const getRandomScale = () => {
+  return Math.random() * 0.5 + 0.5; // returns value between 0.5 to 1
+};
+
 const Cube = () => {
   const cube = useRef<three.Mesh>();
-
-  const geometries = [
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.TorusGeometry(1, 0.3, 16, 100),
-    new THREE.SphereGeometry(0.8, 32, 32),
-    new THREE.ConeGeometry(0.8, 1.2, 16),
-  ];
-
-  const materials = [
-    new THREE.MeshStandardMaterial({ color: getRandomColor() }),
-    new THREE.MeshBasicMaterial({ color: getRandomColor() }),
-    new THREE.MeshStandardMaterial({
-      color: getRandomColor(),
-      wireframe: true,
-    }),
-    new THREE.MeshNormalMaterial(),
-  ];
-
-  let geometryIndex = 0;
-  let materialIndex = 0;
+  const scale = getRandomScale();
 
   useFrame(() => {
-    geometryIndex = (geometryIndex + 1) % geometries.length;
-    materialIndex = (materialIndex + 1) % materials.length;
-    cube.current!.geometry = geometries[geometryIndex];
-    cube.current!.material = materials[materialIndex];
-    cube.current!.rotation.x += 0.01;
-    cube.current!.rotation.y += 0.01;
-    cube.current!.position.set(...getRandomPosition());
+    cube.current!.rotation.x += 0.01 * scale;
+    cube.current!.rotation.y += 0.01 * scale;
+    cube.current!.position.y += Math.sin(Date.now() / 2000) * 0.01 * scale;
   });
 
-  return <mesh ref={cube} geometry={geometries[0]} material={materials[0]} />;
+  return (
+    <mesh
+      ref={cube}
+      scale={[scale, scale, scale]}
+      position={getRandomPosition()}
+      castShadow
+    >
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color={getRandomColor()} />
+    </mesh>
+  );
+};
+
+const Ground = () => {
+  const textureLoader = new THREE.TextureLoader();
+  const groundTexture = textureLoader.load('/assets/music/real.PNG');
+  groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+  groundTexture.repeat.set(50, 50);
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+      <planeBufferGeometry args={[1000, 1000]} />
+      <meshStandardMaterial map={groundTexture} />
+    </mesh>
+  );
+};
+
+const MovingLight = () => {
+  const light = useRef<three.PointLight>();
+  useFrame(() => {
+    light.current!.position.x = 10 * Math.sin(Date.now() / 2000);
+    light.current!.position.z = 10 * Math.cos(Date.now() / 2000);
+  });
+  return (
+    <pointLight ref={light} intensity={1.2} position={[5, 5, 5]} castShadow />
+  );
 };
 
 const Scene = () => {
   const cubes = Array.from({ length: NUM_CUBES }, (_, i) => <Cube key={i} />);
-
   return (
     <>
-      {/* <gridHelper /> */}
-      {/* <axesHelper /> */}
-      <pointLight intensity={1.0} position={[5, 3, 5]} />
+      <Stars />
+      <ambientLight intensity={0.3} />
+      <MovingLight />
+      <Ground />
       {cubes}
     </>
   );
 };
 
-const Crazy: React.FC = () => {
+const Evolved: React.FC = () => {
   return (
     <div
       style={{
         height: '100vh',
         width: '100vw',
+        position: 'absolute',
       }}
     >
-      <Canvas
-        camera={{
-          near: 0.1,
-          far: 1000,
-          zoom: 0.9,
-          position: [0, 2, -15],
-          rotation: [THREE.MathUtils.degToRad(230), 40, 90],
-        }}
-        onCreated={({ gl }) => {
-          gl.setClearColor('#252934');
-        }}
-      >
-        {/* <Stats /> */}
-        <OrbitControls
-          enableZoom={false}
-          enablePan={false}
-          enableRotate={false}
-        />
+      <Canvas shadows camera={{ position: [0, 2, -15] }}>
+        <OrbitControls />
         <Suspense fallback={null}>
           <Scene />
         </Suspense>
-        <mesh>
-          <planeGeometry args={[1000, 1000]} />
-          <meshBasicMaterial color={'#ffffff'} />
-        </mesh>
       </Canvas>
     </div>
   );
 };
 
-export default Crazy;
+export default Evolved;

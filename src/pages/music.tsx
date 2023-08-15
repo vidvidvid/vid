@@ -1,129 +1,140 @@
-import { ExternalLinkIcon } from '@chakra-ui/icons'; // Import the ExternalLinkIcon
-import { Box, Flex, Image, Link, Text } from '@chakra-ui/react';
+import {
+  Flex,
+  Image,
+  Link,
+  Text,
+  useBreakpointValue,
+  VStack,
+} from '@chakra-ui/react';
 
 import Crazy from '@/components/3js/Crazy';
-import CountdownTimer from '@/components/CountdownTimer';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
-const Music = () => (
-  <Main meta={<Meta title="Music" description="My music" />}>
-    <Crazy />
-    <Flex
-      direction="column"
-      align="center"
-      justify="center"
-      position="absolute"
-      backdropFilter={'blur(5px)'}
-      borderRadius="md"
-      p={5}
-      h="full"
-      w="full"
-    >
-      {/* Add the ExternalLinkIcon next to each link */}
+const Music = () => {
+  const isMobile = useBreakpointValue({
+    base: true,
+    md: false,
+  });
+
+  return (
+    <Main meta={<Meta title="Music" description="My music" />}>
+      <Crazy />
       <Flex
-        gap={6}
-        mb={6}
-        direction={{
-          base: 'column',
-          md: 'row',
-        }}
+        direction="column"
+        align="center"
+        justify="center"
+        position="relative" // changed from absolute to allow scroll
+        borderRadius="md"
+        p={5}
+        h="auto" // changed from full to auto to allow content to dictate height
+        w="full"
+        overflowY="auto" // allow scrolling
       >
-        <Link
-          href="https://soundcloud.com/malarozamuca/sets/magma-puding-1"
-          isExternal
-        >
-          <Flex
-            alignItems="center"
-            justifyContent="center"
-            _hover={{
-              transform: 'scale(1.1)',
-              transition: 'all 0.2s',
-            }}
-          >
-            <Image
-              src="/assets/music/soundcloud.svg"
-              w={20}
-              h={20}
-              mr={3}
-              alt="library"
-              filter="invert()"
-            />
-            <ExternalLinkIcon color="pink.200" /> {/* ExternalLinkIcon */}
-          </Flex>
-        </Link>
-        <Link
-          href="https://malarozamuca.bandcamp.com/"
-          isExternal
-          alignSelf="center"
-        >
-          <Flex
-            alignItems="center"
-            _hover={{
-              transform: 'scale(1.1)',
-              transition: 'all 0.2s',
-            }}
-          >
-            <Image
-              src="/assets/music/bandcamp.svg"
-              w={40}
-              mr={3}
-              alt="library"
-              filter="invert()"
-            />
-            <ExternalLinkIcon color="pink.200" /> {/* ExternalLinkIcon */}
-          </Flex>
-        </Link>
-      </Flex>
-      <Flex
-        w={{
-          base: '100%',
-          md: '50%',
-        }}
-        mb={8}
-        justifyContent="center"
-      >
-        <Box>
-          <iframe
-            style={{
-              borderRadius: '12px',
-            }}
-            src="https://open.spotify.com/embed/album/6YKuxDZZZY6IsSIblhvN0j?utm_source=generator"
-            width="100%"
-            height="152"
-            frameBorder="0"
-            allowFullScreen={false}
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
-        </Box>
-      </Flex>
-      <Link
-        href="https://soundcloud.com/malarozamuca/sets/magma-puding-1"
-        isExternal
-      >
-        <Text
-          fontSize={{
-            base: 30,
-            md: 69,
+        <VStack
+          spacing={6}
+          paddingX={{
+            base: 0,
+            md: 20,
           }}
-          color="pink.200"
-          textAlign="center"
+          paddingTop={{
+            base: 0,
+            md: 20,
+          }}
+          width="full"
         >
-          🍮 MAGMA PUDING 🫠
-        </Text>
-      </Link>
-      <Text
-        fontSize={{
-          base: 'xl',
-          md: 30,
-        }}
-        color="pink.200"
-      >
-        <CountdownTimer date={new Date('August 10, 2023 00:00:00')} />
-      </Text>
-    </Flex>
-  </Main>
-);
+          {!isMobile && (
+            <Link
+              href="https://soundcloud.com/malarozamuca/sets/magma-puding-1"
+              isExternal
+            >
+              <Flex
+                alignItems="center"
+                boxShadow="0px 0px 5px #000000"
+                width="full"
+                p={4}
+                borderRadius="md"
+                backdropFilter={'blur(5px)'}
+                _hover={{ bg: 'gray.600' }}
+                justify="center"
+              >
+                <Text
+                  fontSize={{
+                    base: 30,
+                    md: 69,
+                  }}
+                  color="pink.200"
+                  textAlign="center"
+                >
+                  🍮 MAGMA PUDING 🫠
+                </Text>
+              </Flex>
+            </Link>
+          )}
+          {[
+            {
+              href: 'https://open.spotify.com/album/70a6gr7P014ZCqcpauUXuc',
+              img: '/assets/music/spotify.jpeg',
+              text: 'Spotify',
+            },
+            {
+              href: 'https://soundcloud.com/malarozamuca',
+              img: '/assets/music/soundcloud.jpg',
+              text: 'SoundCloud',
+            },
+            {
+              hre: 'https://malarozamuca.bandcamp.com/album/magma-puding',
+              img: '/assets/music/bandcamp.jpg',
+              text: 'Bandcamp',
+            },
+            {
+              href: 'https://music.apple.com/us/album/magma-puding/1701729762',
+              img: '/assets/music/applemusic.jpg',
+              text: 'Apple Music',
+            },
+            {
+              href: 'https://www.youtube.com/channel/UCoO_Ijq0rZJwetO8a8orQJQ',
+              img: '/assets/music/youtube.jpg',
+              text: 'YouTube',
+            },
+          ].map((linkData) => (
+            <Link
+              href={linkData.href}
+              isExternal
+              key={linkData.href}
+              width={{
+                base: 'full',
+                md: '400px',
+              }}
+            >
+              <Flex
+                alignItems="center"
+                boxShadow="0px 0px 5px #000000"
+                width="full"
+                p={4}
+                borderRadius="md"
+                backdropFilter={'blur(5px)'}
+                _hover={{ bg: 'gray.600' }}
+                direction={{
+                  base: 'column',
+                  md: 'row',
+                }}
+                justify="space-between"
+              >
+                <Image
+                  src={linkData.img}
+                  boxSize={50}
+                  alt={linkData.text}
+                  mr={4}
+                />
+                <Text>{linkData.text}</Text>
+              </Flex>
+            </Link>
+          ))}
+        </VStack>
+      </Flex>
+    </Main>
+  );
+};
 
 export default Music;
