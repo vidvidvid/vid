@@ -38,7 +38,7 @@ const Music = () => {
             md: 20,
           }}
           paddingTop={{
-            base: 0,
+            base: 10,
             md: 20,
           }}
           width="full"
