@@ -83,7 +83,7 @@ const Music = () => {
               text: 'SoundCloud',
             },
             {
-              hre: 'https://malarozamuca.bandcamp.com/album/magma-puding',
+              href: 'https://malarozamuca.bandcamp.com/album/magma-puding',
               img: '/assets/music/bandcamp.jpg',
               text: 'Bandcamp',
             },
