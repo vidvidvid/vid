@@ -103,6 +103,30 @@ const images = [
     description:
       'Idiot, 2015. One of my best drawings. I lost the original, but made an NFT out of it. A friend tattooed it on his leg. My GF made a 3D model out of it. Contact me if you wanna buy the NFT for a lot of money.',
   },
+  {
+    image: '/assets/images/media/24.jpg',
+    description:
+      'The light ball symbolizes the truth and softness. The red ball symbolizes the passion and the fire. White ball is engulfing the red ball, because the truth and softness are more powerful than the passion and the fire. It is not a boob. Me & saint G',
+  },
+  {
+    image: '/assets/images/media/25.jpg',
+    description: 'Not much to say about this one.',
+  },
+  {
+    image: '/assets/images/media/26.jpg',
+    description:
+      'S and S were real baddies. Parents did not like them. Poor B was just a victim of the circumstances.',
+  },
+  {
+    image: '/assets/images/media/27.jpg',
+    description:
+      'Full of passion, full of fire, full of truth, full of brotherly love, full of Slovenia.',
+  },
+  {
+    image: '/assets/images/media/28.jpg',
+    description:
+      'Fârê †hêê wêll, Bâlkân †ï†ân, âs yôû âscênd †hê mâjês†ïc pêâks; mây yôûr jôûrnêy bê wôvên wï†h †hê †hrêâds ôf ïndômï†âblê vïgôr ând cêlês†ïâl grâcê.',
+  },
 ].reverse();
 
 const Visual = () => (
