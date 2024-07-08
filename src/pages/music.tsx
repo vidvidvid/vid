@@ -11,7 +11,6 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
-import Crazy from '@/components/3js/Crazy';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
@@ -23,16 +22,18 @@ const Music = () => {
 
   return (
     <Main meta={<Meta title="Music" description="My music" />}>
-      <Crazy />
       <Flex
         direction="column"
         align="center"
         justify="center"
-        position="relative"
-        borderRadius="md"
-        p={5}
-        h="100vh"
-        w="full"
+        position="absolute"
+        top={0}
+        left={0}
+        right={0}
+        bottom={0}
+        backgroundImage={'url(/assets/music/background.gif)'}
+        backgroundSize="cover"
+        backgroundPosition="center"
         overflowY="auto"
         pb={10}
       >

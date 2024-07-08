@@ -31,6 +31,7 @@ const EpilepsyTrigger = ({
         p={4}
         cursor="pointer"
         onClick={onOpen}
+        color="black"
       >
         {title}
       </Box>

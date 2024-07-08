@@ -1,6 +1,6 @@
 import { Link, VStack } from '@chakra-ui/react';
 
-import Soothing from '@/components/3js/Soothing';
+import Crazy from '@/components/3js/Crazy';
 import EpilepsyTrigger from '@/components/EpilepsyTrigger';
 import { Footer } from '@/components/Footer';
 import { Meta } from '@/layouts/Meta';
@@ -16,7 +16,7 @@ const Index = () => {
         />
       }
     >
-      <Soothing />
+      <Crazy />
 
       <VStack fontSize={30} zIndex={1001}>
         <Link
@@ -24,6 +24,7 @@ const Index = () => {
           className="hover-effect-1"
           p={3}
           borderRadius={10}
+          color="black"
           style={{
             textDecoration: 'none',
           }}
@@ -36,6 +37,7 @@ const Index = () => {
           className="hover-effect-4"
           p={3}
           borderRadius={10}
+          color="black"
           style={{
             textDecoration: 'none',
           }}
@@ -44,7 +46,7 @@ const Index = () => {
         </Link>
         <EpilepsyTrigger title="Imagery" location="imagery" hoverEffect={3} />
 
-        <Link href="/words" className="hover-effect-2" p={4}>
+        <Link href="/words" className="hover-effect-2" p={4} color="black">
           Words
         </Link>
       </VStack>
