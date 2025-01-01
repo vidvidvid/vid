@@ -82,6 +82,7 @@ const Music = () => {
           <Box width="full">
             <SimpleGrid columns={isMobile ? 1 : 2} spacing={4} mb={8}>
               {[
+                'https://www.youtube.com/embed/hL1JlhjoAGE',
                 'https://www.youtube.com/embed/WNGHfBkfdPw',
                 'https://www.youtube.com/embed/BCIssMctm7s',
                 'https://www.youtube.com/embed/nAAXQ7M-5L8',
