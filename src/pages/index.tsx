@@ -46,9 +46,7 @@ const Index = () => {
     >
       <Crazy />
 
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-      {/* @ts-ignore Chakra VStack union type complexity */}
-      <VStack fontSize={30} zIndex={1001} px={6} spacing={8}>
+      <VStack fontSize={30} zIndex={1001} px={6} gap={8}>
         <StripButton
           label="Code"
           mode="code"

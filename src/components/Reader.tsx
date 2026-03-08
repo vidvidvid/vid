@@ -1,4 +1,6 @@
-import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
+
 import { Box, Button, Flex } from '@chakra-ui/react';
 import { Document, Page, pdfjs } from 'react-pdf';
 
@@ -11,7 +13,7 @@ interface ReaderProps {
   setNumPagez: (num: number) => void;
 }
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 const Reader: React.FC<ReaderProps> = ({
   url,
@@ -40,7 +42,7 @@ const Reader: React.FC<ReaderProps> = ({
           onClick={handlePrevPage}
           mr={3}
         >
-          <ArrowBackIcon />
+          &#8592;
         </Button>
         <Document file={url} onLoadSuccess={handleDocumentLoadSuccess}>
           <Page pageNumber={currentPage} />
@@ -51,7 +53,7 @@ const Reader: React.FC<ReaderProps> = ({
           onClick={handleNextPage}
           ml={3}
         >
-          <ArrowForwardIcon />
+          &#8594;
         </Button>
       </Flex>
     </Box>

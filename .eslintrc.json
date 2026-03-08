@@ -1,0 +1,17 @@
+{
+  "extends": ["next/core-web-vitals", "prettier"],
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "plugins": ["unused-imports", "simple-import-sort"],
+      "rules": {
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
+        "unused-imports/no-unused-imports": "error",
+        "react-hooks/exhaustive-deps": "off",
+        "@next/next/no-img-element": "off",
+        "no-nested-ternary": "off"
+      }
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import { Grid } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import React from 'react';
 
 import CodeCard from '@/components/CodeCard';
@@ -114,7 +114,6 @@ const projects = [
 
 const Code = () => (
   <Main meta={<Meta title="Code" description="Projects I contribute to." />}>
-    {/* @ts-expect-error Chakra responsive prop union type */}
     <Grid
       templateColumns={{
         base: 'repeat(1, 1fr)',

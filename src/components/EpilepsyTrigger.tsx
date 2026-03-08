@@ -1,14 +1,5 @@
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Button, Dialog, Portal, Text } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import StripButton from '@/components/StripButton';
 
@@ -23,7 +14,7 @@ const EpilepsyTrigger = ({
   location,
   stripColor,
 }: EpilepsyTriggerProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -31,45 +22,53 @@ const EpilepsyTrigger = ({
         label={title}
         mode="imagery"
         stripColor={stripColor}
-        onClick={onOpen}
+        onClick={() => setOpen(true)}
       />
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <Text color="#3ee587" fontSize={24}>
-              EPILEPSY WARNING
-            </Text>
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody fontSize={20}>
-            Flashing stuff incoming. If you have epilepsy, please{' '}
-            <Text
-              display="inline-flex"
-              color="#ff11a6"
-              fontSize={30}
-              textDecoration="underline"
-            >
-              do not
-            </Text>{' '}
-            click
-            <Button
-              p={4}
-              mt={-2}
-              color="#76eaff"
-              ml={1}
-              fontSize={30}
-              variant="ghost"
-              onClick={() => {
-                window.location.href = `/${location}`;
-              }}
-            >
-              here
-            </Button>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <Dialog.Root
+        open={open}
+        onOpenChange={(details: { open: boolean }) => setOpen(details.open)}
+        placement="center"
+      >
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <Dialog.Content>
+              <Dialog.Header>
+                <Dialog.Title color="#3ee587" fontSize={24}>
+                  EPILEPSY WARNING
+                </Dialog.Title>
+              </Dialog.Header>
+              <Dialog.CloseTrigger />
+              <Dialog.Body fontSize={20}>
+                Flashing stuff incoming. If you have epilepsy, please{' '}
+                <Text
+                  display="inline-flex"
+                  color="#ff11a6"
+                  fontSize={30}
+                  textDecoration="underline"
+                >
+                  do not
+                </Text>{' '}
+                click
+                <Button
+                  p={4}
+                  mt={-2}
+                  color="#76eaff"
+                  ml={1}
+                  fontSize={30}
+                  variant="ghost"
+                  onClick={() => {
+                    window.location.href = `/${location}`;
+                  }}
+                >
+                  here
+                </Button>
+              </Dialog.Body>
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
     </>
   );
 };

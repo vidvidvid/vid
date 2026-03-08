@@ -1,15 +1,4 @@
-import {
-  Code,
-  Flex,
-  Grid,
-  Image,
-  Modal,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
-  useBreakpoint,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Code, Dialog, Flex, Grid, Image, Portal } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import YouTube from 'react-youtube';
 
@@ -24,11 +13,15 @@ type GalleryProps = {
 };
 
 const Gallery = ({ imagery }: GalleryProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const breakpoint =
+    typeof window !== 'undefined' && window.innerWidth < 480 ? 'base' : 'sm';
+
   const handleImageClick = (image: string) => {
     setSelectedImage(image);
-    onOpen();
+    setOpen(true);
   };
 
   useEffect(() => {
@@ -48,17 +41,13 @@ const Gallery = ({ imagery }: GalleryProps) => {
     el.style.setProperty('--color-5', colors[4] || 'purple');
   }, []);
 
-  const breakpoint = useBreakpoint();
-
   const opts =
     breakpoint === 'base' ? { width: '100%', height: 'auto' } : undefined;
 
   return (
     <Flex flexWrap="wrap" justifyContent="center" h="100vh" mt={32}>
-      {/* chakra Grid with 4 columns in a row */}
       <Flex
         justifyContent="space-between"
-        // w="full"
         mb={2}
         className="frame"
         id="videos"
@@ -117,22 +106,26 @@ const Gallery = ({ imagery }: GalleryProps) => {
           />
         ))}
       </Grid>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent maxW="70%">
-          <ModalCloseButton background="gray.400" />
-          {selectedImage && (
-            <Image
-              alt="image"
-              src={selectedImage}
-              w="100%"
-              h="auto"
-              objectFit="cover"
-              borderRadius="md"
-            />
-          )}
-        </ModalContent>
-      </Modal>
+      <Dialog.Root open={open} onOpenChange={(details: { open: boolean }) => setOpen(details.open)}>
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <Dialog.Content maxW="70%">
+              <Dialog.CloseTrigger background="gray.400" />
+              {selectedImage && (
+                <Image
+                  alt="image"
+                  src={selectedImage}
+                  w="100%"
+                  h="auto"
+                  objectFit="cover"
+                  borderRadius="md"
+                />
+              )}
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
     </Flex>
   );
 };

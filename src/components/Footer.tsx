@@ -1,41 +1,36 @@
-import type { ComponentWithAs, IconProps } from '@chakra-ui/react';
 import { HStack, Link as ChakraLink, Text, VStack } from '@chakra-ui/react';
-import NextLink from 'next/link';
+import type { SVGProps } from 'react';
 
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { TwitterIcon } from '@/components/icons/TwitterIcon';
 
 type IconLinkType = {
-  Icon: ComponentWithAs<'svg', IconProps>;
+  Icon: React.FC<SVGProps<SVGSVGElement>>;
   href: string;
-  external: boolean;
 };
 
 const iconLinks: IconLinkType[] = [
   {
     Icon: TwitterIcon,
     href: 'https://twitter.com/viiiiiiiiiiiid',
-    external: true,
   },
   {
     Icon: GithubIcon,
     href: 'https://github.com/vidvidvid',
-    external: true,
   },
 ];
 
-const IconLink = ({ Icon, href, external }: IconLinkType) =>
-  external ? (
-    <ChakraLink href={href} color="white" _hover={{ color: 'main' }} isExternal>
-      <Icon />
-    </ChakraLink>
-  ) : (
-    <NextLink href={href} passHref>
-      <ChakraLink color="white" _hover={{ color: 'main' }}>
-        <Icon />
-      </ChakraLink>
-    </NextLink>
-  );
+const IconLink = ({ Icon, href }: IconLinkType) => (
+  <ChakraLink
+    href={href}
+    color="white"
+    _hover={{ color: 'main' }}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Icon />
+  </ChakraLink>
+);
 
 export const Footer: React.FC = () => (
   <VStack

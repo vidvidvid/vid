@@ -1,10 +1,12 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-multi-assign */
-// @ts-nocheck
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
+
+// Disable sRGB color management to preserve vivid colors from v0.150 behavior
+THREE.ColorManagement.enabled = false;
 
 const OBJECTS_PER_TYPE = 180;
 
@@ -66,7 +68,7 @@ const AutoRotateCamera = () => {
 
   useFrame(() => {
     const { mode } = hoverState;
-    const speedMap = { imagery: 1500, music: 2000, code: 4000 };
+    const speedMap: Record<string, number> = { imagery: 1500, music: 2000, code: 4000 };
     const speed = (mode && speedMap[mode]) || 6000;
     const t = Date.now() / speed;
     camera.position.x = 25 * Math.sin(t);
@@ -89,7 +91,7 @@ const GeometryInstances = ({
   count,
   seed,
 }: GeometryInstancesProps) => {
-  const ref = useRef();
+  const ref = useRef<THREE.InstancedMesh>(null);
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
   const objectData = useMemo(
@@ -105,7 +107,8 @@ const GeometryInstances = ({
   );
 
   useFrame(() => {
-    if (!ref.current) return;
+    const mesh = ref.current;
+    if (!mesh) return;
     const { mode } = hoverState;
     const t = Date.now() / 1000;
 
@@ -411,12 +414,12 @@ const GeometryInstances = ({
       instancePositions[posBase + 2] = dummy.position.z;
 
       dummy.updateMatrix();
-      ref.current.setMatrixAt(i, dummy.matrix);
+      mesh.setMatrixAt(i, dummy.matrix);
 
       // Color per mode
       if (mode === 'code') {
         const h = 0.3 + Math.sin(t * 0.5 + offset * 0.1) * 0.1;
-        ref.current.setColorAt(i, new THREE.Color().setHSL(h, 0.8, 0.5));
+        mesh.setColorAt(i, new THREE.Color().setHSL(h, 0.8, 0.5));
       } else if (mode === 'music') {
         // Aphex Twin colors — 7 roles, harsh contrasts, strobing
         const beatT2 = (t * 170) / 60;
@@ -427,48 +430,48 @@ const GeometryInstances = ({
         let sat2 = 1;
         let lum2 = 0.5;
         if (role2 === 0) {
-          // Kick: blood red/black strobe
+          // Kick: blood red strobe
           const kickOn =
             [1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0][stepInBar2] || 0;
           hue2 = 0.0;
-          lum2 = 0.15 + kickOn * Math.exp(-sixteenth2 * 12) * 0.7;
+          lum2 = 0.4 + kickOn * Math.exp(-sixteenth2 * 12) * 0.5;
           sat2 = 0.9;
         } else if (role2 === 1) {
           // Snare: white/electric blue crack
           const snareOn =
             [0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1][stepInBar2] || 0;
           hue2 = 0.55;
-          lum2 = 0.2 + snareOn * Math.exp(-sixteenth2 * 14) * 0.8;
-          sat2 = 1 - snareOn * Math.exp(-sixteenth2 * 14) * 0.7;
+          lum2 = 0.45 + snareOn * Math.exp(-sixteenth2 * 14) * 0.5;
+          sat2 = 1 - snareOn * Math.exp(-sixteenth2 * 14) * 0.5;
         } else if (role2 === 2) {
           // Hat: gold/white rapid flutter
           const thirtySecond2 = (beatT2 * 8) % 1;
           hue2 = 0.12;
-          lum2 = 0.3 + Math.exp(-thirtySecond2 * 30) * 0.6;
+          lum2 = 0.5 + Math.exp(-thirtySecond2 * 30) * 0.4;
           sat2 = 0.7;
         } else if (role2 === 3) {
           // Acid: neon green/yellow that slides
           const acidBeat2 = (t * 170 * 5) / (60 * 8);
           hue2 = 0.25 + Math.sin(acidBeat2 * Math.PI * 2) * 0.1;
-          lum2 = 0.3 + Math.exp(-((acidBeat2 * 2) % 1) * 8) * 0.5;
+          lum2 = 0.5 + Math.exp(-((acidBeat2 * 2) % 1) * 8) * 0.4;
           sat2 = 1;
         } else if (role2 === 4) {
           // Stutter: magenta/cyan inversion glitch
           const stutterSeed2 = Math.floor(beatT2 * 2);
           hue2 = stutterSeed2 % 2 === 0 ? 0.85 : 0.5;
-          lum2 = 0.3 + Math.sin(stutterSeed2 * 13.37) * 0.4;
+          lum2 = 0.5 + Math.sin(stutterSeed2 * 13.37) * 0.3;
           sat2 = 1;
         } else if (role2 === 5) {
           // Polyrhythm: orange/purple alternating
           hue2 = Math.floor(beatT2 * 3) % 2 === 0 ? 0.08 : 0.75;
-          lum2 = 0.45 + Math.exp(-sixteenth2 * 10) * 0.3;
+          lum2 = 0.55 + Math.exp(-sixteenth2 * 10) * 0.3;
         } else {
           // Chaos: rapid hue cycling
           hue2 = (beatT2 * 0.5 + offset * 0.1) % 1;
-          lum2 = 0.3 + Math.exp(-sixteenth2 * 15) * 0.5;
+          lum2 = 0.5 + Math.exp(-sixteenth2 * 15) * 0.4;
           sat2 = 0.9;
         }
-        ref.current.setColorAt(i, new THREE.Color().setHSL(hue2, sat2, lum2));
+        mesh.setColorAt(i, new THREE.Color().setHSL(hue2, sat2, lum2));
       } else if (mode === 'imagery') {
         // Morphing colors — smooth hue cycling with proximity-based blending
         const now = Date.now();
@@ -486,35 +489,35 @@ const GeometryInstances = ({
         // Occasional white-hot flash
         const flash = Math.random() < 0.04;
         if (flash) {
-          ref.current.setColorAt(i, new THREE.Color(1, 1, 1));
+          mesh.setColorAt(i, new THREE.Color(1, 1, 1));
         } else {
           const sat = 0.8 + colorBlend * 0.2;
           const lum =
             0.45 + Math.sin(now / 200 + offset) * 0.15 + colorBlend * 0.1;
-          ref.current.setColorAt(
+          mesh.setColorAt(
             i,
             new THREE.Color().setHSL(finalHue, sat, lum)
           );
         }
       } else if (mode === 'words') {
         const h = 0.7 + normalizedIdx * 0.15;
-        ref.current.setColorAt(
+        mesh.setColorAt(
           i,
           new THREE.Color().setHSL(h, 0.6, 0.4 + breathe * 0.2)
         );
       } else {
         const hue = (obj.hue + t * 0.02) % 1;
-        ref.current.setColorAt(i, new THREE.Color().setHSL(hue, 0.7, 0.5));
+        mesh.setColorAt(i, new THREE.Color().setHSL(hue, 0.7, 0.5));
       }
     });
 
-    ref.current.instanceMatrix.needsUpdate = true;
-    if (ref.current.instanceColor) ref.current.instanceColor.needsUpdate = true;
+    mesh.instanceMatrix.needsUpdate = true;
+    if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
   });
 
   return (
-    <instancedMesh ref={ref} args={[geometry, undefined, count]} castShadow>
-      <meshStandardMaterial />
+    <instancedMesh ref={ref} args={[geometry, undefined, count]}>
+      <meshBasicMaterial />
     </instancedMesh>
   );
 };
@@ -532,7 +535,7 @@ const MovingLight = ({
   yOffset?: number;
   intensity?: number;
 }) => {
-  const light = useRef<THREE.PointLight>();
+  const light = useRef<THREE.PointLight>(null);
   useFrame(() => {
     if (!light.current) return;
     light.current.position.x = radius * Math.sin(Date.now() / speed);
@@ -551,7 +554,7 @@ const MovingLight = ({
       intensity={intensity}
       position={[10, 10 + yOffset, 10]}
       castShadow
-      distance={80}
+      distance={150}
     />
   );
 };
@@ -559,14 +562,14 @@ const MovingLight = ({
 const BackgroundCycler = ({
   containerRef,
 }: {
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
 }) => {
   useFrame(() => {
     if (containerRef.current) {
       const { mode } = hoverState;
-      const bgSpeedMap = { imagery: 100 };
+      const bgSpeedMap: Record<string, number> = { imagery: 100 };
       const t = Date.now() / 1000;
-      let hue;
+      let hue = 0;
       let saturation = 100;
       let lightness = 50;
 
@@ -584,7 +587,7 @@ const BackgroundCycler = ({
         // Hue jumps on each beat — harsh complementary shifts
         const beatIdx = Math.floor(beatT3 % 8);
         const hueSteps = [0, 200, 40, 280, 160, 320, 80, 240];
-        hue = hueSteps[beatIdx];
+        hue = hueSteps[beatIdx] ?? 0;
         lightness = 5 + kickFlash * 35 + snareFlash * 25;
         saturation = 90 + snareFlash * 10;
       } else if (mode === 'code') {
@@ -632,23 +635,24 @@ const connectionGeo = new THREE.CylinderGeometry(0.08, 0.08, 1, 4, 1);
 connectionGeo.rotateX(Math.PI / 2); // align along Z so we can lookAt
 
 const NeuralConnections = () => {
-  const ref = useRef();
+  const ref = useRef<THREE.InstancedMesh>(null);
   const MAX_CONNECTIONS = 250;
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const midpoint = useMemo(() => new THREE.Vector3(), []);
   const target = useMemo(() => new THREE.Vector3(), []);
 
   useFrame(() => {
-    if (!ref.current) return;
+    const connMesh = ref.current;
+    if (!connMesh) return;
 
     if (hoverState.mode !== 'code') {
       // Hide all instances by scaling to 0
       for (let c = 0; c < MAX_CONNECTIONS; c += 1) {
         dummy.scale.setScalar(0);
         dummy.updateMatrix();
-        ref.current.setMatrixAt(c, dummy.matrix);
+        connMesh.setMatrixAt(c, dummy.matrix);
       }
-      ref.current.instanceMatrix.needsUpdate = true;
+      connMesh.instanceMatrix.needsUpdate = true;
       return;
     }
 
@@ -664,12 +668,12 @@ const NeuralConnections = () => {
       const a = Math.floor(Math.random() * totalObjects);
       const b = Math.floor(Math.random() * totalObjects);
       if (a !== b) {
-        const ax = instancePositions[a * 3];
-        const ay = instancePositions[a * 3 + 1];
-        const az = instancePositions[a * 3 + 2];
-        const bx = instancePositions[b * 3];
-        const by = instancePositions[b * 3 + 1];
-        const bz = instancePositions[b * 3 + 2];
+        const ax = instancePositions[a * 3] ?? 0;
+        const ay = instancePositions[a * 3 + 1] ?? 0;
+        const az = instancePositions[a * 3 + 2] ?? 0;
+        const bx = instancePositions[b * 3] ?? 0;
+        const by = instancePositions[b * 3 + 1] ?? 0;
+        const bz = instancePositions[b * 3 + 2] ?? 0;
 
         const dx = ax - bx;
         const dy = ay - by;
@@ -686,11 +690,11 @@ const NeuralConnections = () => {
           // Scale Z to match distance (cylinder is 1 unit long along Z)
           dummy.scale.set(1, 1, dist);
           dummy.updateMatrix();
-          ref.current.setMatrixAt(connCount, dummy.matrix);
+          connMesh.setMatrixAt(connCount, dummy.matrix);
 
           // Glow color based on distance — closer = brighter
           const brightness = 1 - dist / 20;
-          ref.current.setColorAt(
+          connMesh.setColorAt(
             connCount,
             new THREE.Color().setHSL(0.38, 1, 0.3 + brightness * 0.4)
           );
@@ -703,11 +707,11 @@ const NeuralConnections = () => {
     for (let c = connCount; c < MAX_CONNECTIONS; c += 1) {
       dummy.scale.setScalar(0);
       dummy.updateMatrix();
-      ref.current.setMatrixAt(c, dummy.matrix);
+      connMesh.setMatrixAt(c, dummy.matrix);
     }
 
-    ref.current.instanceMatrix.needsUpdate = true;
-    if (ref.current.instanceColor) ref.current.instanceColor.needsUpdate = true;
+    connMesh.instanceMatrix.needsUpdate = true;
+    if (connMesh.instanceColor) connMesh.instanceColor.needsUpdate = true;
   });
 
   return (
@@ -726,25 +730,25 @@ const NeuralConnections = () => {
 const Scene = ({
   containerRef,
 }: {
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
 }) => {
   return (
     <>
-      <ambientLight intensity={0.3} />
-      <MovingLight speed={400} radius={25} color={0} intensity={3} />
+      <ambientLight intensity={1.2} />
+      <MovingLight speed={400} radius={25} color={0} intensity={80} />
       <MovingLight
         speed={600}
         radius={30}
         color={0.33}
         yOffset={10}
-        intensity={2.5}
+        intensity={60}
       />
       <MovingLight
         speed={300}
         radius={20}
         color={0.66}
         yOffset={-10}
-        intensity={2.5}
+        intensity={60}
       />
 
       <MouseTracker />
@@ -795,7 +799,12 @@ const Evolved: React.FC = () => {
         position: 'absolute',
       }}
     >
-      <Canvas shadows camera={{ position: [0, 2, -25] }}>
+      <Canvas
+        shadows
+        camera={{ position: [0, 2, -25] }}
+        flat
+        gl={{ outputColorSpace: THREE.LinearSRGBColorSpace }}
+      >
         <Scene containerRef={containerRef} />
       </Canvas>
     </div>

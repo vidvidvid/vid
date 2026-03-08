@@ -2,8 +2,8 @@ import { Box, Code, Flex } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 
 interface CardProps {
-  element: JSX.Element;
-  description: String;
+  element: React.ReactElement;
+  description: string;
   index: number;
 }
 

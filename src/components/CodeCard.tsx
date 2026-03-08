@@ -35,7 +35,8 @@ const CodeCard = ({
   return (
     <Link
       href={websiteLink ?? '#'}
-      isExternal={!!websiteLink}
+      target={websiteLink ? '_blank' : undefined}
+      rel={websiteLink ? 'noopener noreferrer' : undefined}
       _hover={{ textDecoration: 'none' }}
     >
       <Box
@@ -125,7 +126,8 @@ const CodeCard = ({
               {githubLink && (
                 <Link
                   href={githubLink}
-                  isExternal
+                  target="_blank"
+                  rel="noopener noreferrer"
                   color="whiteAlpha.400"
                   transition="color 0.2s"
                   _hover={{
@@ -138,7 +140,7 @@ const CodeCard = ({
               )}
             </Flex>
 
-            <Text mt={1.5} fontSize="sm" color="whiteAlpha.500" noOfLines={2}>
+            <Text mt={1.5} fontSize="sm" color="whiteAlpha.500" lineClamp={2}>
               {description}
             </Text>
           </Box>

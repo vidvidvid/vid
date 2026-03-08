@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   AspectRatio,
   Badge,
@@ -10,17 +9,21 @@ import {
   SimpleGrid,
   Stack,
   Text,
-  useBreakpointValue,
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
 const Music = () => {
-  const isMobile: boolean = useBreakpointValue({
-    base: true,
-    md: false,
-  }) as boolean;
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   return (
     <Main meta={<Meta title="Music" description="My music" />}>
@@ -54,7 +57,8 @@ const Music = () => {
             <Box display="flex" flexDirection="column" gap={4} width="full">
               <Link
                 href="https://soundcloud.com/malarozamuca/sets/lambda-male"
-                isExternal
+                target="_blank"
+                rel="noopener noreferrer"
                 width="full"
               >
                 <Flex
@@ -85,7 +89,8 @@ const Music = () => {
               </Link>
               <Link
                 href="https://soundcloud.com/malarozamuca/sets/magma-puding-1"
-                isExternal
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <Flex
                   alignItems="center"
@@ -113,7 +118,7 @@ const Music = () => {
           )}
 
           <Box width="full">
-            <SimpleGrid columns={isMobile ? 1 : 2} spacing={4} mb={8}>
+            <SimpleGrid columns={isMobile ? 1 : 2} gap={4} mb={8}>
               {[
                 'https://www.youtube.com/embed/3_FhRjYvFLo',
                 'https://www.youtube.com/embed/hL1JlhjoAGE',
@@ -134,7 +139,7 @@ const Music = () => {
 
           <SimpleGrid
             columns={isMobile ? 1 : 2}
-            spacing={8}
+            gap={8}
             width="full"
             pb={20}
           >
@@ -168,7 +173,8 @@ const Music = () => {
               ].map((linkData) => (
                 <Link
                   href={linkData.href}
-                  isExternal
+                  target="_blank"
+                  rel="noopener noreferrer"
                   key={linkData.href}
                   width="full"
                 >
@@ -185,7 +191,7 @@ const Music = () => {
                   >
                     <Image
                       src={linkData.img}
-                      boxSize={50}
+                      boxSize="50px"
                       alt={linkData.text}
                       mr={4}
                     />
@@ -208,7 +214,8 @@ const Music = () => {
               ].map((linkData) => (
                 <Link
                   href={linkData.href}
-                  isExternal
+                  target="_blank"
+                  rel="noopener noreferrer"
                   key={linkData.href}
                   width="full"
                 >
@@ -279,7 +286,8 @@ const Music = () => {
               ].map((release) => (
                 <Link
                   href={release.href}
-                  isExternal
+                  target="_blank"
+                  rel="noopener noreferrer"
                   key={release.title}
                   width="full"
                 >
@@ -293,9 +301,9 @@ const Music = () => {
                     _hover={{ bg: 'gray.600' }}
                     justify="space-between"
                   >
-                    <HStack spacing={3}>
+                    <HStack gap={3}>
                       <Badge
-                        colorScheme="pink"
+                        colorPalette="pink"
                         fontSize="sm"
                         px={2}
                         py={1}

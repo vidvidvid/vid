@@ -2,25 +2,19 @@ import {
   Box,
   Button,
   Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
   Flex,
   Image,
+  Portal,
   Text,
-  useBreakpoint,
-  useDisclosure,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Reader from '@/components/Reader';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
 const Words = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [open, setOpen] = useState(false);
 
   const books = [
     {
@@ -109,12 +103,15 @@ const Words = () => {
     setCurrentPage((currPage) => Math.min(currPage + 1, numPagez));
   };
 
-  const breakpoint = useBreakpoint();
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 480);
+  }, []);
 
   return (
     <Main meta={<Meta title="Words" description="My words" />}>
       <Button
-        onClick={onOpen}
+        onClick={() => setOpen(true)}
         position="absolute"
         left={5}
         top={14}
@@ -130,84 +127,92 @@ const Words = () => {
         />
         Library
       </Button>
-      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Library</DrawerHeader>
+      <Drawer.Root
+        open={open}
+        onOpenChange={(details: { open: boolean }) => setOpen(details.open)}
+        placement="start"
+      >
+        <Portal>
+          <Drawer.Backdrop />
+          <Drawer.Positioner>
+            <Drawer.Content>
+              <Drawer.CloseTrigger />
+              <Drawer.Header>Library</Drawer.Header>
 
-          <DrawerBody>
-            <Text mb={3} textAlign="right">
-              Prose
-            </Text>
-            <Flex direction="column" gap={2}>
-              {books.map(({ title, subtitle }, index) => (
-                <Flex
-                  key={title}
-                  onClick={() => {
-                    setBookIndex(index);
-                    setIsViewingPoetry(false);
-                    onClose();
-                    setCurrentPage(1);
-                  }}
-                  alignItems="baseline"
-                  cursor="pointer"
-                  _hover={{
-                    textDecoration: 'underline',
-                  }}
-                  justifyContent="space-between"
-                  w="full"
-                >
-                  <Text>{title}</Text>
-                  {subtitle && (
-                    <Text
-                      as="span"
-                      fontSize="xs"
-                      ml={2}
-                      color="gray.400"
-                      textAlign="right"
+              <Drawer.Body>
+                <Text mb={3} textAlign="right">
+                  Prose
+                </Text>
+                <Flex direction="column" gap={2}>
+                  {books.map(({ title, subtitle }, index) => (
+                    <Flex
+                      key={title}
+                      onClick={() => {
+                        setBookIndex(index);
+                        setIsViewingPoetry(false);
+                        setOpen(false);
+                        setCurrentPage(1);
+                      }}
+                      alignItems="baseline"
+                      cursor="pointer"
+                      _hover={{
+                        textDecoration: 'underline',
+                      }}
+                      justifyContent="space-between"
+                      w="full"
                     >
-                      ({subtitle})
-                    </Text>
-                  )}
+                      <Text>{title}</Text>
+                      {subtitle && (
+                        <Text
+                          as="span"
+                          fontSize="xs"
+                          ml={2}
+                          color="gray.400"
+                          textAlign="right"
+                        >
+                          ({subtitle})
+                        </Text>
+                      )}
+                    </Flex>
+                  ))}
                 </Flex>
-              ))}
-            </Flex>
-            <Text mb={3} mt={8} textAlign="right">
-              Poetry
-            </Text>
-            <Flex direction="column" gap={2}>
-              {poetry.map(({ title, subtitle }, index) => (
-                <Flex
-                  key={title}
-                  onClick={() => {
-                    setPoetryIndex(index);
-                    setIsViewingPoetry(true);
-                    onClose();
-                    setCurrentPage(1);
-                  }}
-                  alignItems="baseline"
-                  cursor="pointer"
-                  _hover={{
-                    textDecoration: 'underline',
-                  }}
-                  justifyContent="space-between"
-                  w="full"
-                >
-                  {title}
-                  {subtitle && (
-                    <Text as="span" fontSize="xs" ml={2} color="gray.400">
-                      ({subtitle})
-                    </Text>
-                  )}
+                <Text mb={3} mt={8} textAlign="right">
+                  Poetry
+                </Text>
+                <Flex direction="column" gap={2}>
+                  {poetry.map(({ title, subtitle }, index) => (
+                    <Flex
+                      key={title}
+                      onClick={() => {
+                        setPoetryIndex(index);
+                        setIsViewingPoetry(true);
+                        setOpen(false);
+                        setCurrentPage(1);
+                      }}
+                      alignItems="baseline"
+                      cursor="pointer"
+                      _hover={{
+                        textDecoration: 'underline',
+                      }}
+                      justifyContent="space-between"
+                      w="full"
+                    >
+                      {title}
+                      {subtitle && (
+                        <Text as="span" fontSize="xs" ml={2} color="gray.400">
+                          ({subtitle})
+                        </Text>
+                      )}
+                    </Flex>
+                  ))}
                 </Flex>
-              ))}
-            </Flex>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
+              </Drawer.Body>
+            </Drawer.Content>
+          </Drawer.Positioner>
+        </Portal>
+      </Drawer.Root>
 
-      {breakpoint === 'base' ? (
+      {isMobile ? (
         <Box p={10}>
           <Text>Not available on mobile. Please view on desktop.</Text>
         </Box>
