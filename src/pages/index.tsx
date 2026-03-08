@@ -1,9 +1,10 @@
-import { Box, VStack } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { VStack } from '@chakra-ui/react';
+import { useMemo } from 'react';
 
-import Crazy, { hoverState } from '@/components/3js/Crazy';
+import Crazy from '@/components/3js/Crazy';
 import EpilepsyTrigger from '@/components/EpilepsyTrigger';
 import { Footer } from '@/components/Footer';
+import StripButton from '@/components/StripButton';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
@@ -22,65 +23,6 @@ const BRIGHT_COLORS = [
 
 const pickColor = () =>
   BRIGHT_COLORS[Math.floor(Math.random() * BRIGHT_COLORS.length)]!;
-
-const MenuLink = ({
-  href,
-  label,
-  mode,
-  stripColor,
-  onClick,
-}: {
-  href?: string;
-  label: string;
-  mode: string;
-  stripColor: string;
-  onClick?: () => void;
-}) => {
-  const [hovered, setHovered] = useState(false);
-
-  const handleClick = () => {
-    if (onClick) onClick();
-    else if (href) window.location.href = href;
-  };
-
-  return (
-    <Box
-      position="relative"
-      cursor="pointer"
-      onClick={handleClick}
-      onMouseEnter={() => {
-        hoverState.mode = mode;
-        setHovered(true);
-      }}
-      onMouseLeave={() => {
-        hoverState.mode = null;
-        setHovered(false);
-      }}
-    >
-      <Box
-        position="absolute"
-        top={0}
-        bottom={0}
-        left="50%"
-        width="100vw"
-        bg={hovered ? 'var(--strip-bg, #333)' : stripColor}
-        opacity={0.85}
-        zIndex={-1}
-        transform="translateX(-50%)"
-        cursor="pointer"
-      />
-      <Box
-        p={1}
-        style={{
-          color: hovered ? 'var(--label-color, white)' : 'black',
-          textDecoration: 'none',
-        }}
-      >
-        {label}
-      </Box>
-    </Box>
-  );
-};
 
 const Index = () => {
   const colors = useMemo(
@@ -107,28 +49,34 @@ const Index = () => {
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore Chakra VStack union type complexity */}
       <VStack fontSize={30} zIndex={1001} px={6} spacing={8}>
-        <MenuLink
-          href="/code"
+        <StripButton
           label="Code"
           mode="code"
           stripColor={colors.code}
+          onClick={() => {
+            window.location.href = '/code';
+          }}
         />
-        <MenuLink
-          href="/music"
+        <StripButton
           label="Music"
           mode="music"
           stripColor={colors.music}
+          onClick={() => {
+            window.location.href = '/music';
+          }}
         />
         <EpilepsyTrigger
           title="Imagery"
           location="imagery"
           stripColor={colors.imagery}
         />
-        <MenuLink
-          href="/words"
+        <StripButton
           label="Words"
           mode="words"
           stripColor={colors.words}
+          onClick={() => {
+            window.location.href = '/words';
+          }}
         />
       </VStack>
 

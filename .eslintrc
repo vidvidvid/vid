@@ -55,7 +55,8 @@
         "unused-imports/no-unused-vars": [
           "error",
           { "argsIgnorePattern": "^_" }
-        ]
+        ],
+        "no-nested-ternary": "off"
       }
     },
     // Configuration for testing

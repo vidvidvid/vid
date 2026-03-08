@@ -8,43 +8,53 @@ import { Main } from '@/templates/Main';
 
 const projects = [
   {
+    name: 'MaEarth',
+    description: 'regenerative platform connecting people with the Earth.',
+    image: 'maearth.svg',
+    websiteLink: 'https://maearth.com/',
+    current: true,
+  },
+  {
     name: 'Ecliptica',
     description: 'AI-powered financial intelligence for crypto markets.',
+    image: 'ecliptica.svg',
     websiteLink: 'https://www.strata.ecliptica.ai/',
+    current: true,
+  },
+  {
+    name: 'TokiFlow',
+    description:
+      'team timeline & Gantt chart app with Linear/GitHub integrations.',
+    image: 'tokiflow.svg',
+    websiteLink: 'https://www.tokiflow.app/',
+    hobby: true,
+  },
+  {
+    name: 'HackerTracker',
+    description: 'hackathon aggregator with AI-powered opportunity scoring.',
+    websiteLink: 'https://hackertracker-production.up.railway.app/',
+    hobby: true,
   },
   {
     name: 'Nerite',
     description:
       'decentralized borrowing protocol with the first natively streamable stablecoin.',
+    image: 'nerite.svg',
     websiteLink: 'https://www.nerite.org/',
     githubLink: 'https://github.com/NeriteOrg/nerite',
   },
   {
     name: 'Liquity',
     description: 'governance-free borrowing protocol on Ethereum.',
+    image: 'liquity.jpeg',
     websiteLink: 'https://www.liquity.org/',
     githubLink: 'https://github.com/liquity',
   },
   {
-    name: 'Must Finance',
-    description:
-      'decentralized borrowing against multiple collateral types on Saga.',
-    websiteLink: 'https://app.must.finance/',
-  },
-  {
     name: 'Optimism Retro Funding',
     description: 'frontend lead for retroactive public goods funding rounds.',
+    image: 'optimism.svg',
     websiteLink: 'https://round5.optimism.io/',
-  },
-  {
-    name: 'TokiFlow',
-    description:
-      'team timeline & Gantt chart app with Linear/GitHub integrations.',
-  },
-  {
-    name: 'HackerTracker',
-    description: 'hackathon aggregator with AI-powered opportunity scoring.',
-    websiteLink: 'https://hackertracker-production.up.railway.app/',
   },
   {
     name: 'JanitorAI',
@@ -88,14 +98,7 @@ const projects = [
     githubLink: 'https://github.com/rite-of-moloch',
     websiteLink: 'https://rite-of-moloch-v1.vercel.app/',
   },
-  {
-    name: 'Jure Brglez',
-    description: 'interview with the artist.',
-    image: 'brglez.png',
-    githubLink: 'https://github.com/vidvidvid/brglez',
-    websiteLink: 'https://brglez.herokuapp.com/',
-  },
-  {
+{
     name: 'MeisterNote',
     description: 'an online documentation software.',
     image: 'meisternote.svg',
@@ -109,39 +112,32 @@ const projects = [
   },
 ];
 
-function seededRandom(seed: string): number {
-  let hash = 0;
-  for (let i = 0; i < seed.length; i += 1) {
-    // eslint-disable-next-line no-bitwise
-    hash = seed.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return ((hash % 400) - 200) / 100; // range -2 to 2
-}
-
 const Code = () => (
   <Main meta={<Meta title="Code" description="Projects I contribute to." />}>
+    {/* @ts-expect-error Chakra responsive prop union type */}
     <Grid
       templateColumns={{
         base: 'repeat(1, 1fr)',
         md: 'repeat(2, 1fr)',
         lg: 'repeat(3, 1fr)',
       }}
-      gap={6}
+      gap={4}
       py={20}
       mb={10}
+      mx="auto"
+      px={6}
+      maxW="1200px"
+      w="full"
     >
       {projects.map((project, index) => (
         <motion.div
           key={project.name}
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: 0.5,
-            delay: index * 0.08,
+            duration: 0.4,
+            delay: index * 0.05,
             ease: 'easeOut',
-          }}
-          style={{
-            rotate: `${seededRandom(project.name)}deg`,
           }}
         >
           <CodeCard
@@ -150,6 +146,8 @@ const Code = () => (
             description={project.description}
             githubLink={project.githubLink}
             websiteLink={project.websiteLink}
+            current={project.current}
+            hobby={project.hobby}
           />
         </motion.div>
       ))}

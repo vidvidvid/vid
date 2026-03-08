@@ -1,12 +1,4 @@
-import {
-  Box,
-  Flex,
-  Image,
-  keyframes,
-  Link,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Flex, Image, Link, Text } from '@chakra-ui/react';
 
 import { GithubIcon } from './icons/GithubIcon';
 
@@ -16,20 +8,9 @@ interface Props {
   description: string;
   githubLink?: string;
   websiteLink?: string;
+  current?: boolean;
+  hobby?: boolean;
 }
-
-const wobble = keyframes`
-  0%, 100% { transform: rotate(-0.5deg); }
-  50% { transform: rotate(0.5deg); }
-`;
-
-const borderHue = keyframes`
-  0% { border-color: hsl(0, 80%, 60%); }
-  25% { border-color: hsl(90, 80%, 60%); }
-  50% { border-color: hsl(180, 80%, 60%); }
-  75% { border-color: hsl(270, 80%, 60%); }
-  100% { border-color: hsl(360, 80%, 60%); }
-`;
 
 function hashName(name: string): number {
   let hash = 0;
@@ -46,9 +27,9 @@ const CodeCard = ({
   description,
   githubLink,
   websiteLink,
+  current,
+  hobby,
 }: Props) => {
-  const hoverBg = useColorModeValue('gray.200', 'gray.700');
-  const hoverColor = useColorModeValue('gray.800', 'gray.100');
   const fallbackHue = hashName(name);
 
   return (
@@ -58,49 +39,57 @@ const CodeCard = ({
       _hover={{ textDecoration: 'none' }}
     >
       <Box
-        maxW="md"
-        borderWidth="2px"
-        borderRadius="lg"
+        borderWidth="1px"
+        borderColor={
+          current ? 'green.700' : hobby ? 'purple.800' : 'whiteAlpha.100'
+        }
+        borderRadius="xl"
         overflow="hidden"
-        boxShadow="md"
-        transition="all 0.3s cubic-bezier(.4,0,.2,1)"
-        animation={`${wobble} 3s ease-in-out infinite, ${borderHue} 6s linear infinite`}
+        bg={current || hobby ? 'whiteAlpha.100' : 'whiteAlpha.50'}
+        transition="all 0.25s ease"
         _hover={{
-          transform: 'scale(1.05) skew(-1deg, 0.5deg)',
-          boxShadow: `0 0 20px hsl(${fallbackHue}, 100%, 60%), 0 0 40px hsl(${fallbackHue}, 80%, 40%)`,
-          bg: hoverBg,
-          color: hoverColor,
+          transform: 'translateY(-4px)',
+          borderColor: current
+            ? 'green.500'
+            : hobby
+              ? 'purple.500'
+              : 'whiteAlpha.300',
+          bg: 'whiteAlpha.100',
+          boxShadow: current
+            ? '0 8px 30px rgba(45, 248, 199, 0.1)'
+            : hobby
+              ? '0 8px 30px rgba(199, 45, 248, 0.1)'
+              : '0 8px 30px rgba(0, 0, 0, 0.3)',
         }}
         w="full"
         h="full"
       >
-        <Flex align="center" justify="space-between" h="full" p={6}>
+        <Flex align="center" h="full" p={5} gap={5}>
           {image ? (
             <Image
               src={`/assets/code/${image}`}
               alt={name}
               objectFit="contain"
-              w={120}
-              h={120}
-              mr={8}
+              w="56px"
+              h="56px"
               flexShrink={0}
+              borderRadius="lg"
             />
           ) : (
             <Flex
-              w="120px"
-              h="120px"
-              minW="120px"
-              mr={8}
-              borderRadius="full"
-              bg={`hsl(${fallbackHue}, 60%, 45%)`}
+              w="56px"
+              h="56px"
+              minW="56px"
+              borderRadius="lg"
+              bg={`hsl(${fallbackHue}, 40%, 30%)`}
               align="center"
               justify="center"
               flexShrink={0}
             >
               <Text
-                fontSize="4xl"
+                fontSize="xl"
                 fontWeight="bold"
-                color="white"
+                color="whiteAlpha.800"
                 userSelect="none"
               >
                 {name.charAt(0).toUpperCase()}
@@ -108,36 +97,48 @@ const CodeCard = ({
             </Flex>
           )}
 
-          <Box flex={1}>
-            <Flex alignItems="center">
-              <Link href={websiteLink} isExternal>
+          <Box flex={1} minW={0}>
+            <Flex alignItems="center" gap={2}>
+              <Text fontSize="md" fontWeight="semibold" color="whiteAlpha.900">
+                {name}
+              </Text>
+              {current && (
                 <Text
-                  fontSize="xl"
-                  fontWeight="semibold"
-                  mr="2"
-                  _hover={{
-                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
-                  }}
+                  fontSize="xs"
+                  color="green.400"
+                  fontWeight="medium"
+                  letterSpacing="wide"
                 >
-                  {name}
+                  current
                 </Text>
-              </Link>
+              )}
+              {hobby && (
+                <Text
+                  fontSize="xs"
+                  color="purple.400"
+                  fontWeight="medium"
+                  letterSpacing="wide"
+                >
+                  hobby
+                </Text>
+              )}
               {githubLink && (
                 <Link
                   href={githubLink}
                   isExternal
-                  transition="all 0.2s"
+                  color="whiteAlpha.400"
+                  transition="color 0.2s"
                   _hover={{
-                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
-                    transform: 'scale(1.2)',
+                    color: 'whiteAlpha.800',
                   }}
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <GithubIcon />
                 </Link>
               )}
             </Flex>
 
-            <Text mt="4" fontSize={14}>
+            <Text mt={1.5} fontSize="sm" color="whiteAlpha.500" noOfLines={2}>
               {description}
             </Text>
           </Box>

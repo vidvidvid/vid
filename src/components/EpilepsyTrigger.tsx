@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Modal,
   ModalBody,
@@ -10,9 +9,8 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 
-import { hoverState } from '@/components/3js/Crazy';
+import StripButton from '@/components/StripButton';
 
 type EpilepsyTriggerProps = {
   title: string;
@@ -26,42 +24,15 @@ const EpilepsyTrigger = ({
   stripColor,
 }: EpilepsyTriggerProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [hovered, setHovered] = useState(false);
 
   return (
     <>
-      <Box
-        position="relative"
-        cursor="pointer"
+      <StripButton
+        label={title}
+        mode="imagery"
+        stripColor={stripColor}
         onClick={onOpen}
-        onMouseEnter={() => {
-          hoverState.mode = 'imagery';
-          setHovered(true);
-        }}
-        onMouseLeave={() => {
-          hoverState.mode = null;
-          setHovered(false);
-        }}
-      >
-        <Box
-          position="absolute"
-          top={0}
-          bottom={0}
-          left="50%"
-          width="100vw"
-          bg={hovered ? 'var(--strip-bg, #333)' : stripColor}
-          opacity={0.85}
-          zIndex={-1}
-          transform="translateX(-50%)"
-          cursor="pointer"
-        />
-        <Box
-          p={1}
-          style={{ color: hovered ? 'var(--label-color, white)' : 'black' }}
-        >
-          {title}
-        </Box>
-      </Box>
+      />
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
