@@ -1,14 +1,16 @@
+// @ts-nocheck
 import {
   AspectRatio,
+  Badge,
   Box,
   Flex,
+  HStack,
   Image,
   Link,
   SimpleGrid,
   Stack,
   Text,
   useBreakpointValue,
-  VStack,
 } from '@chakra-ui/react';
 
 import { Meta } from '@/layouts/Meta';
@@ -22,10 +24,11 @@ const Music = () => {
 
   return (
     <Main meta={<Meta title="Music" description="My music" />}>
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
         position="absolute"
         top={0}
         left={0}
@@ -37,51 +40,82 @@ const Music = () => {
         overflowY="auto"
         pb={10}
       >
-        <VStack
-          spacing={6}
-          paddingX={{
-            base: 0,
-            md: 20,
-          }}
-          py={{
-            base: 10,
-            md: 20,
-          }}
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          gap={6}
+          px={{ base: 0, md: 20 }}
+          py={{ base: 10, md: 20 }}
           h="full"
           width="full"
         >
           {!isMobile && (
-            <Link
-              href="https://soundcloud.com/malarozamuca/sets/magma-puding-1"
-              isExternal
-            >
-              <Flex
-                alignItems="center"
-                boxShadow="0px 0px 5px #000000"
+            <Box display="flex" flexDirection="column" gap={4} width="full">
+              <Link
+                href="https://soundcloud.com/malarozamuca/sets/lambda-male"
+                isExternal
                 width="full"
-                p={4}
-                borderRadius="md"
-                backdropFilter={'blur(5px)'}
-                _hover={{ bg: 'gray.600' }}
-                justify="center"
               >
-                <Text
-                  fontSize={{
-                    base: 30,
-                    md: 69,
-                  }}
-                  color="pink.200"
-                  textAlign="center"
+                <Flex
+                  alignItems="center"
+                  boxShadow="0px 0px 8px #000000"
+                  width="full"
+                  p={6}
+                  borderRadius="md"
+                  backdropFilter={'blur(8px)'}
+                  bg="blackAlpha.400"
+                  _hover={{ bg: 'gray.600' }}
+                  justify="center"
+                  border="1px solid"
+                  borderColor="pink.300"
                 >
-                  🍮 MAGMA PUDING 🫠
-                </Text>
-              </Flex>
-            </Link>
+                  <Text
+                    fontSize={{
+                      base: 36,
+                      md: 80,
+                    }}
+                    color="pink.100"
+                    textAlign="center"
+                    fontWeight="bold"
+                  >
+                    Λ♂ LAMBDA MALE
+                  </Text>
+                </Flex>
+              </Link>
+              <Link
+                href="https://soundcloud.com/malarozamuca/sets/magma-puding-1"
+                isExternal
+              >
+                <Flex
+                  alignItems="center"
+                  boxShadow="0px 0px 5px #000000"
+                  width="full"
+                  p={4}
+                  borderRadius="md"
+                  backdropFilter={'blur(5px)'}
+                  _hover={{ bg: 'gray.600' }}
+                  justify="center"
+                >
+                  <Text
+                    fontSize={{
+                      base: 24,
+                      md: 48,
+                    }}
+                    color="pink.200"
+                    textAlign="center"
+                  >
+                    🍮 MAGMA PUDING 🫠
+                  </Text>
+                </Flex>
+              </Link>
+            </Box>
           )}
 
           <Box width="full">
             <SimpleGrid columns={isMobile ? 1 : 2} spacing={4} mb={8}>
               {[
+                'https://www.youtube.com/embed/3_FhRjYvFLo',
                 'https://www.youtube.com/embed/hL1JlhjoAGE',
                 'https://www.youtube.com/embed/WNGHfBkfdPw',
                 'https://www.youtube.com/embed/BCIssMctm7s',
@@ -194,8 +228,95 @@ const Music = () => {
               ))}
             </Stack>
           </SimpleGrid>
-        </VStack>
-      </Flex>
+
+          <Box width="full" pb={20}>
+            <Text
+              fontSize={{ base: 24, md: 36 }}
+              color="pink.200"
+              textAlign="center"
+              mb={6}
+            >
+              Releases
+            </Text>
+            <Box display="flex" flexDirection="column" gap={3} width="full">
+              {[
+                {
+                  title: 'Λ♂ (Lambda Male)',
+                  type: 'EP',
+                  year: '2025',
+                  href: 'https://soundcloud.com/malarozamuca/sets/lambda-male',
+                },
+                {
+                  title: 'Prijatelj je vreden vec kot jakna',
+                  type: 'Single',
+                  year: '2024',
+                  href: 'https://soundcloud.com/malarozamuca',
+                },
+                {
+                  title: 'Dino (feat. WAKNU)',
+                  type: 'EP',
+                  year: '2024',
+                  href: 'https://soundcloud.com/malarozamuca/sets/dino',
+                },
+                {
+                  title: 'The Balkan Dwarf',
+                  type: 'Single',
+                  year: '2024',
+                  href: 'https://soundcloud.com/malarozamuca/balkan-dwarf',
+                },
+                {
+                  title: 'nyulv<3',
+                  type: 'EP (via childsplay)',
+                  year: '2023',
+                  href: 'https://childrenatplay.bandcamp.com/album/nyulv-3',
+                },
+                {
+                  title: 'Magma Puding',
+                  type: 'Album',
+                  year: '2023',
+                  href: 'https://soundcloud.com/malarozamuca/sets/magma-puding-1',
+                },
+              ].map((release) => (
+                <Link
+                  href={release.href}
+                  isExternal
+                  key={release.title}
+                  width="full"
+                >
+                  <Flex
+                    alignItems="center"
+                    boxShadow="0px 0px 5px #000000"
+                    width="full"
+                    p={4}
+                    borderRadius="md"
+                    backdropFilter={'blur(5px)'}
+                    _hover={{ bg: 'gray.600' }}
+                    justify="space-between"
+                  >
+                    <HStack spacing={3}>
+                      <Badge
+                        colorScheme="pink"
+                        fontSize="sm"
+                        px={2}
+                        py={1}
+                        borderRadius="md"
+                      >
+                        {release.year}
+                      </Badge>
+                      <Text color="white" fontSize={{ base: 'md', md: 'lg' }}>
+                        {release.title}
+                      </Text>
+                    </HStack>
+                    <Text color="gray.400" fontSize="sm">
+                      {release.type}
+                    </Text>
+                  </Flex>
+                </Link>
+              ))}
+            </Box>
+          </Box>
+        </Box>
+      </Box>
     </Main>
   );
 };

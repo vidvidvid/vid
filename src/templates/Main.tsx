@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import type { ReactNode } from 'react';
@@ -14,7 +14,14 @@ const Main = (props: IMainProps) => {
   const isHome = router.pathname === '/';
 
   return (
-    <Box h="100vh" w="100vw">
+    <div
+      style={{
+        height: isHome ? '100vh' : 'auto',
+        minHeight: '100vh',
+        width: '100vw',
+        overflowX: 'hidden',
+      }}
+    >
       {props.meta}
 
       {!isHome && (
@@ -36,16 +43,20 @@ const Main = (props: IMainProps) => {
         </Flex>
       )}
 
-      <Flex
-        w="full"
-        h="full"
-        justifyContent="center"
-        alignItems="center"
-        direction="column"
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          height: isHome ? '100%' : 'auto',
+          minHeight: isHome ? '100%' : undefined,
+          justifyContent: 'center',
+          alignItems: isHome ? 'center' : 'flex-start',
+          flexDirection: 'column',
+        }}
       >
         {props.children}
-      </Flex>
-    </Box>
+      </div>
+    </div>
   );
 };
 

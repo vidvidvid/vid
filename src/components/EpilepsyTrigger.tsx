@@ -10,30 +10,57 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useState } from 'react';
+
+import { hoverState } from '@/components/3js/Crazy';
 
 type EpilepsyTriggerProps = {
   title: string;
   location: string;
-  hoverEffect: number;
+  stripColor: string;
 };
 
 const EpilepsyTrigger = ({
   title,
   location,
-  hoverEffect,
+  stripColor,
 }: EpilepsyTriggerProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [hovered, setHovered] = useState(false);
 
   return (
     <>
       <Box
-        className={`hover-effect-${hoverEffect}`}
-        p={4}
+        position="relative"
         cursor="pointer"
         onClick={onOpen}
-        color="black"
+        onMouseEnter={() => {
+          hoverState.mode = 'imagery';
+          setHovered(true);
+        }}
+        onMouseLeave={() => {
+          hoverState.mode = null;
+          setHovered(false);
+        }}
       >
-        {title}
+        <Box
+          position="absolute"
+          top={0}
+          bottom={0}
+          left="50%"
+          width="100vw"
+          bg={hovered ? 'var(--strip-bg, #333)' : stripColor}
+          opacity={0.85}
+          zIndex={-1}
+          transform="translateX(-50%)"
+          cursor="pointer"
+        />
+        <Box
+          p={1}
+          style={{ color: hovered ? 'var(--label-color, white)' : 'black' }}
+        >
+          {title}
+        </Box>
       </Box>
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -41,7 +68,7 @@ const EpilepsyTrigger = ({
         <ModalContent>
           <ModalHeader>
             <Text color="#3ee587" fontSize={24}>
-              🚨 EPILEPSY WARNING 🚨
+              EPILEPSY WARNING
             </Text>
           </ModalHeader>
           <ModalCloseButton />
@@ -57,7 +84,6 @@ const EpilepsyTrigger = ({
             </Text>{' '}
             click
             <Button
-              className="hover-effect-5"
               p={4}
               mt={-2}
               color="#76eaff"

@@ -1,4 +1,5 @@
 import { Grid } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import React from 'react';
 
 import CodeCard from '@/components/CodeCard';
@@ -6,6 +7,45 @@ import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
 const projects = [
+  {
+    name: 'Ecliptica',
+    description: 'AI-powered financial intelligence for crypto markets.',
+    websiteLink: 'https://www.strata.ecliptica.ai/',
+  },
+  {
+    name: 'Nerite',
+    description:
+      'decentralized borrowing protocol with the first natively streamable stablecoin.',
+    websiteLink: 'https://www.nerite.org/',
+    githubLink: 'https://github.com/NeriteOrg/nerite',
+  },
+  {
+    name: 'Liquity',
+    description: 'governance-free borrowing protocol on Ethereum.',
+    websiteLink: 'https://www.liquity.org/',
+    githubLink: 'https://github.com/liquity',
+  },
+  {
+    name: 'Must Finance',
+    description:
+      'decentralized borrowing against multiple collateral types on Saga.',
+    websiteLink: 'https://app.must.finance/',
+  },
+  {
+    name: 'Optimism Retro Funding',
+    description: 'frontend lead for retroactive public goods funding rounds.',
+    websiteLink: 'https://round5.optimism.io/',
+  },
+  {
+    name: 'TokiFlow',
+    description:
+      'team timeline & Gantt chart app with Linear/GitHub integrations.',
+  },
+  {
+    name: 'HackerTracker',
+    description: 'hackathon aggregator with AI-powered opportunity scoring.',
+    websiteLink: 'https://hackertracker-production.up.railway.app/',
+  },
   {
     name: 'JanitorAI',
     description: 'anime-style character chat robot website.',
@@ -69,6 +109,15 @@ const projects = [
   },
 ];
 
+function seededRandom(seed: string): number {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i += 1) {
+    // eslint-disable-next-line no-bitwise
+    hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return ((hash % 400) - 200) / 100; // range -2 to 2
+}
+
 const Code = () => (
   <Main meta={<Meta title="Code" description="Projects I contribute to." />}>
     <Grid
@@ -78,20 +127,31 @@ const Code = () => (
         lg: 'repeat(3, 1fr)',
       }}
       gap={6}
-      // mt={200}
-      h="100vh"
       py={20}
       mb={10}
     >
       {projects.map((project, index) => (
-        <CodeCard
-          key={index}
-          image={project.image}
-          name={project.name}
-          description={project.description}
-          githubLink={project.githubLink}
-          websiteLink={project.websiteLink}
-        />
+        <motion.div
+          key={project.name}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: index * 0.08,
+            ease: 'easeOut',
+          }}
+          style={{
+            rotate: `${seededRandom(project.name)}deg`,
+          }}
+        >
+          <CodeCard
+            image={project.image}
+            name={project.name}
+            description={project.description}
+            githubLink={project.githubLink}
+            websiteLink={project.websiteLink}
+          />
+        </motion.div>
       ))}
     </Grid>
   </Main>
