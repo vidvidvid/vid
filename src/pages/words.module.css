@@ -1,0 +1,109 @@
+.libraryButton {
+  position: absolute;
+  left: 20px;
+  top: 56px;
+  background: none;
+  border: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 1rem;
+}
+
+.libraryButton:hover {
+  opacity: 0.8;
+}
+
+.libraryIcon {
+  width: 32px;
+  height: 32px;
+  margin-right: 12px;
+  filter: invert();
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 320px;
+  height: 100vh;
+  background: #1a1a2e;
+  z-index: 1002;
+  padding: 24px;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.drawerBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+}
+
+.drawerHeader {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.drawerClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--white-alpha-500);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.drawerClose:hover {
+  color: #fff;
+}
+
+.sectionTitle {
+  margin-bottom: 12px;
+  text-align: right;
+}
+
+.sectionTitleSpaced {
+  margin-bottom: 12px;
+  margin-top: 32px;
+  text-align: right;
+}
+
+.bookList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bookItem {
+  display: flex;
+  align-items: baseline;
+  cursor: pointer;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.bookItem:hover {
+  text-decoration: underline;
+}
+
+.bookSubtitle {
+  font-size: 0.75rem;
+  margin-left: 8px;
+  color: var(--gray-400);
+  text-align: right;
+}
+
+.mobileMessage {
+  padding: 40px;
+}

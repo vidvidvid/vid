@@ -1,8 +1,9 @@
-import { Code, Dialog, Flex, Grid, Image, Portal } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import YouTube from 'react-youtube';
 
 import Card from './Card';
+import styles from './Gallery.module.css';
 
 type GalleryProps = {
   imagery: {
@@ -15,6 +16,7 @@ type GalleryProps = {
 const Gallery = ({ imagery }: GalleryProps) => {
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   const breakpoint =
     typeof window !== 'undefined' && window.innerWidth < 480 ? 'base' : 'sm';
@@ -23,6 +25,16 @@ const Gallery = ({ imagery }: GalleryProps) => {
     setSelectedImage(image);
     setOpen(true);
   };
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (open) {
+      dialog.showModal();
+    } else {
+      dialog.close();
+    }
+  }, [open]);
 
   useEffect(() => {
     const colors = [
@@ -44,89 +56,65 @@ const Gallery = ({ imagery }: GalleryProps) => {
   const opts =
     breakpoint === 'base' ? { width: '100%', height: 'auto' } : undefined;
 
+  const dialogContent = (
+    <dialog
+      ref={dialogRef}
+      onClose={() => setOpen(false)}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) setOpen(false);
+      }}
+      className={styles.dialogContent}
+    >
+      <button className={styles.closeButton} onClick={() => setOpen(false)}>
+        ✕
+      </button>
+      {selectedImage && (
+        <img
+          alt="image"
+          src={selectedImage}
+          className={styles.dialogImage}
+        />
+      )}
+    </dialog>
+  );
+
   return (
-    <Flex flexWrap="wrap" justifyContent="center" h="100vh" mt={32}>
-      <Flex
-        justifyContent="space-between"
-        mb={2}
-        className="frame"
-        id="videos"
-        gap={3}
-        direction={{
-          base: 'column',
-          sm: 'row',
-        }}
-        w="100vw"
-      >
+    <div className={styles.wrapper}>
+      <div className={`${styles.videoRow} frame`} id="videos">
         <YouTube videoId="UdimcciEJh8" opts={opts} />
-        <Flex gap={3}>
-          <Code p={2} color="black" h="min-content">
+        <div className={styles.codeRow}>
+          <span className={styles.code}>
             &#8592; When I was listening to this song in high school I realised
             these lyrics need to be visualised, so I did.
-          </Code>
-          <Code p={2} color="black" h="min-content">
+          </span>
+          <span className={styles.code}>
             My first frame-by-frame animation. Guy farts himself to death.
             &#8594;
-          </Code>
-        </Flex>
+          </span>
+        </div>
         <YouTube videoId="kPnHaL9bhGk" opts={opts} />
-      </Flex>
-      <Grid
-        templateColumns={{
-          base: 'repeat(1, 1fr)',
-          sm: 'repeat(2, 1fr)',
-          md: 'repeat(3, 1fr)',
-          lg: 'repeat(4, 1fr)',
-        }}
-        gap={2}
-        minH="300px"
-        w="100vw"
-        position="relative"
-      >
+      </div>
+      <div className={styles.grid}>
         {imagery.map(({ image, description }, index) => (
           <Card
             key={index}
             element={
-              <Image
-                alignSelf="center"
+              <img
+                className={styles.galleryImage}
                 alt="image"
                 onClick={() => {
                   if (image) handleImageClick(image);
                 }}
                 src={image}
-                w="100%"
-                h="auto"
-                objectFit="cover"
-                borderRadius="md"
-                cursor="pointer"
               />
             }
             index={index}
             description={description}
           />
         ))}
-      </Grid>
-      <Dialog.Root open={open} onOpenChange={(details: { open: boolean }) => setOpen(details.open)}>
-        <Portal>
-          <Dialog.Backdrop />
-          <Dialog.Positioner>
-            <Dialog.Content maxW="70%">
-              <Dialog.CloseTrigger background="gray.400" />
-              {selectedImage && (
-                <Image
-                  alt="image"
-                  src={selectedImage}
-                  w="100%"
-                  h="auto"
-                  objectFit="cover"
-                  borderRadius="md"
-                />
-              )}
-            </Dialog.Content>
-          </Dialog.Positioner>
-        </Portal>
-      </Dialog.Root>
-    </Flex>
+      </div>
+      {typeof document !== 'undefined' && createPortal(dialogContent, document.body)}
+    </div>
   );
 };
 

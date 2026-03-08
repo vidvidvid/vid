@@ -1,7 +1,8 @@
-import { Flex } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import type { ReactNode } from 'react';
+
+import styles from './Main.module.css';
 
 type IMainProps = {
   meta: ReactNode;
@@ -10,7 +11,6 @@ type IMainProps = {
 
 const Main = (props: IMainProps) => {
   const router = useRouter();
-
   const isHome = router.pathname === '/';
 
   return (
@@ -25,22 +25,13 @@ const Main = (props: IMainProps) => {
       {props.meta}
 
       {!isHome && (
-        <Flex
-          h={12}
-          position="fixed"
-          w="full"
-          justifyContent="center"
-          gap={3}
-          alignItems="center"
-          bgColor="blackAlpha.800"
-          zIndex={1}
-        >
+        <div className={styles.navbar}>
           <Link href="/">Home</Link>
           <Link href="/code">Code</Link>
           <Link href="/music">Music</Link>
           <Link href="/imagery">Imagery</Link>
           <Link href="/words">Words</Link>
-        </Flex>
+        </div>
       )}
 
       <div
@@ -50,7 +41,7 @@ const Main = (props: IMainProps) => {
           height: isHome ? '100%' : 'auto',
           minHeight: isHome ? '100%' : undefined,
           justifyContent: 'center',
-          alignItems: isHome ? 'center' : 'flex-start',
+          alignItems: isHome ? 'center' : 'stretch',
           flexDirection: 'column',
         }}
       >

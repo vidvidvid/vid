@@ -1,0 +1,20 @@
+.navbar {
+  height: 48px;
+  position: fixed;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  align-items: center;
+  background-color: var(--black-alpha-800);
+  z-index: 1;
+}
+
+.navbar a {
+  color: var(--white-alpha-800);
+  transition: color 0.2s;
+}
+
+.navbar a:hover {
+  color: #fff;
+}

@@ -16,8 +16,6 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
-    "@chakra-ui/react": "^3.0.0",
-    "@emotion/react": "^11.10.5",
     "@fontsource/sono": "^4.5.1",
     "@next/bundle-analyzer": "^15.0.0",
     "@react-three/drei": "^10.0.0",
@@ -25,7 +23,7 @@
     "@types/three": "^0.170.0",
     "motion": "^11.0.0",
     "next": "^15.0.0",
-"next-sitemap": "^4.0.0",
+    "next-sitemap": "^4.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-pdf": "^9.0.0",
@@ -38,6 +36,7 @@
     "@commitlint/cz-commitlint": "^19.0.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.13",
     "commitizen": "^4.3.0",
     "cssnano": "^5.1.14",

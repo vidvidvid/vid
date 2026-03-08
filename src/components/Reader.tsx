@@ -1,8 +1,9 @@
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
-import { Box, Button, Flex } from '@chakra-ui/react';
 import { Document, Page, pdfjs } from 'react-pdf';
+
+import styles from './Reader.module.css';
 
 interface ReaderProps {
   url: string;
@@ -28,35 +29,27 @@ const Reader: React.FC<ReaderProps> = ({
   };
 
   return (
-    <Box
-      height="100vh"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <Flex w="full" h="full" alignItems="center">
-        <Button
-          variant="ghost"
+    <div className={styles.container}>
+      <div className={styles.inner}>
+        <button
+          className={`${styles.navButton} ${styles.prevButton}`}
           disabled={currentPage === 1}
           onClick={handlePrevPage}
-          mr={3}
         >
           &#8592;
-        </Button>
+        </button>
         <Document file={url} onLoadSuccess={handleDocumentLoadSuccess}>
           <Page pageNumber={currentPage} />
         </Document>
-        <Button
-          variant="ghost"
+        <button
+          className={`${styles.navButton} ${styles.nextButton}`}
           disabled={currentPage === numPagez}
           onClick={handleNextPage}
-          ml={3}
         >
           &#8594;
-        </Button>
-      </Flex>
-    </Box>
+        </button>
+      </div>
+    </div>
   );
 };
 

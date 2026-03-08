@@ -1,4 +1,3 @@
-import { VStack } from '@chakra-ui/react';
 import { useMemo } from 'react';
 
 import Crazy from '@/components/3js/Crazy';
@@ -8,17 +7,11 @@ import StripButton from '@/components/StripButton';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
+import styles from './index.module.css';
+
 const BRIGHT_COLORS = [
-  '#FF3366',
-  '#FF6633',
-  '#FFCC00',
-  '#33FF66',
-  '#00CCFF',
-  '#6633FF',
-  '#FF33CC',
-  '#33FFCC',
-  '#FF9900',
-  '#00FF99',
+  '#FF3366', '#FF6633', '#FFCC00', '#33FF66', '#00CCFF',
+  '#6633FF', '#FF33CC', '#33FFCC', '#FF9900', '#00FF99',
 ];
 
 const pickColor = () =>
@@ -46,22 +39,18 @@ const Index = () => {
     >
       <Crazy />
 
-      <VStack fontSize={30} zIndex={1001} px={6} gap={8}>
+      <div className={styles.nav}>
         <StripButton
           label="Code"
           mode="code"
           stripColor={colors.code}
-          onClick={() => {
-            window.location.href = '/code';
-          }}
+          onClick={() => { window.location.href = '/code'; }}
         />
         <StripButton
           label="Music"
           mode="music"
           stripColor={colors.music}
-          onClick={() => {
-            window.location.href = '/music';
-          }}
+          onClick={() => { window.location.href = '/music'; }}
         />
         <EpilepsyTrigger
           title="Imagery"
@@ -72,11 +61,9 @@ const Index = () => {
           label="Words"
           mode="words"
           stripColor={colors.words}
-          onClick={() => {
-            window.location.href = '/words';
-          }}
+          onClick={() => { window.location.href = '/words'; }}
         />
-      </VStack>
+      </div>
 
       <Footer />
     </Main>

@@ -1,19 +1,9 @@
-import {
-  AspectRatio,
-  Badge,
-  Box,
-  Flex,
-  HStack,
-  Image,
-  Link,
-  SimpleGrid,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
+
+import styles from './music.module.css';
 
 const Music = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -27,98 +17,37 @@ const Music = () => {
 
   return (
     <Main meta={<Meta title="Music" description="My music" />}>
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        position="absolute"
-        top={0}
-        left={0}
-        right={0}
-        bottom={0}
-        backgroundImage={'url(/assets/music/background.gif)'}
-        backgroundSize="cover"
-        backgroundPosition="center"
-        overflowY="auto"
-        pb={10}
-      >
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          gap={6}
-          px={{ base: 0, md: 20 }}
-          py={{ base: 10, md: 20 }}
-          h="full"
-          width="full"
-        >
+      <div className={styles.page}>
+        <div className={styles.content}>
           {!isMobile && (
-            <Box display="flex" flexDirection="column" gap={4} width="full">
-              <Link
+            <div className={styles.albumLinks}>
+              <a
                 href="https://soundcloud.com/malarozamuca/sets/lambda-male"
                 target="_blank"
                 rel="noopener noreferrer"
-                width="full"
               >
-                <Flex
-                  alignItems="center"
-                  boxShadow="0px 0px 8px #000000"
-                  width="full"
-                  p={6}
-                  borderRadius="md"
-                  backdropFilter={'blur(8px)'}
-                  bg="blackAlpha.400"
-                  _hover={{ bg: 'gray.600' }}
-                  justify="center"
-                  border="1px solid"
-                  borderColor="pink.300"
-                >
-                  <Text
-                    fontSize={{
-                      base: 36,
-                      md: 80,
-                    }}
-                    color="pink.100"
-                    textAlign="center"
-                    fontWeight="bold"
-                  >
+                <div className={styles.albumLink}>
+                  <span className={styles.albumTitle}>
                     Λ♂ LAMBDA MALE
-                  </Text>
-                </Flex>
-              </Link>
-              <Link
+                  </span>
+                </div>
+              </a>
+              <a
                 href="https://soundcloud.com/malarozamuca/sets/magma-puding-1"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Flex
-                  alignItems="center"
-                  boxShadow="0px 0px 5px #000000"
-                  width="full"
-                  p={4}
-                  borderRadius="md"
-                  backdropFilter={'blur(5px)'}
-                  _hover={{ bg: 'gray.600' }}
-                  justify="center"
-                >
-                  <Text
-                    fontSize={{
-                      base: 24,
-                      md: 48,
-                    }}
-                    color="pink.200"
-                    textAlign="center"
-                  >
+                <div className={styles.secondaryLink}>
+                  <span className={styles.secondaryTitle}>
                     🍮 MAGMA PUDING 🫠
-                  </Text>
-                </Flex>
-              </Link>
-            </Box>
+                  </span>
+                </div>
+              </a>
+            </div>
           )}
 
-          <Box width="full">
-            <SimpleGrid columns={isMobile ? 1 : 2} gap={4} mb={8}>
+          <div style={{ width: '100%' }}>
+            <div className={styles.videoGrid}>
               {[
                 'https://www.youtube.com/embed/3_FhRjYvFLo',
                 'https://www.youtube.com/embed/hL1JlhjoAGE',
@@ -126,24 +55,19 @@ const Music = () => {
                 'https://www.youtube.com/embed/BCIssMctm7s',
                 'https://www.youtube.com/embed/nAAXQ7M-5L8',
               ].map((videoSrc) => (
-                <AspectRatio ratio={16 / 9} key={videoSrc}>
+                <div className={styles.aspectRatio} key={videoSrc}>
                   <iframe
                     src={videoSrc}
                     allowFullScreen
                     title="YouTube Video"
                   />
-                </AspectRatio>
+                </div>
               ))}
-            </SimpleGrid>
-          </Box>
+            </div>
+          </div>
 
-          <SimpleGrid
-            columns={isMobile ? 1 : 2}
-            gap={8}
-            width="full"
-            pb={20}
-          >
-            <Stack>
+          <div className={styles.twoColGrid}>
+            <div className={styles.stack}>
               {[
                 {
                   href: 'https://open.spotify.com/artist/7FuUBYVB5laxuMXLDAeIGz',
@@ -171,37 +95,26 @@ const Music = () => {
                   text: 'YouTube',
                 },
               ].map((linkData) => (
-                <Link
+                <a
                   href={linkData.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   key={linkData.href}
-                  width="full"
+                  style={{ width: '100%' }}
                 >
-                  <Flex
-                    alignItems="center"
-                    boxShadow="0px 0px 5px #000000"
-                    width="full"
-                    p={4}
-                    borderRadius="md"
-                    backdropFilter={'blur(5px)'}
-                    _hover={{ bg: 'gray.600' }}
-                    direction="row"
-                    justify="space-between"
-                  >
-                    <Image
+                  <div className={styles.musicLinkRow}>
+                    <img
                       src={linkData.img}
-                      boxSize="50px"
+                      className={styles.musicImage}
                       alt={linkData.text}
-                      mr={4}
                     />
-                    <Text>{linkData.text}</Text>
-                  </Flex>
-                </Link>
+                    <span>{linkData.text}</span>
+                  </div>
+                </a>
               ))}
-            </Stack>
+            </div>
 
-            <Stack>
+            <div className={styles.stack}>
               {[
                 {
                   href: 'https://radiostudent.si/glasba/tolpa-bumov/mala-roza-muca-magma-puding',
@@ -212,40 +125,24 @@ const Music = () => {
                   text: 'Review of mala roza muca by Špela Cvetko',
                 },
               ].map((linkData) => (
-                <Link
+                <a
                   href={linkData.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   key={linkData.href}
-                  width="full"
+                  style={{ width: '100%' }}
                 >
-                  <Flex
-                    alignItems="center"
-                    boxShadow="0px 0px 5px #000000"
-                    width="full"
-                    p={4}
-                    borderRadius="md"
-                    backdropFilter={'blur(5px)'}
-                    _hover={{ bg: 'gray.600' }}
-                    justify="space-between"
-                  >
-                    <Text>{linkData.text}</Text>
-                  </Flex>
-                </Link>
+                  <div className={styles.musicLinkRow}>
+                    <span>{linkData.text}</span>
+                  </div>
+                </a>
               ))}
-            </Stack>
-          </SimpleGrid>
+            </div>
+          </div>
 
-          <Box width="full" pb={20}>
-            <Text
-              fontSize={{ base: 24, md: 36 }}
-              color="pink.200"
-              textAlign="center"
-              mb={6}
-            >
-              Releases
-            </Text>
-            <Box display="flex" flexDirection="column" gap={3} width="full">
+          <div style={{ width: '100%', paddingBottom: 80 }}>
+            <p className={styles.releasesTitle}>Releases</p>
+            <div className={styles.releaseList}>
               {[
                 {
                   title: 'Λ♂ (Lambda Male)',
@@ -284,47 +181,28 @@ const Music = () => {
                   href: 'https://soundcloud.com/malarozamuca/sets/magma-puding-1',
                 },
               ].map((release) => (
-                <Link
+                <a
                   href={release.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   key={release.title}
-                  width="full"
+                  style={{ width: '100%' }}
                 >
-                  <Flex
-                    alignItems="center"
-                    boxShadow="0px 0px 5px #000000"
-                    width="full"
-                    p={4}
-                    borderRadius="md"
-                    backdropFilter={'blur(5px)'}
-                    _hover={{ bg: 'gray.600' }}
-                    justify="space-between"
-                  >
-                    <HStack gap={3}>
-                      <Badge
-                        colorPalette="pink"
-                        fontSize="sm"
-                        px={2}
-                        py={1}
-                        borderRadius="md"
-                      >
-                        {release.year}
-                      </Badge>
-                      <Text color="white" fontSize={{ base: 'md', md: 'lg' }}>
+                  <div className={styles.releaseRow}>
+                    <div className={styles.releaseInfo}>
+                      <span className={styles.badge}>{release.year}</span>
+                      <span className={styles.releaseTitle}>
                         {release.title}
-                      </Text>
-                    </HStack>
-                    <Text color="gray.400" fontSize="sm">
-                      {release.type}
-                    </Text>
-                  </Flex>
-                </Link>
+                      </span>
+                    </div>
+                    <span className={styles.releaseType}>{release.type}</span>
+                  </div>
+                </a>
               ))}
-            </Box>
-          </Box>
-        </Box>
-      </Box>
+            </div>
+          </div>
+        </div>
+      </div>
     </Main>
   );
 };

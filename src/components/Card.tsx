@@ -1,5 +1,6 @@
-import { Box, Code, Flex } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
+
+import styles from './Card.module.css';
 
 interface CardProps {
   element: React.ReactElement;
@@ -28,28 +29,15 @@ const Card: React.FC<CardProps> = ({ element, description, index }) => {
   }, []);
 
   return (
-    <Box
-      alignItems="center"
-      justifyContent="center"
+    <div
+      className={`${styles.card} frame`}
       id={`image-${index.toString()}`}
-      w="100%"
-      h="100%"
-      position="relative"
-      className="frame"
     >
-      <Flex
-        w="full"
-        h="full"
-        direction="column"
-        alignItems="center"
-        justifyContent="space-between"
-      >
+      <div className={styles.inner}>
         {element}
-        <Code pt={3} textAlign="justify" fontSize={12} p={2} color="black">
-          {description}
-        </Code>
-      </Flex>
-    </Box>
+        <span className={styles.code}>{description}</span>
+      </div>
+    </div>
   );
 };
 

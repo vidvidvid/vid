@@ -1,4 +1,3 @@
-import { Flex, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
 interface CountdownTimerProps {
@@ -33,19 +32,16 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ date }) => {
     const intervalId = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
-    <Flex gap={1}>
-      <Text>{timeLeft.days}d</Text>
-      <Text>{timeLeft.hours}h</Text>
-      <Text>{timeLeft.minutes}m</Text>
-      <Text>{timeLeft.seconds}s</Text>
-    </Flex>
+    <div style={{ display: 'flex', gap: 4 }}>
+      <span>{timeLeft.days}d</span>
+      <span>{timeLeft.hours}h</span>
+      <span>{timeLeft.minutes}m</span>
+      <span>{timeLeft.seconds}s</span>
+    </div>
   );
 };
 

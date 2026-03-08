@@ -1,10 +1,11 @@
-import { Grid } from '@chakra-ui/react';
 import { motion } from 'motion/react';
 import React from 'react';
 
 import CodeCard from '@/components/CodeCard';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
+
+import styles from './code.module.css';
 
 const projects = [
   {
@@ -98,7 +99,7 @@ const projects = [
     githubLink: 'https://github.com/rite-of-moloch',
     websiteLink: 'https://rite-of-moloch-v1.vercel.app/',
   },
-{
+  {
     name: 'MeisterNote',
     description: 'an online documentation software.',
     image: 'meisternote.svg',
@@ -114,20 +115,7 @@ const projects = [
 
 const Code = () => (
   <Main meta={<Meta title="Code" description="Projects I contribute to." />}>
-    <Grid
-      templateColumns={{
-        base: 'repeat(1, 1fr)',
-        md: 'repeat(2, 1fr)',
-        lg: 'repeat(3, 1fr)',
-      }}
-      gap={4}
-      py={20}
-      mb={10}
-      mx="auto"
-      px={6}
-      maxW="1200px"
-      w="full"
-    >
+    <div className={styles.grid}>
       {projects.map((project, index) => (
         <motion.div
           key={project.name}
@@ -150,7 +138,7 @@ const Code = () => (
           />
         </motion.div>
       ))}
-    </Grid>
+    </div>
   </Main>
 );
 

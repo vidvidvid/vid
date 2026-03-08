@@ -1,5 +1,4 @@
-import { Box, Flex, Image, Link, Text } from '@chakra-ui/react';
-
+import styles from './CodeCard.module.css';
 import { GithubIcon } from './icons/GithubIcon';
 
 interface Props {
@@ -31,122 +30,60 @@ const CodeCard = ({
   hobby,
 }: Props) => {
   const fallbackHue = hashName(name);
+  const cardVariant = current
+    ? styles.cardCurrent
+    : hobby
+      ? styles.cardHobby
+      : styles.cardDefault;
 
   return (
-    <Link
+    <a
       href={websiteLink ?? '#'}
       target={websiteLink ? '_blank' : undefined}
       rel={websiteLink ? 'noopener noreferrer' : undefined}
-      _hover={{ textDecoration: 'none' }}
+      className={styles.link}
     >
-      <Box
-        borderWidth="1px"
-        borderColor={
-          current ? 'green.700' : hobby ? 'purple.800' : 'whiteAlpha.100'
-        }
-        borderRadius="xl"
-        overflow="hidden"
-        bg={current || hobby ? 'whiteAlpha.100' : 'whiteAlpha.50'}
-        transition="all 0.25s ease"
-        _hover={{
-          transform: 'translateY(-4px)',
-          borderColor: current
-            ? 'green.500'
-            : hobby
-              ? 'purple.500'
-              : 'whiteAlpha.300',
-          bg: 'whiteAlpha.100',
-          boxShadow: current
-            ? '0 8px 30px rgba(45, 248, 199, 0.1)'
-            : hobby
-              ? '0 8px 30px rgba(199, 45, 248, 0.1)'
-              : '0 8px 30px rgba(0, 0, 0, 0.3)',
-        }}
-        w="full"
-        h="full"
-      >
-        <Flex align="center" h="full" p={5} gap={5}>
+      <div className={`${styles.card} ${cardVariant}`}>
+        <div className={styles.content}>
           {image ? (
-            <Image
+            <img
               src={`/assets/code/${image}`}
               alt={name}
-              objectFit="contain"
-              w="56px"
-              h="56px"
-              flexShrink={0}
-              borderRadius="lg"
+              className={styles.image}
             />
           ) : (
-            <Flex
-              w="56px"
-              h="56px"
-              minW="56px"
-              borderRadius="lg"
-              bg={`hsl(${fallbackHue}, 40%, 30%)`}
-              align="center"
-              justify="center"
-              flexShrink={0}
+            <div
+              className={styles.fallbackIcon}
+              style={{ background: `hsl(${fallbackHue}, 40%, 30%)` }}
             >
-              <Text
-                fontSize="xl"
-                fontWeight="bold"
-                color="whiteAlpha.800"
-                userSelect="none"
-              >
+              <span className={styles.fallbackLetter}>
                 {name.charAt(0).toUpperCase()}
-              </Text>
-            </Flex>
+              </span>
+            </div>
           )}
 
-          <Box flex={1} minW={0}>
-            <Flex alignItems="center" gap={2}>
-              <Text fontSize="md" fontWeight="semibold" color="whiteAlpha.900">
-                {name}
-              </Text>
-              {current && (
-                <Text
-                  fontSize="xs"
-                  color="green.400"
-                  fontWeight="medium"
-                  letterSpacing="wide"
-                >
-                  current
-                </Text>
-              )}
-              {hobby && (
-                <Text
-                  fontSize="xs"
-                  color="purple.400"
-                  fontWeight="medium"
-                  letterSpacing="wide"
-                >
-                  hobby
-                </Text>
-              )}
+          <div className={styles.info}>
+            <div className={styles.nameRow}>
+              <span className={styles.name}>{name}</span>
+              {current && <span className={styles.currentBadge}>current</span>}
+              {hobby && <span className={styles.hobbyBadge}>hobby</span>}
               {githubLink && (
-                <Link
+                <a
                   href={githubLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  color="whiteAlpha.400"
-                  transition="color 0.2s"
-                  _hover={{
-                    color: 'whiteAlpha.800',
-                  }}
+                  className={styles.githubLink}
                   onClick={(e) => e.stopPropagation()}
                 >
                   <GithubIcon />
-                </Link>
+                </a>
               )}
-            </Flex>
-
-            <Text mt={1.5} fontSize="sm" color="whiteAlpha.500" lineClamp={2}>
-              {description}
-            </Text>
-          </Box>
-        </Flex>
-      </Box>
-    </Link>
+            </div>
+            <p className={styles.description}>{description}</p>
+          </div>
+        </div>
+      </div>
+    </a>
   );
 };
 

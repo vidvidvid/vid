@@ -1,0 +1,59 @@
+.dialogContent {
+  background: #1a1a2e;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 500px;
+  width: 90vw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1002;
+}
+
+.dialogTitle {
+  color: #3ee587;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.dialogBody {
+  font-size: 20px;
+}
+
+.doNot {
+  display: inline-flex;
+  color: #ff11a6;
+  font-size: 30px;
+  text-decoration: underline;
+}
+
+.hereButton {
+  padding: 16px;
+  margin-top: -8px;
+  color: #76eaff;
+  margin-left: 4px;
+  font-size: 30px;
+  background: none;
+  border: none;
+}
+
+.hereButton:hover {
+  opacity: 0.8;
+}
+
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--white-alpha-500);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  color: #fff;
+}

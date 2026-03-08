@@ -1,7 +1,8 @@
-import { Box } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 
 import { hoverState } from '@/components/3js/Crazy';
+
+import styles from './StripButton.module.css';
 
 type StripButtonProps = {
   label: string;
@@ -10,24 +11,16 @@ type StripButtonProps = {
   onClick: () => void;
 };
 
-
-const StripButton = ({
-  label,
-  mode,
-  stripColor,
-  onClick,
-}: StripButtonProps) => {
+const StripButton = ({ label, mode, stripColor, onClick }: StripButtonProps) => {
   const [hovered, setHovered] = useState(false);
   const labelRef = useRef<HTMLDivElement>(null);
   const stripRef = useRef<HTMLDivElement>(null);
 
-  // Continuously read the strip's actual bg color and set complementary text
   useEffect(() => {
     let raf: number;
     const update = () => {
       if (labelRef.current && stripRef.current) {
         const computed = getComputedStyle(stripRef.current).backgroundColor;
-        // Parse rgb(r, g, b) or rgba(r, g, b, a)
         const rgbMatch = computed.match(
           /rgba?\(\s*([\d.]+),\s*([\d.]+),\s*([\d.]+)/
         );
@@ -42,15 +35,13 @@ const StripButton = ({
           let s = 0;
           if (max !== min) {
             const d = max - min;
-            s =
-              (l > 50 ? d / (2 - max - min) : d / (max + min)) * 100;
+            s = (l > 50 ? d / (2 - max - min) : d / (max + min)) * 100;
             if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) * 60;
             else if (max === g) h = ((b - r) / d + 2) * 60;
             else h = ((r - g) / d + 4) * 60;
           }
           const textH = (h + 180) % 360;
-          const textL =
-            l > 50 ? Math.max(10, l - 45) : Math.min(90, l + 45);
+          const textL = l > 50 ? Math.max(10, l - 45) : Math.min(90, l + 45);
           labelRef.current.style.color = `hsl(${textH}, ${Math.min(s, 90)}%, ${textL}%)`;
         }
       }
@@ -61,9 +52,8 @@ const StripButton = ({
   }, []);
 
   return (
-    <Box
-      position="relative"
-      cursor="pointer"
+    <div
+      className={styles.wrapper}
       onClick={onClick}
       onMouseEnter={() => {
         hoverState.mode = mode;
@@ -74,27 +64,15 @@ const StripButton = ({
         setHovered(false);
       }}
     >
-      <Box
+      <div
         ref={stripRef}
-        position="absolute"
-        top={0}
-        bottom={0}
-        left="50%"
-        width="100vw"
-        bg={hovered ? 'var(--strip-bg, #333)' : stripColor}
-        opacity={0.85}
-        zIndex={-1}
-        transform="translateX(-50%)"
-        cursor="pointer"
+        className={styles.strip}
+        style={{ backgroundColor: hovered ? 'var(--strip-bg, #333)' : stripColor }}
       />
-      <Box
-        ref={labelRef}
-        p={1}
-        style={{ color: 'white' }}
-      >
+      <div ref={labelRef} className={styles.label}>
         {label}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 
