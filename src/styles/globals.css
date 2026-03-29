@@ -72,6 +72,17 @@ body {
   color: #fff;
   color-scheme: dark;
   -webkit-font-smoothing: antialiased;
+  cursor: none;
+}
+
+/* Keep pointer on interactive elements for accessibility */
+a,
+button,
+[role='button'],
+input,
+select,
+textarea {
+  cursor: none;
 }
 
 a {
