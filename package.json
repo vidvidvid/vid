@@ -16,6 +16,7 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
+    "@chenglou/pretext": "^0.0.3",
     "@fontsource/sono": "^4.5.1",
     "@next/bundle-analyzer": "^15.0.0",
     "@react-three/drei": "^10.0.0",
