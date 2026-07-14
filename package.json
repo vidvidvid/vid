@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "serve out -l ${PORT:-3000}",
     "build-stats": "cross-env ANALYZE=true npm run build",
     "build-prod": "run-s clean build",
     "clean": "rimraf .next out",
@@ -29,6 +29,7 @@
     "react-dom": "^19.0.0",
     "react-pdf": "^9.0.0",
     "react-youtube": "^10.1.0",
+    "serve": "^14.2.4",
     "three": "^0.170.0"
   },
   "devDependencies": {
