@@ -1,0 +1,77 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  background: #07080a;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+  overflow: hidden;
+}
+:global(body):has(.overlay) {
+  overflow: hidden;
+}
+.overlay[data-phase="leaving"] {
+  opacity: 0;
+}
+.center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: radial-gradient(
+    ellipse 28% 38% at 50% 48%,
+    #14152180,
+    transparent
+  );
+}
+.visual {
+  width: clamp(240px, 32vw, 380px);
+  aspect-ratio: 1;
+  transition:
+    transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.6s;
+}
+.overlay[data-phase="leaving"] .visual {
+  transform: scale(1.22);
+  filter: blur(8px);
+}
+.loading {
+  color: #a2a3b0;
+  font: 8px/1.5 var(--font-mono);
+  letter-spacing: 0.18em;
+  margin-top: -6px;
+  padding-left: 16px;
+}
+.loading span {
+  display: inline-block;
+  width: 16px;
+  animation: ellipsis 1.6s steps(4, end) infinite;
+  clip-path: inset(0 100% 0 0);
+}
+.signature {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: max(30px, env(safe-area-inset-bottom));
+  text-align: center;
+  font-size: 19px;
+  font-weight: 650;
+  letter-spacing: -0.075em;
+  opacity: 0.7;
+}
+.signature span:first-child {
+  color: var(--code-color);
+}
+.signature span:nth-child(2) {
+  color: var(--music-color);
+}
+.signature span:last-child {
+  color: var(--words-color);
+}
+@keyframes ellipsis {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}

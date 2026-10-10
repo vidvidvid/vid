@@ -16,6 +16,7 @@ type Props = {
   paused: boolean;
   variation: number;
   onReshape: () => void;
+  onReady?: () => void;
 };
 
 export default function LivingArtwork({
@@ -24,10 +25,18 @@ export default function LivingArtwork({
   paused,
   variation,
   onReshape,
+  onReady,
 }: Props) {
   const host = useRef<HTMLButtonElement>(null);
-  const latest = useRef({ mode, activeMode, paused, variation, onReshape });
-  latest.current = { mode, activeMode, paused, variation, onReshape };
+  const latest = useRef({
+    mode,
+    activeMode,
+    paused,
+    variation,
+    onReshape,
+    onReady,
+  });
+  latest.current = { mode, activeMode, paused, variation, onReshape, onReady };
 
   useEffect(() => {
     const element = host.current;
@@ -41,6 +50,7 @@ export default function LivingArtwork({
       });
     } catch {
       element.dataset.fallback = "true";
+      latest.current.onReady?.();
       return undefined;
     }
     const pixelRatio = Math.min(Math.max(window.devicePixelRatio, 1.25), 1.5);
@@ -89,6 +99,7 @@ export default function LivingArtwork({
     resizeObserver.observe(element);
     resize();
     let inView = true;
+    let painted = false;
     const intersection = new IntersectionObserver(([entry]) => {
       inView = !!entry?.isIntersecting;
     });
@@ -247,7 +258,7 @@ export default function LivingArtwork({
       const elapsed = (now - last) / 1000;
       const dt = Math.min(elapsed, 0.04);
       last = now;
-      if (!inView || document.hidden) return;
+      if ((!inView && painted) || document.hidden) return;
       const state = latest.current;
       const still = state.paused || reduced;
       const key = `${state.mode}:${state.activeMode}:${state.variation}`;
@@ -270,8 +281,7 @@ export default function LivingArtwork({
       if (reduced) uniforms.uEyeOpen.value = 1;
       if (!still && imagery) {
         eyeTime += dt;
-        if (eyeTime >= nextBlink && blinkStarted < 0)
-          blinkStarted = eyeTime;
+        if (eyeTime >= nextBlink && blinkStarted < 0) blinkStarted = eyeTime;
         if (blinkStarted >= 0) {
           const blinkAge = eyeTime - blinkStarted;
           // A quick close, a short rest, then a softer reopening.
@@ -387,6 +397,10 @@ export default function LivingArtwork({
       }
       renderer.render(scene, camera);
       element.dataset.ready = "true";
+      if (!painted) {
+        painted = true;
+        latest.current.onReady?.();
+      }
       needsRender = false;
       wasStatic = still;
       lastKey = key;
@@ -407,6 +421,7 @@ export default function LivingArtwork({
       event.preventDefault();
       element.dataset.fallback = "true";
       delete element.dataset.ready;
+      latest.current.onReady?.();
     };
     const contextRestored = () => {
       delete element.dataset.fallback;
