@@ -15,6 +15,37 @@ const seed = (n: number) => {
   return value - Math.floor(value);
 };
 
+const BLOOM_START = 1.7;
+const BLOOM_RINGS = 28;
+const BLOOM_POINTS = 144;
+const bloomRotation = (time: number) => Math.sin(time * 0.21) * 0.25 - 0.3;
+const bloomOpacity = (depth: number) => 0.28 + Math.sin(depth * Math.PI) * 0.65;
+
+function bloomPoint(depth: number, point: number, time: number) {
+  const radius = 16 + depth * 83;
+  const angle = (point / BLOOM_POINTS) * TAU;
+  const wave =
+    Math.sin(angle * 3 + time * 0.72 + depth * 2.3) * 0.13 +
+    Math.cos(angle * 2 - time * 0.48 + depth * 3) * 0.12 +
+    Math.sin(angle * 5 + time * 0.28 - depth * 2) * 0.035;
+  const twist = angle + Math.sin(depth * 3 + time * 0.45) * 0.28;
+  const breath = 1 + Math.sin(time * 0.9 - depth * 3) * 0.055;
+  return [
+    Math.cos(twist) * radius * (1 + wave) * breath,
+    Math.sin(twist) * radius * (1 + wave) * 0.89,
+  ] as const;
+}
+
+// The HTML artwork and the first canvas frame share the same geometry and phase.
+const bloomFirstFrame = Array.from({ length: BLOOM_RINGS }, (_, ring) => {
+  const depth = ring / (BLOOM_RINGS - 1);
+  const path = Array.from({ length: BLOOM_POINTS }, (__, point) => {
+    const [x, y] = bloomPoint(depth, point, BLOOM_START);
+    return `${point ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`;
+  }).join("");
+  return { path: `${path}Z`, opacity: bloomOpacity(depth) };
+});
+
 function bloom(context: CanvasRenderingContext2D, time: number) {
   const glow = context.createRadialGradient(0, 0, 10, 0, 0, 115);
   glow.addColorStop(0, "#cfacff13");
@@ -30,23 +61,14 @@ function bloom(context: CanvasRenderingContext2D, time: number) {
   color.addColorStop(1, "#f6ce86");
   context.strokeStyle = color;
   context.lineWidth = 0.7;
-  context.rotate(Math.sin(time * 0.21) * 0.25 - 0.3);
+  context.rotate(bloomRotation(time));
 
-  for (let ring = 0; ring < 28; ring++) {
-    const depth = ring / 27;
-    const radius = 16 + depth * 83;
-    context.globalAlpha = 0.28 + Math.sin(depth * Math.PI) * 0.65;
+  for (let ring = 0; ring < BLOOM_RINGS; ring++) {
+    const depth = ring / (BLOOM_RINGS - 1);
+    context.globalAlpha = bloomOpacity(depth);
     context.beginPath();
-    for (let point = 0; point <= 144; point++) {
-      const angle = (point / 144) * TAU;
-      const wave =
-        Math.sin(angle * 3 + time * 0.72 + depth * 2.3) * 0.13 +
-        Math.cos(angle * 2 - time * 0.48 + depth * 3) * 0.12 +
-        Math.sin(angle * 5 + time * 0.28 - depth * 2) * 0.035;
-      const twist = angle + Math.sin(depth * 3 + time * 0.45) * 0.28;
-      const breath = 1 + Math.sin(time * 0.9 - depth * 3) * 0.055;
-      const x = Math.cos(twist) * radius * (1 + wave) * breath;
-      const y = Math.sin(twist) * radius * (1 + wave) * 0.89;
+    for (let point = 0; point < BLOOM_POINTS; point++) {
+      const [x, y] = bloomPoint(depth, point, time);
       if (point === 0) context.moveTo(x, y);
       else context.lineTo(x, y);
     }
@@ -150,7 +172,8 @@ export default function LoadingVisual({ variant }: { variant: LoaderVariant }) {
     if (!element || !context) return undefined;
     const preference = matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
-    let time = variant === "assembly" && !preference.matches ? 0.15 : 1.7;
+    let time =
+      variant === "assembly" && !preference.matches ? 0.15 : BLOOM_START;
     let previous = 0;
     let inView = true;
     let width = 0;
@@ -227,25 +250,39 @@ export default function LoadingVisual({ variant }: { variant: LoaderVariant }) {
               x2="95"
               y2="80"
               gradientUnits="userSpaceOnUse"
+              gradientTransform={`rotate(${(-bloomRotation(BLOOM_START) * 180) / Math.PI})`}
             >
               <stop stopColor="#9aadff" />
               <stop offset=".42" stopColor="#cfacff" />
               <stop offset=".72" stopColor="#ff9eaf" />
               <stop offset="1" stopColor="#f6ce86" />
             </linearGradient>
-            <path
-              id={`${id}-contour`}
-              d="M91-23C113 6 91 32 72 54S28 97-6 89-81 74-92 41-59-11-44-41-27-97 7-91 69-54 91-23Z"
-            />
+            <radialGradient
+              id={`${id}-glow`}
+              cx="0"
+              cy="0"
+              r="115"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset=".087" stopColor="#cfacff" stopOpacity={19 / 255} />
+              <stop offset=".6804" stopColor="#9aadff" stopOpacity={9 / 255} />
+              <stop offset="1" stopColor="#9aadff" stopOpacity="0" />
+            </radialGradient>
           </defs>
-          <g stroke={`url(#${id}-color)`} strokeWidth=".8" opacity=".75">
-            {Array.from({ length: 22 }, (_, index) => (
-              <use
-                key={index}
-                href={`#${id}-contour`}
-                transform={`rotate(${(index - 11) * 1.8}) scale(${0.17 + index * 0.038})`}
-                vectorEffect="non-scaling-stroke"
-              />
+          <rect
+            x="-125"
+            y="-125"
+            width="250"
+            height="250"
+            fill={`url(#${id}-glow)`}
+          />
+          <g
+            stroke={`url(#${id}-color)`}
+            strokeWidth=".7"
+            transform={`rotate(${(bloomRotation(BLOOM_START) * 180) / Math.PI})`}
+          >
+            {bloomFirstFrame.map(({ path, opacity }) => (
+              <path key={path} d={path} opacity={opacity} />
             ))}
           </g>
         </svg>
