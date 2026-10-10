@@ -4,16 +4,19 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "serve out -l ${PORT:-3000}",
+    "start": "serve out --config ../serve.json -l ${PORT:-3000}",
     "build-stats": "cross-env ANALYZE=true npm run build",
     "build-prod": "run-s clean build",
     "clean": "rimraf .next out",
     "lint": "next lint",
     "format": "next lint --fix && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore",
     "check-types": "tsc",
+    "generate:icons": "node scripts/prepare-site-icons.cjs",
     "commit": "cz",
     "prepare": "husky",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "predev": "node scripts/prepare-pdf-worker.cjs && node scripts/prepare-artwork-previews.cjs",
+    "prebuild": "node scripts/prepare-pdf-worker.cjs && node scripts/prepare-artwork-previews.cjs"
   },
   "dependencies": {
     "@chenglou/pretext": "^0.0.3",
@@ -52,6 +55,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^3.0.0",
     "rimraf": "^5.0.0",
+    "sharp": "0.34.5",
     "typescript": "^5.7.0"
   },
   "config": {

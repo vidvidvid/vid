@@ -7,11 +7,8 @@ module.exports = withBundleAnalyzer({
   eslint: {
     dirs: ['.'],
   },
-  typescript: {
-    // Chakra UI v3 (@ark-ui/react) has type incompatibilities with React 19's JSX types.
-    // Components work correctly at runtime. Remove once upstream types are fixed.
-    ignoreBuildErrors: true,
-  },
+  outputFileTracingRoot: __dirname,
+  devIndicators: false,
   poweredByHeader: false,
   trailingSlash: true,
   basePath: '',

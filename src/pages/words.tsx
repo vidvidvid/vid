@@ -1,139 +1,176 @@
-import { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import dynamic from "next/dynamic";
+import { useRef, useState } from "react";
 
-import Reader from '@/components/Reader';
-import { Meta } from '@/layouts/Meta';
-import { Main } from '@/templates/Main';
+import { LinkIcon } from "@/components/icons/LinkIcon";
+import { Meta } from "@/layouts/Meta";
+import { Main } from "@/templates/Main";
 
-import styles from './words.module.css';
+import styles from "./words.module.css";
+
+const Reader = dynamic(() => import("@/components/Reader"), {
+  ssr: false,
+  loading: () => <p>Opening the book…</p>,
+});
+const books = [
+  { title: "Starec", pdf: "Starec", subtitle: "2020" },
+  {
+    title: "Sveta Knjiga",
+    subtitle: "Lepe Marke, Kakadu & Moja soba",
+    pdf: "svetaknjiga",
+  },
+  { title: "Jajce", subtitle: "2015 · unfinished", pdf: "jajce" },
+  { title: "Zgodbice za odrasle", subtitle: "2016", pdf: "zgodbicezaodrasle" },
+  {
+    title: "Dolga, dolga je pot do zvezd",
+    subtitle: "2021 · unfinished",
+    pdf: "dolga",
+  },
+  { title: "Grde Papilone", subtitle: "2022", pdf: "grdepapilone" },
+  { title: "Nekoc Surina", subtitle: "2018 · unfinished", pdf: "NekocSurina" },
+  { title: "Sem Iskal", subtitle: "2012", pdf: "Sem iskal" },
+  { title: "V bistvu sem budist", subtitle: "2021", pdf: "vbistvu" },
+];
+const poetry = [
+  { title: "Predvčerajšnjim", pdf: "predvcerajsnjim", subtitle: "Before 2013" },
+  { title: "Včeraj", pdf: "vceraj", subtitle: "2013–2016" },
+  { title: "Pojutrišnjem", pdf: "pojutrisnjem", subtitle: "2016–2019" },
+  { title: "Popojutrišnjem", pdf: "popojutrisnjem", subtitle: "2019–" },
+];
+const shelves = [
+  { title: "Prose", items: books },
+  { title: "Poetry", items: poetry },
+];
 
 const Words = () => {
-  const [open, setOpen] = useState(false);
-
-  const books = [
-    { title: 'Starec', pdf: 'Starec', subtitle: '2020' },
-    { title: 'Sveta Knjiga', subtitle: 'Lepe Marke, Kakadu & Moja soba', pdf: 'svetaknjiga' },
-    { title: 'Jajce', subtitle: '2015, unfinished', pdf: 'jajce' },
-    { title: 'Zgodbice za odrasle', subtitle: '2016', pdf: 'zgodbicezaodrasle' },
-    { title: 'Dolga, dolga je pot do zvezd', subtitle: '2021, unfinished', pdf: 'dolga' },
-    { title: 'Grde Papilone', subtitle: '2022', pdf: 'grdepapilone' },
-    { title: 'Nekoc Surina', subtitle: '2018, unfinished', pdf: 'NekocSurina' },
-    { title: 'Sem Iskal', subtitle: '2012', pdf: 'Sem iskal' },
-    { title: 'V bistvu sem budist', subtitle: '2021', pdf: 'vbistvu' },
-  ];
-
-  const poetry = [
-    { title: 'Predvčerajšnjim', pdf: 'predvcerajsnjim', subtitle: ' - 2013' },
-    { title: 'Včeraj', pdf: 'vceraj', subtitle: '2013 - 2016' },
-    { title: 'Pojutrišnjem', pdf: 'pojutrisnjem', subtitle: '2016 - 2019' },
-    { title: 'Popojutrišnjem', pdf: 'popojutrisnjem', subtitle: '2019 - ' },
-  ];
-
-  const [bookIndex, setBookIndex] = useState<number>(0);
-  const [poetryIndex, setPoetryIndex] = useState<number>(0);
-  const [isViewingPoetry, setIsViewingPoetry] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [numPagez, setNumPagez] = useState<number>(0);
-
-  const handlePrevPage = () => {
-    setCurrentPage((currPage) => Math.max(currPage - 1, 1));
+  const libraryDialog = useRef<HTMLDialogElement>(null);
+  const [selected, setSelected] = useState(books[0]!);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [numPages, setNumPages] = useState(0);
+  const url = `/assets/pdf/${encodeURIComponent(selected.pdf)}.pdf`;
+  const chooseBook = (book: (typeof books)[number]) => {
+    if (book.pdf !== selected.pdf) {
+      setSelected(book);
+      setCurrentPage(1);
+      setNumPages(0);
+    }
+    libraryDialog.current?.close();
   };
-  const handleNextPage = () => {
-    setCurrentPage((currPage) => Math.min(currPage + 1, numPagez));
-  };
-
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 480);
-  }, []);
-
-  const drawerContent = (
-    <>
-      {open && (
-        <div className={styles.drawerBackdrop} onClick={() => setOpen(false)} />
-      )}
-      <div className={`${styles.drawer} ${open ? styles.drawerOpen : ''}`}>
-        <button className={styles.drawerClose} onClick={() => setOpen(false)}>
-          ✕
-        </button>
-        <div className={styles.drawerHeader}>Library</div>
-
-        <p className={styles.sectionTitle}>Prose</p>
-        <div className={styles.bookList}>
-          {books.map(({ title, subtitle }, index) => (
-            <div
-              key={title}
-              className={styles.bookItem}
-              onClick={() => {
-                setBookIndex(index);
-                setIsViewingPoetry(false);
-                setOpen(false);
-                setCurrentPage(1);
-              }}
-            >
-              <span>{title}</span>
-              {subtitle && (
-                <span className={styles.bookSubtitle}>({subtitle})</span>
-              )}
-            </div>
-          ))}
-        </div>
-
-        <p className={styles.sectionTitleSpaced}>Poetry</p>
-        <div className={styles.bookList}>
-          {poetry.map(({ title, subtitle }, index) => (
-            <div
-              key={title}
-              className={styles.bookItem}
-              onClick={() => {
-                setPoetryIndex(index);
-                setIsViewingPoetry(true);
-                setOpen(false);
-                setCurrentPage(1);
-              }}
-            >
-              <span>{title}</span>
-              {subtitle && (
-                <span className={styles.bookSubtitle}>({subtitle})</span>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
-  );
-
   return (
-    <Main meta={<Meta title="Words" description="My words" />}>
-      <button className={styles.libraryButton} onClick={() => setOpen(true)}>
-        <img
-          src="/assets/images/book.png"
-          className={styles.libraryIcon}
-          alt="library"
-        />
-        Library
-      </button>
-
-      {typeof document !== 'undefined' && createPortal(drawerContent, document.body)}
-
-      {isMobile ? (
-        <div className={styles.mobileMessage}>
-          <p>Not available on mobile. Please view on desktop.</p>
+    <Main
+      meta={<Meta title="Words — Vid" description="Prose and poetry by Vid." />}
+    >
+      <div className={styles.library}>
+        <button
+          className={styles.mobileLibrary}
+          aria-label={`Choose a book. Current: ${selected.title}`}
+          aria-haspopup="dialog"
+          aria-controls="book-library"
+          data-cursor="words"
+          onClick={() => {
+            libraryDialog.current?.showModal();
+            libraryDialog.current
+              ?.querySelector<HTMLButtonElement>('[aria-pressed="true"]')
+              ?.focus();
+          }}
+        >
+          <LinkIcon kind="words" />
+          <span className={styles.selectedTitle}>{selected.title}</span>
+          <span className={styles.browseLabel}>
+            Library <span aria-hidden="true">⌄</span>
+          </span>
+        </button>
+        <aside className={styles.shelves} aria-label="Library">
+          {shelves.map((shelf) => (
+            <div key={shelf.title}>
+              <h2>{shelf.title}</h2>
+              {shelf.items.map((book) => (
+                <button
+                  key={book.pdf}
+                  className={styles.book}
+                  data-cursor="words"
+                  aria-pressed={selected.pdf === book.pdf}
+                  onClick={() => chooseBook(book)}
+                >
+                  <span>{book.title}</span>
+                  <small>{book.subtitle}</small>
+                </button>
+              ))}
+            </div>
+          ))}
+        </aside>
+        <section
+          className={styles.reading}
+          aria-label={`Reading ${selected.title}`}
+        >
+          <Reader
+            key={selected.pdf}
+            url={url}
+            currentPage={currentPage}
+            handleNextPage={() =>
+              setCurrentPage((page) => Math.min(page + 1, numPages))
+            }
+            handlePrevPage={() =>
+              setCurrentPage((page) => Math.max(page - 1, 1))
+            }
+            numPagez={numPages}
+            setNumPagez={setNumPages}
+          />
+        </section>
+      </div>
+      <dialog
+        id="book-library"
+        ref={libraryDialog}
+        className={styles.libraryDialog}
+        aria-labelledby="library-title"
+        onClick={(event) => {
+          if (event.target === event.currentTarget)
+            libraryDialog.current?.close();
+        }}
+      >
+        <div className={styles.pickerHeader}>
+          <h2 id="library-title">Library</h2>
+          <button
+            onClick={() => libraryDialog.current?.close()}
+            aria-label="Close library"
+            className={styles.closeLibrary}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              aria-hidden="true"
+            >
+              <path d="m6 6 12 12M18 6 6 18" />
+            </svg>
+          </button>
         </div>
-      ) : (
-        <Reader
-          url={`/assets/pdf/${
-            isViewingPoetry ? poetry[poetryIndex]?.pdf : books[bookIndex]?.pdf
-          }.pdf`}
-          currentPage={currentPage}
-          handleNextPage={handleNextPage}
-          handlePrevPage={handlePrevPage}
-          setNumPagez={setNumPagez}
-          numPagez={numPagez}
-        />
-      )}
+        <div className={styles.pickerGroups}>
+          {shelves.map((shelf) => (
+            <section key={shelf.title} aria-label={shelf.title}>
+              <h3>{shelf.title}</h3>
+              {shelf.items.map((book) => (
+                <button
+                  key={book.pdf}
+                  className={styles.pickerBook}
+                  aria-pressed={selected.pdf === book.pdf}
+                  data-cursor="words"
+                  onClick={() => chooseBook(book)}
+                >
+                  <span>
+                    <span>{book.title}</span>
+                    <small>{book.subtitle}</small>
+                  </span>
+                  {selected.pdf === book.pdf && (
+                    <span aria-hidden="true">✓</span>
+                  )}
+                </button>
+              ))}
+            </section>
+          ))}
+        </div>
+      </dialog>
     </Main>
   );
 };
-
 export default Words;

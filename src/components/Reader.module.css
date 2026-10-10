@@ -1,41 +1,155 @@
 .container {
-  height: 100vh;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  min-width: 0;
 }
-
-.inner {
+.container :global(.react-pdf__Document) {
+  display: flex;
+  justify-content: center;
+  min-height: 350px;
+}
+.container :global(.react-pdf__Page) {
+  max-width: 100%;
+}
+.book {
+  --turn: 0;
+  position: relative;
+  max-width: 100%;
+  perspective: 1800px;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+  -webkit-user-select: none;
+  background: #e2ddd4;
+  border-radius: 2px 4px 4px 2px;
+  box-shadow:
+    2px 2px 0 #d6d1c8,
+    4px 4px 0 #f1ede6,
+    6px 6px 0 #c9c4ba,
+    0 20px 55px #0008;
+}
+.book:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 10px;
+}
+.leaf {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  visibility: hidden;
+  background: #fff;
+  transform-origin: left center;
+  backface-visibility: hidden;
+  pointer-events: none;
+}
+.leaf[data-current="true"] {
+  position: relative;
+  visibility: visible;
+  z-index: 2;
+}
+.leaf::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    #37261020,
+    transparent 3%,
+    #fff2 5%,
+    transparent 9%
+  );
+}
+.leaf[data-underneath="true"] {
+  visibility: visible;
+  z-index: 1;
+}
+.leaf[data-fold] {
+  visibility: visible;
+  z-index: 3;
+  filter: drop-shadow(12px 8px 12px #0003);
+}
+.leaf[data-fold="1"] {
+  transform: rotateY(calc(var(--turn) * -105deg));
+}
+.leaf[data-fold="-1"] {
+  transform: rotateY(calc((1 - var(--turn)) * -105deg));
+}
+.book[data-settling="true"] .leaf[data-fold] {
+  transition: transform 420ms cubic-bezier(0.22, 0.68, 0.16, 1);
+}
+.blankPage {
+  width: 100%;
+  aspect-ratio: 1 / 1.414;
+  background: #fff;
+}
+.pageEdge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 16%;
+  z-index: 4;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  touch-action: pan-y pinch-zoom;
+}
+.pageEdge:disabled {
+  pointer-events: none;
+}
+.pageEdge:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -4px;
+}
+.previous {
+  left: 0;
+}
+.next {
+  right: 0;
+}
+.readerFooter {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  width: min(100%, 760px);
+  max-width: 100%;
+  margin: 14px auto 0;
 }
-
-.navButton {
-  background: none;
-  border: none;
-  color: var(--white-alpha-500);
-  font-size: 1.25rem;
-  padding: 8px;
+.readerFooter span {
+  font: 10px var(--font-mono);
+  color: var(--muted);
 }
-
-.navButton:disabled {
-  opacity: 0.3;
-  cursor: default;
+.openPdf {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  font-size: 11px;
+  white-space: nowrap;
+  color: var(--muted);
 }
-
-.navButton:not(:disabled):hover {
-  color: #fff;
+.openPdf:hover,
+.openPdf:focus-visible {
+  color: var(--accent);
 }
-
-.prevButton {
-  margin-right: 12px;
+.message {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  padding: 35px;
 }
-
-.nextButton {
-  margin-left: 12px;
+.message a {
+  text-decoration: underline;
+}
+@media (prefers-reduced-motion: reduce) {
+  .book[data-settling="true"] .leaf[data-fold] {
+    transition: none;
+  }
+  .leaf[data-fold="1"] {
+    transform: none;
+    opacity: calc(1 - var(--turn));
+  }
+  .leaf[data-fold="-1"] {
+    transform: none;
+    opacity: var(--turn);
+  }
 }

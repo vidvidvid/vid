@@ -1,235 +1,165 @@
 .page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('/assets/music/background.gif');
-  background-size: cover;
-  background-position: center;
-  overflow-y: auto;
-  padding-bottom: 40px;
+  width: 100%;
+  padding: 0 6%;
 }
-
 .content {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  padding: 40px 0;
-  height: 100%;
-  width: 100%;
+  gap: 38px;
 }
-
-@media (min-width: 768px) {
-  .content {
-    padding: 80px 80px;
-  }
-}
-
 .albumLinks {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
 }
-
-.albumLink {
+.album {
+  display: block;
+  min-width: 0;
+}
+.cover {
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: var(--surface);
+}
+.cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.album:hover .cover img {
+  transform: scale(1.025);
+}
+.albumCaption {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  box-shadow: 0px 0px 8px #000000;
-  width: 100%;
-  padding: 24px;
-  border-radius: 6px;
-  backdrop-filter: blur(8px);
-  background: var(--black-alpha-400);
-  justify-content: center;
-  border: 1px solid var(--pink-300);
-  transition: background 0.2s;
+  gap: 20px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
 }
-
-.albumLink:hover {
-  background: var(--gray-600);
+.albumCaption h2 {
+  font-size: clamp(18px, 2.2vw, 30px);
+  letter-spacing: -0.04em;
+  font-weight: 500;
+  margin: 0 0 9px;
 }
-
-.albumTitle {
-  font-size: 36px;
-  color: var(--pink-100);
-  text-align: center;
-  font-weight: bold;
+.albumCaption span {
+  color: var(--muted);
+  font: 9px var(--font-mono);
 }
-
-@media (min-width: 768px) {
-  .albumTitle {
-    font-size: 80px;
-  }
+.albumCaption svg {
+  color: var(--muted);
+  font-size: 22px;
 }
-
-.secondaryLink {
-  display: flex;
-  align-items: center;
-  box-shadow: 0px 0px 5px #000000;
-  width: 100%;
-  padding: 16px;
-  border-radius: 6px;
-  backdrop-filter: blur(5px);
-  justify-content: center;
-  transition: background 0.2s;
+.album:hover .albumCaption svg {
+  color: var(--accent);
 }
-
-.secondaryLink:hover {
-  background: var(--gray-600);
-}
-
-.secondaryTitle {
-  font-size: 24px;
-  color: var(--pink-200);
-  text-align: center;
-}
-
-@media (min-width: 768px) {
-  .secondaryTitle {
-    font-size: 48px;
-  }
-}
-
 .videoGrid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  margin-bottom: 32px;
-  width: 100%;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
 }
-
-@media (min-width: 768px) {
-  .videoGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 .aspectRatio {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16/9;
+  background: var(--surface);
 }
-
 .aspectRatio iframe {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
+  border: none;
 }
-
 .twoColGrid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
+  grid-template-columns: 1fr 1fr;
+  gap: 45px;
   width: 100%;
-  padding-bottom: 80px;
 }
-
-@media (min-width: 768px) {
-  .twoColGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 .stack {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
-
 .musicLinkRow {
   display: flex;
   align-items: center;
-  box-shadow: 0px 0px 5px #000000;
+  gap: 16px;
   width: 100%;
-  padding: 16px;
-  border-radius: 6px;
-  backdrop-filter: blur(5px);
-  justify-content: space-between;
-  flex-direction: row;
-  transition: background 0.2s;
+  min-height: 74px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  transition: color 0.2s;
+  font-size: 15px;
 }
-
+.musicLinkRow > svg {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 17px;
+}
 .musicLinkRow:hover {
-  background: var(--gray-600);
+  color: var(--accent);
 }
-
-.musicImage {
-  width: 50px;
-  height: 50px;
-  margin-right: 16px;
-}
-
 .releasesTitle {
-  font-size: 24px;
-  color: var(--pink-200);
-  text-align: center;
-  margin-bottom: 24px;
+  font-size: 40px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  margin: 0 0 30px;
 }
-
-@media (min-width: 768px) {
-  .releasesTitle {
-    font-size: 36px;
-  }
-}
-
 .releaseList {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  width: 100%;
 }
-
 .releaseRow {
   display: flex;
   align-items: center;
-  box-shadow: 0px 0px 5px #000000;
-  width: 100%;
-  padding: 16px;
-  border-radius: 6px;
-  backdrop-filter: blur(5px);
   justify-content: space-between;
-  transition: background 0.2s;
+  gap: 20px;
+  border-top: 1px solid var(--line);
+  padding: 24px 0;
+  transition: color 0.2s;
 }
-
 .releaseRow:hover {
-  background: var(--gray-600);
+  color: var(--accent);
 }
-
 .releaseInfo {
   display: flex;
-  gap: 12px;
+  gap: 30px;
   align-items: center;
 }
-
 .badge {
-  font-size: 0.875rem;
-  padding: 4px 8px;
-  border-radius: 6px;
-  background: var(--pink-300);
-  color: #000;
+  font: 10px var(--font-mono);
+  color: var(--muted);
 }
-
 .releaseTitle {
-  color: white;
-  font-size: 1rem;
+  font-size: 19px;
+  letter-spacing: -0.025em;
 }
-
-@media (min-width: 768px) {
-  .releaseTitle {
-    font-size: 1.125rem;
-  }
-}
-
 .releaseType {
-  color: var(--gray-400);
-  font-size: 0.875rem;
+  font: 10px var(--font-mono);
+  color: var(--muted);
+}
+@media (max-width: 700px) {
+  .albumLinks,
+  .twoColGrid,
+  .videoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .releaseInfo {
+    gap: 18px;
+  }
+  .releaseTitle {
+    font-size: 15px;
+  }
+  .releaseType {
+    font-size: 8px;
+  }
+  .content {
+    gap: 28px;
+  }
 }

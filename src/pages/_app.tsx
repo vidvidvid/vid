@@ -1,36 +1,14 @@
-import '../static/frame.css';
-import '../static/hover.css';
-import '../styles/globals.css';
-import '@fontsource/sono';
+import "../styles/globals.css";
+import "@fontsource/sono";
 
-import type { AppProps } from 'next/app';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
+import type { AppProps } from "next/app";
 
-import type { CursorMode } from '@/components/CrazyCursor';
+import LivingCursor from "@/components/living/LivingCursor";
 
-const CrazyCursor = dynamic(() => import('@/components/CrazyCursor'), {
-  ssr: false,
-});
-
-const ROUTE_MODE: Record<string, CursorMode> = {
-  '/': 'home',
-  '/code': 'code',
-  '/music': 'music',
-  '/imagery': 'imagery',
-  '/words': 'words',
-};
-
-const MyApp = ({ Component, pageProps }: AppProps) => {
-  const router = useRouter();
-  const mode = ROUTE_MODE[router.pathname] || 'home';
-
-  return (
-    <>
-      <CrazyCursor mode={mode} />
-      <Component {...pageProps} />
-    </>
-  );
-};
-
+const MyApp = ({ Component, pageProps }: AppProps) => (
+  <>
+    <Component {...pageProps} />
+    <LivingCursor />
+  </>
+);
 export default MyApp;

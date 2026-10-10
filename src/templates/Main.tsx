@@ -1,54 +1,84 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import type { ReactNode } from 'react';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import type { ReactNode } from "react";
 
-import styles from './Main.module.css';
+import { Footer } from "@/components/Footer";
+import { SocialIcon } from "@/components/icons/SocialIcon";
 
-type IMainProps = {
-  meta: ReactNode;
-  children: ReactNode;
-};
+import styles from "./Main.module.css";
 
-const Main = (props: IMainProps) => {
-  const router = useRouter();
-  const isHome = router.pathname === '/';
-
+const sections = ["Code", "Music", "Imagery", "Words"];
+const Main = ({ meta, children }: { meta: ReactNode; children: ReactNode }) => {
+  const { pathname } = useRouter();
+  const isHome = pathname === "/";
+  const section = sections.find(
+    (item) => `/${item.toLowerCase()}` === pathname,
+  );
   return (
-    <div
-      style={{
-        height: isHome ? '100vh' : 'auto',
-        minHeight: '100vh',
-        width: '100vw',
-        overflowX: 'hidden',
-      }}
-    >
-      {props.meta}
-
-      {!isHome && (
-        <div className={styles.navbar}>
-          <Link href="/">Home</Link>
-          <Link href="/code">Code</Link>
-          <Link href="/music">Music</Link>
-          <Link href="/imagery">Imagery</Link>
-          <Link href="/words">Words</Link>
+    <div className={styles.site} data-palette={section?.toLowerCase()}>
+      {meta}
+      <a className={styles.skipLink} href="#main">
+        Skip to content
+      </a>
+      <header className={styles.header} data-inner={!isHome}>
+        <div className={styles.topline}>
+          <Link href="/" className={styles.brand} aria-label="vidvidvid home">
+            <span>vid</span>
+            <span>vid</span>
+            <span>vid</span>
+          </Link>
+          <div className={styles.socials}>
+            <a
+              href="https://github.com/vidvidvid"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <SocialIcon kind="github" /> github
+            </a>
+            <a
+              href="https://soundcloud.com/malarozamuca"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <SocialIcon kind="soundcloud" /> soundcloud
+            </a>
+            <a
+              href="https://twitter.com/viiiiiiiiiiiid"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <SocialIcon kind="twitter" /> twitter
+            </a>
+          </div>
         </div>
-      )}
-
-      <div
-        style={{
-          display: 'flex',
-          width: '100%',
-          height: isHome ? '100%' : 'auto',
-          minHeight: isHome ? '100%' : undefined,
-          justifyContent: 'center',
-          alignItems: isHome ? 'center' : 'stretch',
-          flexDirection: 'column',
-        }}
+        {!isHome && (
+          <nav className={styles.nav} aria-label="Main navigation">
+            {sections.map((item) => (
+              <Link
+                key={item}
+                href={`/${item.toLowerCase()}`}
+                data-palette={item.toLowerCase()}
+                aria-current={
+                  pathname === `/${item.toLowerCase()}` ? "page" : undefined
+                }
+              >
+                {item.toLowerCase()}
+              </Link>
+            ))}
+          </nav>
+        )}
+      </header>
+      <main
+        id="main"
+        className={`${styles.main} ${!isHome ? styles.innerMain : ""}`}
       >
-        {props.children}
-      </div>
+        {(section || isHome) && (
+          <h1 className="sr-only">{section || "vidvidvid"}</h1>
+        )}
+        {children}
+      </main>
+      {!isHome && <Footer />}
     </div>
   );
 };
-
 export { Main };

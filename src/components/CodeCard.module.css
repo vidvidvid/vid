@@ -1,138 +1,128 @@
-.link {
-  text-decoration: none;
-}
-
-.link:hover {
-  text-decoration: none;
-}
-
 .card {
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 12px;
-  overflow: hidden;
-  transition: all 0.25s ease;
-  width: 100%;
+  position: relative;
+  isolation: isolate;
   height: 100%;
+  min-width: 0;
+  padding: 18px 18px 12px;
+  background: var(--surface);
+  border: 1px solid transparent;
+  transition:
+    border-color 0.3s,
+    background 0.3s;
+  display: flex;
+  flex-direction: column;
 }
-
-.card:hover {
-  transform: translateY(-4px);
+.card[data-current="true"] {
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--line));
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--accent) 9%, transparent),
+      transparent 75%
+    ),
+    var(--surface);
+  box-shadow: inset 0 2px 0 color-mix(in srgb, var(--accent) 75%, transparent);
 }
-
-.cardDefault {
-  border-color: var(--white-alpha-100);
-  background: var(--white-alpha-50);
+.card:hover,
+.card:focus-within {
+  background: #191d24;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
 }
-
-.cardDefault:hover {
-  border-color: var(--white-alpha-300);
-  background: var(--white-alpha-100);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+.top {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 12px;
 }
-
-.cardCurrent {
-  border-color: var(--mint-700);
-  background: var(--white-alpha-100);
+.image,
+.fallbackIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 5px;
+  object-fit: contain;
 }
-
-.cardCurrent:hover {
-  border-color: var(--mint-500);
-  background: var(--white-alpha-100);
-  box-shadow: 0 8px 30px rgba(15, 217, 166, 0.1);
+.fallbackIcon {
+  background: var(--ink);
+  color: var(--paper);
+  display: grid;
+  place-items: center;
+  font: 22px var(--font-body);
 }
-
-.cardHobby {
-  border-color: var(--violet-800);
-  background: var(--white-alpha-100);
+.badge {
+  font: 7px var(--font-mono);
+  letter-spacing: 0.05em;
+  color: var(--muted);
 }
-
-.cardHobby:hover {
-  border-color: var(--violet-500);
-  background: var(--white-alpha-100);
-  box-shadow: 0 8px 30px rgba(124, 58, 237, 0.1);
+.card[data-current="true"] .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--accent);
 }
-
-.content {
+.card[data-current="true"] .badge::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.card h2 {
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  margin: 0;
+}
+.primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.primary:focus-visible {
+  outline: none;
+}
+.primary:focus-visible::after {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.card p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 14px;
+}
+.links {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
   display: flex;
   align-items: center;
-  height: 100%;
-  padding: 20px;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+  padding-top: 7px;
+}
+.links a {
+  pointer-events: auto;
+  min-height: 32px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.links a:hover {
+  color: var(--accent);
+}
+.links svg {
+  width: 14px;
+  height: 14px;
 }
 
 .image {
-  object-fit: contain;
-  width: 56px;
-  height: 56px;
-  flex-shrink: 0;
-  border-radius: 8px;
-}
-
-.fallbackIcon {
-  width: 56px;
-  height: 56px;
-  min-width: 56px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.fallbackLetter {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: var(--white-alpha-800);
-  user-select: none;
-}
-
-.info {
-  flex: 1;
-  min-width: 0;
-}
-
-.nameRow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.name {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--white-alpha-900);
-}
-
-.currentBadge {
-  font-size: 0.75rem;
-  color: var(--mint-400);
-  font-weight: 500;
-  letter-spacing: 0.05em;
-}
-
-.hobbyBadge {
-  font-size: 0.75rem;
-  color: var(--violet-400);
-  font-weight: 500;
-  letter-spacing: 0.05em;
-}
-
-.githubLink {
-  color: var(--white-alpha-400);
-  transition: color 0.2s;
-}
-
-.githubLink:hover {
-  color: var(--white-alpha-800);
-}
-
-.description {
-  margin-top: 6px;
-  font-size: 0.875rem;
-  color: var(--white-alpha-500);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  background: #292d38;
+  padding: 5px;
 }

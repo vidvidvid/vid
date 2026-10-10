@@ -1,0 +1,98 @@
+.cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.25s;
+}
+.cursor[data-visible="true"] {
+  opacity: 1;
+}
+.cursor[data-surface="pattern"] {
+  mix-blend-mode: normal;
+  color: var(--accent);
+}
+.point,
+.orbit,
+.tail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+.point i {
+  display: block;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px;
+  background: currentColor;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+.point {
+  z-index: 2;
+}
+.orbit {
+  z-index: 1;
+}
+.orbit::before {
+  content: "";
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  left: -27px;
+  top: -27px;
+  border-radius: 50%;
+  background: #07080af5;
+  box-shadow: 0 2px 12px #0004;
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+.orbit svg {
+  position: relative;
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin: -24px;
+  overflow: visible;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.cursor[data-surface="pattern"] .orbit::before {
+  opacity: 1;
+}
+.cursor[data-surface="pattern"] .orbit svg {
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 3px color-mix(in srgb, currentColor 20%, transparent));
+}
+.tail {
+  width: 3px;
+  height: 3px;
+  margin: -1.5px;
+  background: currentColor;
+  border-radius: 50%;
+  opacity: 0.45;
+}
+.cursor[data-mode="link"] .orbit svg {
+  opacity: 1;
+}
+.cursor[data-pressed="true"] .point i {
+  transform: scale(0.5);
+}
+.ripple {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  margin: -16px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    display: none;
+  }
+}
