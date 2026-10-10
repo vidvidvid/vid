@@ -56,9 +56,7 @@ const Words = () => {
     libraryDialog.current?.close();
   };
   return (
-    <Main
-      meta={<Meta title="Words — Vid" description="Prose and poetry by Vid." />}
-    >
+    <Main meta={<Meta title="Words" description="Prose and poetry by Vid." />}>
       <div className={styles.library}>
         <button
           className={styles.mobileLibrary}

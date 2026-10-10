@@ -9,6 +9,14 @@ type IMetaProps = {
 
 const Meta = (props: IMetaProps) => {
   const router = useRouter();
+  const origin = "https://vidvidvid.xyz";
+  const pathname = router.pathname === "/" ? "/" : `${router.pathname}/`;
+  const canonical = props.canonical ?? `${origin}${pathname}`;
+  const title =
+    props.title === "vidvidvid" ? props.title : `${props.title} — vidvidvid`;
+  const image = `${origin}/assets/social/vidvidvid-v1.png`;
+  const imageAlt =
+    "vidvidvid in blue, pink and gold beside an iridescent sculpture. Code, music, imagery, words.";
 
   return (
     <Head>
@@ -18,12 +26,26 @@ const Meta = (props: IMetaProps) => {
         content="width=device-width,initial-scale=1"
         key="viewport"
       />
-      <title>{props.title}</title>
+      <title>{title}</title>
       <meta name="description" content={props.description} />
-      {props.canonical && <link rel="canonical" href={props.canonical} />}
-      <meta property="og:title" content={props.title} />
+      <link rel="canonical" href={canonical} />
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="vidvidvid" />
+      <meta property="og:title" content={title} />
       <meta property="og:description" content={props.description} />
-      {props.canonical && <meta property="og:url" content={props.canonical} />}
+      <meta property="og:url" content={canonical} />
+      <meta property="og:image" content={image} />
+      <meta property="og:image:secure_url" content={image} />
+      <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={imageAlt} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={props.description} />
+      <meta name="twitter:image" content={image} />
+      <meta name="twitter:image:alt" content={imageAlt} />
+      <meta name="theme-color" content="#9aadff" />
       <link
         rel="apple-touch-icon"
         href={`${router.basePath}/apple-touch-icon.png?v=vvv-1`}

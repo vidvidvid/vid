@@ -46,7 +46,7 @@ const Index = () => {
         meta={
           <Meta
             title="vidvidvid"
-            description="Code, music, imagery, words. Vid’s personal website."
+            description="Code, music, imagery & words by Vid."
           />
         }
       >

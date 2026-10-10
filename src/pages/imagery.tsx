@@ -196,7 +196,7 @@ const items: MosaicItem[] = [
 ];
 
 const Visual = () => (
-  <Main meta={<Meta title="Visual media" description="My smudging" />}>
+  <Main meta={<Meta title="Imagery" description="Drawings and visual experiments by Vid." />}>
     <MosaicGallery items={items} />
   </Main>
 );
