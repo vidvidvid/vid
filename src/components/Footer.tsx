@@ -1,28 +1,38 @@
-import { LinkIcon } from "@/components/icons/LinkIcon";
+import type { SVGProps } from 'react';
 
-import styles from "./Footer.module.css";
+import { GithubIcon } from '@/components/icons/GithubIcon';
+import { TwitterIcon } from '@/components/icons/TwitterIcon';
 
-export const Footer = () => (
-  <footer className={styles.footer}>
-    <span>© 2026 vid</span>
-    <div>
-      <a href="https://github.com/vidvidvid" target="_blank" rel="noreferrer">
-        github <LinkIcon />
-      </a>
-      <a
-        href="https://twitter.com/viiiiiiiiiiiid"
-        target="_blank"
-        rel="noreferrer"
-      >
-        twitter <LinkIcon />
-      </a>
-      <a
-        href="https://soundcloud.com/malarozamuca"
-        target="_blank"
-        rel="noreferrer"
-      >
-        soundcloud <LinkIcon />
-      </a>
+import styles from './Footer.module.css';
+
+type IconLinkType = {
+  Icon: React.FC<SVGProps<SVGSVGElement>>;
+  href: string;
+};
+
+const iconLinks: IconLinkType[] = [
+  { Icon: TwitterIcon, href: 'https://twitter.com/viiiiiiiiiiiid' },
+  { Icon: GithubIcon, href: 'https://github.com/vidvidvid' },
+];
+
+const IconLink = ({ Icon, href }: IconLinkType) => (
+  <a
+    href={href}
+    className={styles.iconLink}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Icon />
+  </a>
+);
+
+export const Footer: React.FC = () => (
+  <div className={styles.footer}>
+    <div className={styles.icons}>
+      {iconLinks.map((l) => (
+        <IconLink key={l.href} {...l} />
+      ))}
     </div>
-  </footer>
+    <p>2026 vid</p>
+  </div>
 );

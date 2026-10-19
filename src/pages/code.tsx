@@ -1,9 +1,11 @@
-import CodeCard from "@/components/CodeCard";
-import { GithubActivity } from "@/components/GithubActivity";
-import { Meta } from "@/layouts/Meta";
-import { Main } from "@/templates/Main";
+import { motion } from 'motion/react';
+import React from 'react';
 
-import styles from "./code.module.css";
+import CodeCard from '@/components/CodeCard';
+import { Meta } from '@/layouts/Meta';
+import { Main } from '@/templates/Main';
+
+import styles from './code.module.css';
 
 const projects = [
   {
@@ -152,20 +154,29 @@ const projects = [
 
 const Code = () => (
   <Main meta={<Meta title="Code" description="Projects I contribute to." />}>
-    <GithubActivity />
     <div className={styles.grid}>
-      {projects.map((project) => (
-        <CodeCard
+      {projects.map((project, index) => (
+        <motion.div
           key={project.name}
-          image={project.image}
-          name={project.name}
-          description={project.description}
-          githubLink={project.githubLink}
-          websiteLink={project.websiteLink}
-          appStoreLink={project.appStoreLink}
-          current={project.current}
-          hobby={project.hobby}
-        />
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.4,
+            delay: index * 0.05,
+            ease: 'easeOut',
+          }}
+        >
+          <CodeCard
+            image={project.image}
+            name={project.name}
+            description={project.description}
+            githubLink={project.githubLink}
+            websiteLink={project.websiteLink}
+            appStoreLink={project.appStoreLink}
+            current={project.current}
+            hobby={project.hobby}
+          />
+        </motion.div>
       ))}
     </div>
   </Main>

@@ -1,135 +1,20 @@
-.site {
-  --page-gutter: 36px;
-  --header-pad: 25px;
-  --logo-size: 32px;
-  --header-height: 82px;
-  max-width: 1920px;
-  margin: 0 auto;
-}
-.header {
-  position: relative;
-  z-index: 4;
-  padding: var(--header-pad) var(--page-gutter);
-}
-.header[data-inner="true"] {
-  border-bottom: 1px solid var(--line);
-}
-.topline {
+.navbar {
+  height: 48px;
+  position: fixed;
+  width: 100%;
   display: flex;
+  justify-content: center;
+  gap: 12px;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  background-color: var(--black-alpha-800);
+  z-index: 1;
 }
-.brand {
-  display: flex;
-  flex-shrink: 0;
-  font: 800 var(--logo-size)/1 var(--font-body);
-  letter-spacing: -0.075em;
-}
-.brand span:nth-child(1) {
-  color: var(--code-color);
-}
-.brand span:nth-child(2) {
-  color: var(--music-color);
-}
-.brand span:nth-child(3) {
-  color: var(--words-color);
-}
-.socials {
-  display: flex;
-  gap: 28px;
-  font: 10px var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-.socials a {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: #b0b2ba;
+
+.navbar a {
+  color: var(--white-alpha-800);
   transition: color 0.2s;
 }
-.socials a:hover {
-  color: var(--accent);
-}
-.socials svg {
-  width: 16px;
-  height: 16px;
-}
-.nav {
-  position: absolute;
-  top: var(--header-pad);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--logo-size);
-  gap: 30px;
-  font-size: 13px;
-}
-.nav a {
-  padding: 10px 0;
-  color: var(--muted);
-}
-.nav a:hover,
-.nav a[aria-current="page"] {
-  color: var(--accent);
-}
-.main {
-  min-height: 65vh;
-}
-.innerMain {
-  padding-top: 28px;
-}
-.skipLink {
-  position: fixed;
-  top: -100px;
-  left: 20px;
-  background: var(--accent);
-  color: var(--paper);
-  padding: 15px;
-  z-index: 100;
-}
-.skipLink:focus {
-  top: 10px;
-}
-@media (max-width: 1000px) {
-  .site {
-    --page-gutter: 24px;
-    --header-pad: 24px;
-    --header-height: 80px;
-  }
-  .nav {
-    position: static;
-    transform: none;
-    height: auto;
-    margin-top: 16px;
-  }
-}
-@media (max-width: 700px) {
-  .site {
-    --page-gutter: 20px;
-    --header-pad: 20px;
-    --logo-size: 24px;
-    --header-height: 64px;
-  }
-  .topline {
-    gap: 12px;
-  }
-  .socials {
-    font-size: 7px;
-    gap: 12px;
-  }
-  .socials svg {
-    width: 12px;
-    height: 12px;
-  }
-  .nav {
-    width: 100%;
-    gap: 30px;
-  }
-  .innerMain {
-    padding-top: 28px;
-  }
+
+.navbar a:hover {
+  color: #fff;
 }

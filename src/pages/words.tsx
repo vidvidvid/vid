@@ -57,117 +57,119 @@ const Words = () => {
   };
   return (
     <Main meta={<Meta title="Words" description="Prose and poetry by Vid." />}>
-      <div className={styles.library}>
-        <button
-          className={styles.mobileLibrary}
-          aria-label={`Choose a book. Current: ${selected.title}`}
-          aria-haspopup="dialog"
-          aria-controls="book-library"
-          data-cursor="words"
-          onClick={() => {
-            libraryDialog.current?.showModal();
-            libraryDialog.current
-              ?.querySelector<HTMLButtonElement>('[aria-pressed="true"]')
-              ?.focus();
-          }}
-        >
-          <LinkIcon kind="words" />
-          <span className={styles.selectedTitle}>{selected.title}</span>
-          <span className={styles.browseLabel}>
-            Library <span aria-hidden="true">⌄</span>
-          </span>
-        </button>
-        <aside className={styles.shelves} aria-label="Library">
-          {shelves.map((shelf) => (
-            <div key={shelf.title}>
-              <h2>{shelf.title}</h2>
-              {shelf.items.map((book) => (
-                <button
-                  key={book.pdf}
-                  className={styles.book}
-                  data-cursor="words"
-                  aria-pressed={selected.pdf === book.pdf}
-                  onClick={() => chooseBook(book)}
-                >
-                  <span>{book.title}</span>
-                  <small>{book.subtitle}</small>
-                </button>
-              ))}
-            </div>
-          ))}
-        </aside>
-        <section
-          className={styles.reading}
-          aria-label={`Reading ${selected.title}`}
-        >
-          <Reader
-            key={selected.pdf}
-            url={url}
-            currentPage={currentPage}
-            handleNextPage={() =>
-              setCurrentPage((page) => Math.min(page + 1, numPages))
-            }
-            handlePrevPage={() =>
-              setCurrentPage((page) => Math.max(page - 1, 1))
-            }
-            numPagez={numPages}
-            setNumPagez={setNumPages}
-          />
-        </section>
-      </div>
-      <dialog
-        id="book-library"
-        ref={libraryDialog}
-        className={styles.libraryDialog}
-        aria-labelledby="library-title"
-        onClick={(event) => {
-          if (event.target === event.currentTarget)
-            libraryDialog.current?.close();
-        }}
-      >
-        <div className={styles.pickerHeader}>
-          <h2 id="library-title">Library</h2>
+      <div className={styles.page}>
+        <div className={styles.library}>
           <button
-            onClick={() => libraryDialog.current?.close()}
-            aria-label="Close library"
-            className={styles.closeLibrary}
+            className={styles.mobileLibrary}
+            aria-label={`Choose a book. Current: ${selected.title}`}
+            aria-haspopup="dialog"
+            aria-controls="book-library"
+            data-cursor="words"
+            onClick={() => {
+              libraryDialog.current?.showModal();
+              libraryDialog.current
+                ?.querySelector<HTMLButtonElement>('[aria-pressed="true"]')
+                ?.focus();
+            }}
           >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              aria-hidden="true"
-            >
-              <path d="m6 6 12 12M18 6 6 18" />
-            </svg>
+            <LinkIcon kind="words" />
+            <span className={styles.selectedTitle}>{selected.title}</span>
+            <span className={styles.browseLabel}>
+              Library <span aria-hidden="true">⌄</span>
+            </span>
           </button>
-        </div>
-        <div className={styles.pickerGroups}>
-          {shelves.map((shelf) => (
-            <section key={shelf.title} aria-label={shelf.title}>
-              <h3>{shelf.title}</h3>
-              {shelf.items.map((book) => (
-                <button
-                  key={book.pdf}
-                  className={styles.pickerBook}
-                  aria-pressed={selected.pdf === book.pdf}
-                  data-cursor="words"
-                  onClick={() => chooseBook(book)}
-                >
-                  <span>
+          <aside className={styles.shelves} aria-label="Library">
+            {shelves.map((shelf) => (
+              <div key={shelf.title}>
+                <h2>{shelf.title}</h2>
+                {shelf.items.map((book) => (
+                  <button
+                    key={book.pdf}
+                    className={styles.book}
+                    data-cursor="words"
+                    aria-pressed={selected.pdf === book.pdf}
+                    onClick={() => chooseBook(book)}
+                  >
                     <span>{book.title}</span>
                     <small>{book.subtitle}</small>
-                  </span>
-                  {selected.pdf === book.pdf && (
-                    <span aria-hidden="true">✓</span>
-                  )}
-                </button>
-              ))}
-            </section>
-          ))}
+                  </button>
+                ))}
+              </div>
+            ))}
+          </aside>
+          <section
+            className={styles.reading}
+            aria-label={`Reading ${selected.title}`}
+          >
+            <Reader
+              key={selected.pdf}
+              url={url}
+              currentPage={currentPage}
+              handleNextPage={() =>
+                setCurrentPage((page) => Math.min(page + 1, numPages))
+              }
+              handlePrevPage={() =>
+                setCurrentPage((page) => Math.max(page - 1, 1))
+              }
+              numPagez={numPages}
+              setNumPagez={setNumPages}
+            />
+          </section>
         </div>
-      </dialog>
+        <dialog
+          id="book-library"
+          ref={libraryDialog}
+          className={styles.libraryDialog}
+          aria-labelledby="library-title"
+          onClick={(event) => {
+            if (event.target === event.currentTarget)
+              libraryDialog.current?.close();
+          }}
+        >
+          <div className={styles.pickerHeader}>
+            <h2 id="library-title">Library</h2>
+            <button
+              onClick={() => libraryDialog.current?.close()}
+              aria-label="Close library"
+              className={styles.closeLibrary}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                aria-hidden="true"
+              >
+                <path d="m6 6 12 12M18 6 6 18" />
+              </svg>
+            </button>
+          </div>
+          <div className={styles.pickerGroups}>
+            {shelves.map((shelf) => (
+              <section key={shelf.title} aria-label={shelf.title}>
+                <h3>{shelf.title}</h3>
+                {shelf.items.map((book) => (
+                  <button
+                    key={book.pdf}
+                    className={styles.pickerBook}
+                    aria-pressed={selected.pdf === book.pdf}
+                    data-cursor="words"
+                    onClick={() => chooseBook(book)}
+                  >
+                    <span>
+                      <span>{book.title}</span>
+                      <small>{book.subtitle}</small>
+                    </span>
+                    {selected.pdf === book.pdf && (
+                      <span aria-hidden="true">✓</span>
+                    )}
+                  </button>
+                ))}
+              </section>
+            ))}
+          </div>
+        </dialog>
+      </div>
     </Main>
   );
 };
