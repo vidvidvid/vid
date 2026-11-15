@@ -2,12 +2,37 @@ import { motion } from 'motion/react';
 import React from 'react';
 
 import CodeCard from '@/components/CodeCard';
+import { GithubActivity } from '@/components/GithubActivity';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
 import styles from './code.module.css';
 
 const projects = [
+  {
+    name: "SnagTorrent",
+    description:
+      "A tiny, private BitTorrent client for macOS, with a native app and CLI.",
+    image: "snagtorrent.png",
+    githubLink: "https://github.com/vidvidvid/SnagTorrent",
+    current: true,
+  },
+  {
+    name: "FOUND",
+    description: "Find and withdraw NEAR left behind after unstaking.",
+    image: "found-near.svg",
+    websiteLink: "https://foundyours.xyz/",
+    githubLink: "https://github.com/vidvidvid/found-near",
+    current: true,
+  },
+  {
+    name: "kljukavica",
+    description:
+      "A directory of creators, their work, what they seek and offer, and open calls.",
+    image: "kljukavica.png",
+    websiteLink: "https://kljukavica.com/",
+    current: true,
+  },
   {
     name: "MaEarth",
     description: "regenerative platform connecting people with the Earth.",
@@ -58,7 +83,6 @@ const projects = [
     websiteLink: "https://flooronrh.com/",
     appStoreLink:
       "https://apps.apple.com/app/floor-real-world-drops/id6810726093",
-    current: true,
   },
   {
     name: "TokiFlow",
@@ -154,6 +178,7 @@ const projects = [
 
 const Code = () => (
   <Main meta={<Meta title="Code" description="Projects I contribute to." />}>
+    <GithubActivity />
     <div className={styles.grid}>
       {projects.map((project, index) => (
         <motion.div

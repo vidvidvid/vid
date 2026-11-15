@@ -1,7 +1,10 @@
 .activity {
-  margin: 0 6% 36px;
+  margin: 80px auto 36px;
   padding: 30px;
   border: 1px solid var(--line);
+  width: calc(100% - 48px);
+  max-width: 1152px;
+  box-sizing: border-box;
 }
 .header {
   display: flex;
