@@ -1,10 +1,19 @@
 .activity {
+  --accent: #39d353;
+  --surface: #0d1117;
+  --line: #30363d;
+  --muted: #8b949e;
+  --ink: #f0f6fc;
+  --font-mono: var(--font-body);
   margin: 80px auto 36px;
   padding: 30px;
   border: 1px solid var(--line);
+  border-radius: 12px;
   width: calc(100% - 48px);
   max-width: 1152px;
   box-sizing: border-box;
+  background: var(--surface);
+  color: var(--ink);
 }
 .header {
   display: flex;
@@ -33,7 +42,7 @@
   font-size: clamp(38px, 4.3vw, 65px);
   line-height: 1;
   letter-spacing: -0.06em;
-  color: var(--accent);
+  color: var(--ink);
 }
 .total > span {
   font-size: 14px;
